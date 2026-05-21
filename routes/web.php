@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\PelangganController;
-use App\Http\Controllers\PekerjaController;
 use App\Http\Controllers\PemesananController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -13,7 +12,8 @@ use App\Livewire\Pekerja\Pemesanan\Edit as PemesananEdit;
 use App\Livewire\Pekerja\Pemesanan\Show as PemesananShow;
 use App\Livewire\Pekerja\Pesanan\Create as PesananCreate;
 use App\Livewire\Pekerja\Pesanan\Edit as PesananEdit;
-
+use App\Livewire\Pekerja\Auth\Setup2FA;
+use App\Livewire\Pekerja\Auth\Verify2FA;
 
 // ============================================================================
 // WELCOME
@@ -70,6 +70,15 @@ Route::prefix('pekerja')->name('pekerja.')->group(function () {
             return redirect()->route('pekerja.login');
         })->name('logout');
 
+        // 2FA ROUTES — hanya untuk yang sudah login tapi belum verified 2FA
+        Route::middleware(['auth:pekerja'])->group(function () {
+
+            Route::get('/auth/Setup2FA', Setup2FA::class)
+                ->name('pekerja.Setup2FA');
+
+            Route::get('/auth/Verify2FA', Verify2FA::class)
+                ->name('pekerja.Verify2FA');
+        });
         // Dashboard — semua role
         Route::get('/dashboard', \App\Livewire\Pekerja\Dashboard::class)->name('dashboard');
 
@@ -86,7 +95,6 @@ Route::prefix('pekerja')->name('pekerja.')->group(function () {
             Route::get('/create', \App\Livewire\Pekerja\Create::class)->name('create');
             Route::get('/{id}/edit', \App\Livewire\Pekerja\Edit::class)->name('edit');
             Route::get('/{id}', \App\Livewire\Pekerja\Show::class)->name('show');
-            Route::delete('/{id}', [PekerjaController::class, 'destroy'])->name('destroy');
 
             // Pelanggan
             Route::prefix('pelanggan')->name('pelanggan.')->group(function () {

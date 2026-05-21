@@ -19,21 +19,25 @@ class Pekerja extends Authenticatable
         'email',
         'password',
         'nama_pekerja',
-        'no_telepon',   // fix: konsisten pakai no_telepon
+        'no_telepon',
         'alamat',
         'jenis_kelamin',
         'foto',
+        'google2fa_secret',
+        'google2fa_enabled'
     ];
 
     protected $hidden = [
         'password',
         'remember_token',
+        'google2fa_secret',
     ];
 
     protected $casts = [
         'password'          => 'hashed',
-        'no_telepon'        => 'encrypted',  
+        'no_telepon'        => 'encrypted',
         'alamat'            => 'encrypted',
         'email_verified_at' => 'datetime',
+        'google2fa_enabled' => 'boolean'
     ];
 }

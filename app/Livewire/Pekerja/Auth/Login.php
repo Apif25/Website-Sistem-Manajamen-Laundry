@@ -4,9 +4,9 @@ namespace App\Livewire\Pekerja\Auth;
 
 use Livewire\Component;
 use Livewire\Attributes\Layout;
+use Livewire\Attributes\Title;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
-use Livewire\Attributes\Title;
 
 #[Layout('backend.layouts.auth')]
 #[Title('Login Pekerja')]
@@ -17,45 +17,61 @@ class Login extends Component
     public bool $remember = false;
     public ?string $captcha = null;
 
-    protected array $rules = [
-        'email' => 'required|email',
-        'password' => 'required',
-        'captcha' => 'required',
+    protected array $messages = [
+        'email.required'    => 'Email wajib diisi.',
+        'email.email'       => 'Format email tidak valid.',
+        'password.required' => 'Password wajib diisi.',
+        'captcha.required'  => 'Captcha wajib dicentang.',
     ];
 
-    protected array $messages = [
-        'captcha.required' => 'Captcha wajib dicentang.',
-    ];
+    public function mount()
+    {
+        // 🔥 FIX BUG CAPTCHA BLANK SETELAH LOGOUT
+        $this->resetCaptcha();
+    }
 
     public function login()
     {
-        $this->validate();
+        $this->validate([
+            'email'    => 'required|email',
+            'password' => 'required',
+            'captcha'  => 'required',
+        ]);
 
+        // VERIFY CAPTCHA
         if (!$this->verifyCaptcha()) {
             $this->resetCaptcha();
-
-            session()->flash(
-                'error',
-                'Captcha tidak valid.'
-            );
-
+            session()->flash('error', 'Captcha tidak valid.');
+            $this->dispatch('reset-recaptcha'); // trigger JS reset
             return;
         }
 
-        if (!$this->attemptLogin()) {
+        // LOGIN ATTEMPT
+        if (
+            !Auth::guard('pekerja')->attempt([
+                'email'    => $this->email,
+                'password' => $this->password,
+            ], $this->remember)
+        ) {
             $this->resetCaptcha();
-
-            session()->flash(
-                'error',
-                'Email atau password salah.'
-            );
-
+            session()->flash('error', 'Email atau password salah.');
+            $this->dispatch('reset-recaptcha');
             return;
         }
 
-        return redirect()->route('pekerja.dashboard');
+        $pekerja = Auth::guard('pekerja')->user();
+
+        // 2FA setup check
+        if (!$pekerja->google2fa_enabled) {
+            return redirect()->route('pekerja.pekerja.Setup2FA');
+        }
+
+        return redirect()->route('pekerja.pekerja.Verify2FA');
     }
 
+    /**
+     * VERIFY CAPTCHA GOOGLE
+     */
     private function verifyCaptcha(): bool
     {
         $response = Http::asForm()->post(
@@ -66,17 +82,12 @@ class Login extends Component
             ]
         );
 
-        return (bool) ($response->json()['success'] ?? false);
+        return (bool) ($response->json('success') ?? false);
     }
 
-    private function attemptLogin(): bool
-    {
-        return Auth::guard('pekerja')->attempt([
-            'email'    => $this->email,
-            'password' => $this->password,
-        ], $this->remember);
-    }
-
+    /**
+     * RESET CAPTCHA STATE
+     */
     private function resetCaptcha(): void
     {
         $this->captcha = null;
