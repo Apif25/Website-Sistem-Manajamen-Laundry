@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+
+    <title>{{ $title ?? 'Login' }}</title>
 
     {{-- CSS MAZER --}}
     <link rel="stylesheet" href="{{ asset('templates/backend/assets/compiled/css/app.css') }}">
@@ -17,19 +18,21 @@
     {{-- LIVEWIRE --}}
     @livewireStyles
 
-    {{-- STACK TAMBAHAN (opsional) --}}
+    {{-- STACK TAMBAHAN --}}
     @stack('head')
 </head>
 
 <body>
     <script src="{{ asset('templates/backend/assets/static/js/initTheme.js') }}"></script>
 
-    {{-- CONTENT --}}
-    @yield('content')
+    {{-- CONTENT LIVEWIRE --}}
+    {{ $slot }}
 
     {{-- LIVEWIRE --}}
     @livewireScripts
 
+    {{-- STACK SCRIPT --}}
+    @stack('scripts')
 </body>
 
 </html>

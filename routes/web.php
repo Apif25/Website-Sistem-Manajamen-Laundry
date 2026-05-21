@@ -14,6 +14,7 @@ use App\Livewire\Pekerja\Pemesanan\Show as PemesananShow;
 use App\Livewire\Pekerja\Pesanan\Create as PesananCreate;
 use App\Livewire\Pekerja\Pesanan\Edit as PesananEdit;
 
+
 // ============================================================================
 // WELCOME
 // ============================================================================
@@ -52,8 +53,8 @@ Route::prefix('pekerja')->name('pekerja.')->group(function () {
     // Guest: belum login
     // ------------------------------------------------------------------
     Route::middleware('guest:pekerja')->group(function () {
-        Route::get('/auth/login', [PekerjaController::class, 'showLoginForm'])->name('login');
-        Route::post('/auth/login', [PekerjaController::class, 'login'])->name('login.post');
+        Route::get('/auth/login', \App\Livewire\Pekerja\Auth\Login::class)
+            ->name('login');
     });
 
     // ------------------------------------------------------------------
@@ -149,5 +150,5 @@ Route::prefix('pekerja')->name('pekerja.')->group(function () {
                 Route::get('/pdf', [\App\Http\Controllers\KeuanganPdfController::class, 'generate'])->name('pdf');
             });
         });
-    }); 
-}); 
+    });
+});
