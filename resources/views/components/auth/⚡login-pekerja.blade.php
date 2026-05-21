@@ -142,11 +142,20 @@ new class extends Component
                     <button
                         type="submit"
                         class="btn btn-primary btn-block btn-lg shadow-lg mt-3"
-                        wire:loading.attr="disabled">
-                        <span wire:loading.remove>Log in</span>
-                        <span wire:loading>Loading...</span>
-                    </button>
+                        wire:loading.attr="disabled"
+                        wire:target="login">
 
+                        <span wire:loading.remove wire:target="login">
+                            <i class="bi bi-box-arrow-in-right me-1"></i>
+                            Log in
+                        </span>
+
+                        <span wire:loading wire:target="login">
+                            <span class="spinner-border spinner-border-sm me-1"></span>
+                            Memproses...
+                        </span>
+
+                    </button>
                 </form>
             </div>
         </div>
