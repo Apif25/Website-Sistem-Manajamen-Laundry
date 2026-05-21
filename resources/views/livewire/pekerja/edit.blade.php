@@ -43,6 +43,25 @@
             @error('jenis_kelamin') <small class="text-danger">{{ $message }}</small> @enderror
         </div>
 
+        {{-- Role --}}
+        <div class="mb-3">
+            <label class="form-label">Role</label>
+
+            <select wire:model="role" class="form-control">
+                <option value="">Pilih Role</option>
+
+                @foreach ($roles as $role)
+                <option value="{{ $role }}">
+                    {{ ucfirst($role) }}
+                </option>
+                @endforeach
+            </select>
+
+            @error('role')
+            <small class="text-danger">{{ $message }}</small>
+            @enderror
+        </div>
+
         <div class="d-flex gap-2">
             <button wire:click="update" class="btn btn-primary">Update</button>
             <a href="{{ route('pekerja.index') }}" class="btn btn-secondary">Kembali</a>

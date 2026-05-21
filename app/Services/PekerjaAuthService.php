@@ -37,6 +37,7 @@ class PekerjaAuthService
 
     /**
      * Login pekerja menggunakan guard 'pekerja'.
+     *
      * @throws ValidationException
      */
     public function login(array $credentials, bool $remember = false): void
@@ -57,19 +58,17 @@ class PekerjaAuthService
     public function logout(): void
     {
         Auth::guard('pekerja')->logout();
+
         request()->session()->invalidate();
         request()->session()->regenerateToken();
     }
 
-    // -------------------------
-    // CRUD
-    // -------------------------
-
-    /**
-     * Buat akun pekerja baru (hanya bisa dilakukan admin).
-     */
-    public function create(array $data, ?UploadedFile $foto = null): Pekerja
-    {
+    
+    public function create(
+        array $data,
+        ?UploadedFile $foto = null,
+        ?string $role = null
+    ): Pekerja {
         $payload = [
             'nama_pekerja'  => $data['nama_pekerja'],
             'email'         => $data['email'],
@@ -83,14 +82,25 @@ class PekerjaAuthService
             $payload['foto'] = $foto->store('pekerja/foto', 'public');
         }
 
-        return $this->pekerjaRepository->create($payload);
+        $pekerja = $this->pekerjaRepository->create($payload);
+
+        // Assign role jika dipilih
+        if (! empty($role)) {
+            $pekerja->assignRole($role);
+        }
+
+        return $pekerja;
     }
 
     /**
      * Update data pekerja.
      */
-    public function update(int $id, array $data, ?UploadedFile $foto = null): bool
-    {
+    public function update(
+        int $id,
+        array $data,
+        ?UploadedFile $foto = null,
+        ?string $role = null
+    ): bool {
         $pekerja = $this->pekerjaRepository->findById($id);
 
         if (! $pekerja) {
@@ -110,20 +120,31 @@ class PekerjaAuthService
             $payload['password'] = Hash::make($data['password']);
         }
 
-        // Upload foto baru & hapus foto lama
+        // Upload foto baru
         if ($foto) {
             if ($pekerja->foto) {
                 Storage::disk('public')->delete($pekerja->foto);
             }
+
             $payload['foto'] = $foto->store('pekerja/foto', 'public');
         }
 
-        return $this->pekerjaRepository->update($id, $payload);
+        $result = $this->pekerjaRepository->update($id, $payload);
+
+        // Update role
+        if ($result && ! empty($role)) {
+            $pekerja->syncRoles([$role]);
+        }
+
+        return $result;
     }
 
+    /**
+     * Update profile pekerja yang sedang login.
+     */
     public function updateProfile(int $id, array $data): bool
     {
-        $foto = isset($data['foto']) && $data['foto'] instanceof \Illuminate\Http\UploadedFile
+        $foto = isset($data['foto']) && $data['foto'] instanceof UploadedFile
             ? $data['foto']
             : null;
 
@@ -141,7 +162,6 @@ class PekerjaAuthService
             return false;
         }
 
-        // Hapus foto dari storage jika ada
         if ($pekerja->foto) {
             Storage::disk('public')->delete($pekerja->foto);
         }

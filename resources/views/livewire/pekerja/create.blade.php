@@ -63,6 +63,25 @@
                         @error('jenis_kelamin') <small class="text-danger">{{ $message }}</small> @enderror
                     </div>
 
+                    {{-- Role --}}
+                    <div class="mb-3">
+                        <label class="form-label">Role</label>
+
+                        <select wire:model="role" class="form-control">
+                            <option value="">Pilih Role</option>
+
+                            @foreach ($roles as $role)
+                            <option value="{{ $role }}">
+                                {{ ucfirst($role) }}
+                            </option>
+                            @endforeach
+                        </select>
+
+                        @error('role')
+                        <small class="text-danger">{{ $message }}</small>
+                        @enderror
+                    </div>
+
                     {{-- Foto --}}
                     <div class="mb-3">
                         <label class="form-label">Foto</label>
@@ -78,17 +97,21 @@
                     {{-- Buttons --}}
                     <div class="d-flex gap-2 mt-2">
                         <button
-                            wire:click="update"
+                            type="submit"
                             wire:loading.attr="disabled"
                             class="btn btn-primary">
-                            <span wire:loading wire:target="update">
+
+                            <span wire:loading wire:target="simpan">
                                 <span class="spinner-border spinner-border-sm me-1"></span>
                             </span>
-                            <span wire:loading.remove wire:target="update">
+
+                            <span wire:loading.remove wire:target="simpan">
                                 <i class="bi bi-save me-1"></i>
                             </span>
-                            Update
+
+                            Simpan
                         </button>
+
                         <a href="{{ route('pekerja.index') }}"
                             wire:navigate
                             class="btn btn-secondary">
