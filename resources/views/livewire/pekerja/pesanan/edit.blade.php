@@ -1,0 +1,213 @@
+<div>
+
+    {{-- Page Title --}}
+    <div class="page-title mb-4">
+        <div class="row align-items-center">
+            <div class="col-12 col-md-6 order-md-1 order-last">
+                <h3 class="mb-1">Edit Pesanan</h3>
+                <p class="text-subtitle text-muted mb-0">Ubah data pesanan</p>
+            </div>
+            <div class="col-12 col-md-6 order-md-2 order-first">
+                <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                    <ol class="breadcrumb mb-0">
+                        <li class="breadcrumb-item">
+                            <a href="{{ route('pekerja.dashboard') }}">Dashboard</a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <a href="{{ route('pekerja.pesanan.index') }}" wire:navigate>Pesanan</a>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page">Edit</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+
+    {{-- Flash Message --}}
+    @if (session()->has('success'))
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {{ session('success') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+    @endif
+
+    {{-- Card Form --}}
+    <div class="card">
+        <div class="card-header">
+            <h4 class="card-title mb-0">
+                Form Edit Pesanan <span class="text-muted">#{{ $pesanan->id_pesanan }}</span>
+            </h4>
+        </div>
+        <div class="card-body">
+
+            <div class="row">
+
+                {{-- Pemesanan --}}
+                <div class="col-12 col-md-6 mb-3">
+                    <label for="id_pemesanan" class="form-label">
+                        Pemesanan <span class="text-danger">*</span>
+                    </label>
+                    <select
+                        wire:model.live="id_pemesanan"
+                        id="id_pemesanan"
+                        class="form-select @error('id_pemesanan') is-invalid @enderror">
+                        <option value="">-- Pilih Pemesanan --</option>
+                        @foreach ($pemesanans as $pemesanan)
+                        <option value="{{ $pemesanan->id_pemesanan }}">
+                            #{{ $pemesanan->id_pemesanan }} - {{ $pemesanan->pelanggan->nama_pelanggan ?? '-' }}
+                        </option>
+                        @endforeach
+                    </select>
+                    @error('id_pemesanan')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                {{-- Pelanggan (auto-fill) --}}
+                <div class="col-12 col-md-6 mb-3">
+                    <label for="id_pelanggan" class="form-label">
+                        Pelanggan <span class="text-danger">*</span>
+                    </label>
+                    <select
+                        wire:model="id_pelanggan"
+                        id="id_pelanggan"
+                        class="form-select @error('id_pelanggan') is-invalid @enderror">
+                        <option value="">-- Pilih Pelanggan --</option>
+                        @foreach ($pelanggans as $pelanggan)
+                        <option value="{{ $pelanggan->id_pelanggan }}">
+                            {{ $pelanggan->nama_pelanggan }} ({{ $pelanggan->email }})
+                        </option>
+                        @endforeach
+                    </select>
+                    @error('id_pelanggan')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                    @if ($id_pelanggan)
+                    <small class="text-success">
+                        <i class="bi bi-check-circle me-1"></i>
+                        Pelanggan otomatis terisi dari pemesanan
+                    </small>
+                    @endif
+                </div>
+
+                {{-- Jenis Pesanan --}}
+                <div class="col-12 col-md-6 mb-3">
+                    <label for="jenis_pesanan" class="form-label">
+                        Jenis Pesanan <span class="text-danger">*</span>
+                    </label>
+                    <select
+                        wire:model="jenis_pesanan"
+                        id="jenis_pesanan"
+                        class="form-select @error('jenis_pesanan') is-invalid @enderror">
+                        <option value="">-- Pilih Jenis --</option>
+                        <option value="Kiloan">Kiloan</option>
+                        <option value="Satuan">Satuan</option>
+                    </select>
+                    @error('jenis_pesanan')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                {{-- Layanan Pesanan --}}
+                <div class="col-12 col-md-6 mb-3">
+                    <label for="layanan_pesanan" class="form-label">
+                        Layanan <span class="text-danger">*</span>
+                    </label>
+                    <select
+                        wire:model="layanan_pesanan"
+                        id="layanan_pesanan"
+                        class="form-select @error('layanan_pesanan') is-invalid @enderror">
+                        <option value="">-- Pilih Layanan --</option>
+                        <option value="Cepat">Cepat</option>
+                        <option value="Biasa">Biasa</option>
+                    </select>
+                    @error('layanan_pesanan')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                {{-- Berat --}}
+                <div class="col-12 col-md-6 mb-3">
+                    <label for="berat" class="form-label">
+                        Berat <span class="text-danger">*</span>
+                    </label>
+                    <div class="input-group">
+                        <input
+                            type="number"
+                            wire:model="berat"
+                            id="berat"
+                            step="0.1"
+                            min="0.1"
+                            class="form-control @error('berat') is-invalid @enderror"
+                            placeholder="Contoh: 2.5">
+                        <span class="input-group-text">
+                            {{ $jenis_pesanan === 'Kiloan' ? 'kg' : 'pcs' }}
+                        </span>
+                        @error('berat')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                </div>
+
+                {{-- Harga --}}
+                <div class="col-12 col-md-6 mb-3">
+                    <label for="harga" class="form-label">
+                        Harga <span class="text-danger">*</span>
+                    </label>
+                    <div class="input-group">
+                        <span class="input-group-text">Rp</span>
+                        <input
+                            type="number"
+                            wire:model="harga"
+                            id="harga"
+                            step="0.01"
+                            min="0"
+                            class="form-control @error('harga') is-invalid @enderror"
+                            placeholder="Contoh: 15000">
+                        @error('harga')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                </div>
+
+                {{-- Tanggal Pesanan --}}
+                <div class="col-12 col-md-6 mb-3">
+                    <label for="tanggal_pesanan" class="form-label">
+                        Tanggal Pesanan <span class="text-danger">*</span>
+                    </label>
+                    <input
+                        type="datetime-local"
+                        wire:model="tanggal_pesanan"
+                        id="tanggal_pesanan"
+                        class="form-control @error('tanggal_pesanan') is-invalid @enderror">
+                    @error('tanggal_pesanan')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+
+            </div>
+
+            {{-- Buttons --}}
+            <div class="d-flex gap-2 mt-2">
+                <button
+                    wire:click="update"
+                    wire:loading.attr="disabled"
+                    class="btn btn-primary">
+                    <span wire:loading wire:target="update">
+                        <span class="spinner-border spinner-border-sm me-1"></span>
+                    </span>
+                    <span wire:loading.remove wire:target="update">
+                        <i class="bi bi-save me-1"></i>
+                    </span>
+                    Update
+                </button>
+                <a href="{{ route('pekerja.pesanan.index') }}"
+                    wire:navigate
+                    class="btn btn-secondary">
+                    <i class="bi bi-arrow-left me-1"></i> Kembali
+                </a>
+            </div>
+
+        </div>
+    </div>
+</div>

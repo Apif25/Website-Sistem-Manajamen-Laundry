@@ -1,0 +1,153 @@
+<?php
+
+use App\Http\Controllers\PelangganController;
+use App\Http\Controllers\PekerjaController;
+use App\Http\Controllers\PemesananController;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
+use App\Livewire\Pekerja\Pelanggan\Index;
+use App\Livewire\Pekerja\Pelanggan\Edit;
+use App\Livewire\Pekerja\Pelanggan\Show;
+use App\Livewire\Pekerja\Pemesanan\Create as PemesananCreate;
+use App\Livewire\Pekerja\Pemesanan\Edit as PemesananEdit;
+use App\Livewire\Pekerja\Pemesanan\Show as PemesananShow;
+use App\Livewire\Pekerja\Pesanan\Create as PesananCreate;
+use App\Livewire\Pekerja\Pesanan\Edit as PesananEdit;
+
+// ============================================================================
+// WELCOME
+// ============================================================================
+
+Route::get('/', function () {
+    return view('welcome');
+});
+
+// ============================================================================
+// PELANGGAN ROUTES
+// ============================================================================
+
+Route::prefix('pelanggan')->name('pelanggan.')->group(function () {
+
+    Route::middleware('guest:pelanggan')->group(function () {
+        Route::get('/register', [PelangganController::class, 'showRegister'])->name('register');
+        Route::post('/register', [PelangganController::class, 'register']);
+
+        Route::get('/login', [PelangganController::class, 'showLogin'])->name('login');
+        Route::post('/login', [PelangganController::class, 'login']);
+    });
+
+    Route::middleware('auth:pelanggan')->group(function () {
+        Route::post('/logout', [PelangganController::class, 'logout'])->name('logout');
+        Route::get('/dashboard', fn() => view('pelanggan.dashboard'))->name('dashboard');
+    });
+});
+
+// ============================================================================
+// PEKERJA ROUTES
+// ============================================================================
+
+Route::prefix('pekerja')->name('pekerja.')->group(function () {
+
+    // ------------------------------------------------------------------
+    // Guest: belum login
+    // ------------------------------------------------------------------
+    Route::middleware('guest:pekerja')->group(function () {
+        Route::get('/auth/login', [PekerjaController::class, 'showLoginForm'])->name('login');
+        Route::post('/auth/login', [PekerjaController::class, 'login'])->name('login.post');
+    });
+
+    // ------------------------------------------------------------------
+    // Auth: sudah login
+    // ------------------------------------------------------------------
+    Route::middleware('auth:pekerja')->group(function () {
+
+        // Logout
+        Route::post('/logout', function () {
+            Auth::guard('pekerja')->logout();
+            request()->session()->invalidate();
+            request()->session()->regenerateToken();
+            return redirect()->route('pekerja.login');
+        })->name('logout');
+
+        // Dashboard — semua role
+        Route::get('/dashboard', \App\Livewire\Pekerja\Dashboard::class)->name('dashboard');
+
+        // Profile — semua role
+        Route::get('/profile/index', \App\Livewire\Pekerja\Profile\Index::class)->name('profile.index');
+
+        // --------------------------------------------------------------
+        // ADMIN — Manajemen Pekerja & Pelanggan
+        // --------------------------------------------------------------
+        Route::middleware('role:admin')->group(function () {
+
+            // Pekerja
+            Route::get('/index', \App\Livewire\Pekerja\Index::class)->name('index');
+            Route::get('/create', \App\Livewire\Pekerja\Create::class)->name('create');
+            Route::get('/{id}/edit', \App\Livewire\Pekerja\Edit::class)->name('edit');
+            Route::get('/{id}', \App\Livewire\Pekerja\Show::class)->name('show');
+            Route::delete('/{id}', [PekerjaController::class, 'destroy'])->name('destroy');
+
+            // Pelanggan
+            Route::prefix('pelanggan')->name('pelanggan.')->group(function () {
+                Route::get('/index', Index::class)->name('index');
+                Route::get('/{id}/edit', Edit::class)->name('edit');
+                Route::get('/{id}', Show::class)->name('show');
+            });
+        });
+
+        // --------------------------------------------------------------
+        // PETUGAS — Pemesanan, Pesanan, Proses, Pembayaran, Stok, Inventaris
+        // --------------------------------------------------------------
+        Route::middleware('role:petugas|manajer')->group(function () {
+
+            // Pemesanan
+            Route::prefix('pemesanan')->name('pemesanan.')->group(function () {
+                Route::get('/index', \App\Livewire\Pekerja\Pemesanan\Index::class)->name('index');
+                Route::get('/create', PemesananCreate::class)->name('create');
+                Route::get('/{id}/edit', PemesananEdit::class)->name('edit');
+                Route::get('/{id}', PemesananShow::class)->name('show');
+                Route::delete('/{id}', [PemesananController::class, 'destroy'])->name('destroy');
+            });
+
+            // Pesanan
+            Route::prefix('pesanan')->name('pesanan.')->group(function () {
+                Route::get('/index', \App\Livewire\Pekerja\Pesanan\Index::class)->name('index');
+                Route::get('/create', PesananCreate::class)->name('create');
+                Route::get('/{id}', \App\Livewire\Pekerja\Pesanan\Show::class)->name('show');
+                Route::get('/{id}/edit', PesananEdit::class)->name('edit');
+            });
+
+            // Proses
+            Route::prefix('proses')->name('proses.')->group(function () {
+                Route::get('/index', \App\Livewire\Pekerja\Proses\Index::class)->name('index');
+            });
+
+            // Pembayaran
+            Route::prefix('pembayaran')->name('pembayaran.')->group(function () {
+                Route::get('/index', \App\Livewire\Pekerja\Pembayaran\Index::class)->name('index');
+            });
+
+            // Stock Barang
+            Route::prefix('stockbarang')->name('stockbarang.')->group(function () {
+                Route::get('/index', \App\Livewire\Pekerja\StockBarang\Index::class)->name('index');
+            });
+
+            // Inventaris
+            Route::prefix('inventaris')->name('inventaris.')->group(function () {
+                Route::get('/index', \App\Livewire\Pekerja\Inventaris\Index::class)->name('index');
+            });
+        });
+
+        // --------------------------------------------------------------
+        // MANAJER — full CRUD keuangan
+        // OWNER   — read only keuangan (hanya index & pdf)
+        // --------------------------------------------------------------
+        Route::middleware('role:manajer|owner')->group(function () {
+
+            Route::prefix('keuangan')->name('keuangan.')->group(function () {
+                Route::get('/index', \App\Livewire\Pekerja\Keuangan\Index::class)->name('index');
+                Route::get('/pdf', [\App\Http\Controllers\KeuanganPdfController::class, 'generate'])->name('pdf');
+            });
+        });
+    }); 
+}); 
