@@ -14,6 +14,7 @@ use App\Livewire\Pekerja\Pesanan\Create as PesananCreate;
 use App\Livewire\Pekerja\Pesanan\Edit as PesananEdit;
 use App\Livewire\Pekerja\Auth\Setup2FA;
 use App\Livewire\Pekerja\Auth\Verify2FA;
+use App\Livewire\Pekerja\Auth\FirstPassword;
 
 // ============================================================================
 // WELCOME
@@ -69,6 +70,10 @@ Route::prefix('pekerja')->name('pekerja.')->group(function () {
             request()->session()->regenerateToken();
             return redirect()->route('pekerja.login');
         })->name('logout');
+
+        // Password pertama kali
+        Route::get('/auth/first-password', FirstPassword::class)
+            ->name('password.first');
 
         // 2FA ROUTES — hanya untuk yang sudah login tapi belum verified 2FA
         Route::middleware(['auth:pekerja'])->group(function () {

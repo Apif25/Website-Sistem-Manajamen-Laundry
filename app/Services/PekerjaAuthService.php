@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Str;
 
 class PekerjaAuthService
 {
@@ -42,14 +44,35 @@ class PekerjaAuthService
      */
     public function login(array $credentials, bool $remember = false): void
     {
+        $key = $this->throttleKey($credentials['email']);
+
+        if (RateLimiter::tooManyAttempts($key, 3)) {
+            $seconds = RateLimiter::availableIn($key);
+
+            throw ValidationException::withMessages([
+                'email' => [
+                    "Terlalu banyak percobaan login. Coba lagi dalam {$seconds} detik."
+                ],
+            ]);
+        }
+
         if (! Auth::guard('pekerja')->attempt([
             'email'    => $credentials['email'],
             'password' => $credentials['password'],
         ], $remember)) {
+
+            RateLimiter::hit($key, 300);
+
             throw ValidationException::withMessages([
                 'email' => ['Email atau password salah.'],
             ]);
         }
+
+        // Login berhasil → reset rate limit
+        RateLimiter::clear($key);
+
+        // Regenerate session (anti session fixation)
+        request()->session()->regenerate();
     }
 
     /**
@@ -63,21 +86,30 @@ class PekerjaAuthService
         request()->session()->regenerateToken();
     }
 
-    
+    /**
+     * Key unik untuk rate limiting.
+     */
+    protected function throttleKey(string $email): string
+    {
+        return Str::lower($email) . '|' . request()->ip();
+    }
+
     public function create(
         array $data,
         ?UploadedFile $foto = null,
         ?string $role = null
     ): Pekerja {
         $payload = [
-            'nama_pekerja'  => $data['nama_pekerja'],
-            'email'         => $data['email'],
-            'password'      => Hash::make($data['password']),
-            'no_telepon'    => $data['no_telepon'] ?? null,
-            'alamat'        => $data['alamat'] ?? null,
-            'jenis_kelamin' => $data['jenis_kelamin'],
+            'nama_pekerja'         => $data['nama_pekerja'],
+            'email'                => $data['email'],
+            'password'             => Hash::make($data['password']),
+            'must_change_password' => true,
+            'no_telepon'           => $data['no_telepon'] ?? null,
+            'alamat'               => $data['alamat'] ?? null,
+            'jenis_kelamin'        => $data['jenis_kelamin'],
         ];
 
+        // Upload foto jika ada
         if ($foto) {
             $payload['foto'] = $foto->store('pekerja/foto', 'public');
         }
@@ -85,13 +117,12 @@ class PekerjaAuthService
         $pekerja = $this->pekerjaRepository->create($payload);
 
         // Assign role jika dipilih
-        if (! empty($role)) {
+        if (!empty($role)) {
             $pekerja->assignRole($role);
         }
 
         return $pekerja;
     }
-
     /**
      * Update data pekerja.
      */
@@ -116,10 +147,10 @@ class PekerjaAuthService
         ];
 
         // Update password hanya jika diisi
-        if (! empty($data['password'])) {
+        if (!empty($data['password'])) {
             $payload['password'] = Hash::make($data['password']);
+            $payload['must_change_password'] = false;
         }
-
         // Upload foto baru
         if ($foto) {
             if ($pekerja->foto) {

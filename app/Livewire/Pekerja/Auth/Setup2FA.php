@@ -92,6 +92,10 @@ class Setup2FA extends Component
             '2FA berhasil diaktifkan!'
         );
 
+        if ($pekerja->must_change_password) {
+            return redirect()->route('pekerja.password.first');
+        }
+
         return redirect()->route('pekerja.dashboard');
     }
 

@@ -18,6 +18,7 @@ class Pekerja extends Authenticatable
     protected $fillable = [
         'email',
         'password',
+        'must_change_password',
         'nama_pekerja',
         'no_telepon',
         'alamat',

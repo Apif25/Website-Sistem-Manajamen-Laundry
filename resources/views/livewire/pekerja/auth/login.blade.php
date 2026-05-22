@@ -41,9 +41,9 @@
                         </div>
 
                         @error('email')
-                        <div class="invalid-feedback">
+                        <small class="text-danger d-block mt-1">
                             {{ $message }}
-                        </div>
+                        </small>
                         @enderror
                     </div>
 
@@ -80,20 +80,12 @@
 
                     {{-- CAPTCHA --}}
                     <div class="mb-4">
-                        <div
-                            style="background:#fff;padding:12px;border-radius:12px;width:fit-content">
-
-                            <div
-                                wire:ignore
-                                id="recaptcha-container">
-                            </div>
-
+                        <div style="background:#fff;padding:12px;border-radius:12px;width:fit-content">
+                            <div wire:ignore id="recaptcha-container"></div>
                         </div>
 
                         @error('captcha')
-                        <small class="text-danger d-block mt-2">
-                            {{ $message }}
-                        </small>
+                        <small class="text-danger d-block mt-2">{{ $message }}</small>
                         @enderror
                     </div>
 
@@ -132,45 +124,55 @@
 
 @push('scripts')
 <script>
-    let recaptchaWidgetId = null;
+    window.captchaWidgetId = null;
 
-    function captchaCallback(token) {
-        Livewire.first().set('captcha', token);
-    }
+    window.captchaCallback = function(token) {
+        @this.set('captcha', token);
+    };
+
+    window.captchaExpiredCallback = function() {
+        @this.set('captcha', null);
+    };
 
     function renderRecaptcha() {
         const container = document.getElementById('recaptcha-container');
-
         if (!container) return;
 
-        container.innerHTML = '';
+        // Jangan render ulang kalau sudah ada iframe di dalam
+        if (container.querySelector('iframe')) return;
 
-        if (typeof grecaptcha === 'undefined') {
-            setTimeout(renderRecaptcha, 100);
+        if (typeof grecaptcha === 'undefined' || typeof grecaptcha.render === 'undefined') {
+            setTimeout(renderRecaptcha, 150);
             return;
         }
 
-        recaptchaWidgetId = grecaptcha.render(container, {
+        window.captchaWidgetId = grecaptcha.render(container, {
             sitekey: '{{ config("recaptcha.site_key") }}',
-            callback: captchaCallback,
+            callback: 'captchaCallback',
+            'expired-callback': 'captchaExpiredCallback',
             theme: 'light',
         });
     }
 
-    document.addEventListener('livewire:init', () => {
+    // Dipanggil otomatis oleh Google reCAPTCHA API setelah script selesai load
+    window.onRecaptchaLoad = function() {
         renderRecaptcha();
+    };
+
+    document.addEventListener('livewire:init', () => {
+        // Fallback kalau grecaptcha sudah ready sebelum livewire:init
+        if (typeof grecaptcha !== 'undefined') {
+            renderRecaptcha();
+        }
 
         Livewire.hook('commit', ({
             component,
             succeed
         }) => {
             succeed(() => {
-                if (component.snapshot.data.captcha === null) {
-                    if (
-                        typeof grecaptcha !== 'undefined' &&
-                        recaptchaWidgetId !== null
-                    ) {
-                        grecaptcha.reset(recaptchaWidgetId);
+                if (component.snapshot?.data?.captcha === null) {
+                    if (typeof grecaptcha !== 'undefined' && window.captchaWidgetId !== null) {
+                        grecaptcha.reset(window.captchaWidgetId);
                     }
                 }
             });

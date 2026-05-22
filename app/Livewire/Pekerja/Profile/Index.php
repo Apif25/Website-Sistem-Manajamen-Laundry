@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 use Livewire\WithFileUploads;
+use Illuminate\Validation\Rules\Password;
 
 #[Layout('backend.layouts.app')]
 class Index extends Component
@@ -51,7 +52,15 @@ class Index extends Component
 
             'jenis_kelamin' => 'required|in:Pria,Wanita',
 
-            'password'      => 'nullable|min:8|confirmed',
+            'password' => [
+                'nullable',
+                'confirmed',
+                Password::min(8)
+                    ->letters()      // harus ada huruf
+                    ->mixedCase()    // huruf besar & kecil
+                    ->numbers()      // harus ada angka
+                    ->symbols(),     // harus ada simbol
+            ],
 
             'foto'          => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ];
@@ -71,6 +80,10 @@ class Index extends Component
 
             'password.min'           => 'Password minimal 8 karakter.',
             'password.confirmed'     => 'Konfirmasi password tidak cocok.',
+            'password.letters'       => 'Password harus mengandung setidaknya satu huruf.',
+            'password.mixedCase'     => 'Password harus mengandung huruf besar dan kecil.',
+            'password.numbers'       => 'Password harus mengandung setidaknya satu angka.',
+            'password.symbols'       => 'Password harus mengandung setidaknya satu simbol.',
 
             'foto.image'             => 'File harus berupa gambar.',
             'foto.mimes'             => 'Format foto harus jpg, jpeg, atau png.',

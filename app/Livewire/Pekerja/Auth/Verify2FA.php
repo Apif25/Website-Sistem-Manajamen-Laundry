@@ -30,6 +30,12 @@ class Verify2FA extends Component
 
         // sudah verified session
         if (session()->has('2fa_verified')) {
+
+            // wajib ganti password dulu
+            if ($pekerja->must_change_password) {
+                return redirect()->route('pekerja.password.first');
+            }
+
             return redirect()->route('pekerja.dashboard');
         }
     }
@@ -64,6 +70,11 @@ class Verify2FA extends Component
         }
 
         session(['2fa_verified' => true]);
+
+        // wajib ganti password pertama kali
+        if ($pekerja->must_change_password) {
+            return redirect()->route('pekerja.password.first');
+        }
 
         return redirect()->route('pekerja.dashboard');
     }

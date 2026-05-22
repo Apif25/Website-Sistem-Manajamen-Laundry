@@ -7,6 +7,8 @@ use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
+use App\Services\PekerjaAuthService;
+use Illuminate\Validation\ValidationException;
 
 #[Layout('backend.layouts.auth')]
 #[Title('Login Pekerja')]
@@ -42,33 +44,37 @@ class Login extends Component
         if (!$this->verifyCaptcha()) {
             $this->resetCaptcha();
             session()->flash('error', 'Captcha tidak valid.');
-            $this->dispatch('reset-recaptcha'); // trigger JS reset
+            $this->dispatch('reset-recaptcha');
             return;
         }
 
-        // LOGIN ATTEMPT
-        if (
-            !Auth::guard('pekerja')->attempt([
+        try {
+
+            app(PekerjaAuthService::class)->login([
                 'email'    => $this->email,
                 'password' => $this->password,
-            ], $this->remember)
-        ) {
+            ], $this->remember);
+        } catch (ValidationException $e) {
+
             $this->resetCaptcha();
-            session()->flash('error', 'Email atau password salah.');
             $this->dispatch('reset-recaptcha');
+
+            session()->flash(
+                'error',
+                $e->errors()['email'][0] ?? 'Login gagal.'
+            );
+
             return;
         }
 
         $pekerja = Auth::guard('pekerja')->user();
 
-        // 2FA setup check
         if (!$pekerja->google2fa_enabled) {
             return redirect()->route('pekerja.pekerja.Setup2FA');
         }
 
         return redirect()->route('pekerja.pekerja.Verify2FA');
     }
-
     /**
      * VERIFY CAPTCHA GOOGLE
      */
