@@ -9,7 +9,7 @@
                     </a>
                 </div>
 
-                <h1 class="auth-title">Setup 2FA.</h1>
+                <h1 class="auth-title">Verifikasi Dua Langkah</h1>
                 <p class="auth-subtitle mb-4">
                     Scan QR code di bawah menggunakan aplikasi <strong>Google Authenticator</strong>,
                     lalu masukkan kode 6 digit yang muncul.

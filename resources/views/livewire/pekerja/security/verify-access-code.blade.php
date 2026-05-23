@@ -32,7 +32,7 @@
                             type="password"
                             class="form-control form-control-lg text-center tracking-wide"
                             wire:model="access_code"
-                            placeholder="••••••">
+                            placeholder="input 6 digit kode akses">
 
                         @error('access_code')
                         <small class="text-danger">{{ $message }}</small>

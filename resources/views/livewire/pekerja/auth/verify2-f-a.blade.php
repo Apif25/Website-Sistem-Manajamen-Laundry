@@ -10,7 +10,7 @@
                     </a>
                 </div>
 
-                <h1 class="auth-title">Verifikasi 2FA.</h1>
+                <h1 class="auth-title">Verifikasi Dua Langkah</h1>
 
                 <p class="auth-subtitle mb-5">
                     Buka <strong>Google Authenticator</strong> dan masukkan kode 6 digit

@@ -17,4 +17,5 @@ class Pembayaran extends Model
     {
         return $this->belongsTo(Pesanan::class, 'id_pesanan', 'id_pesanan');
     }
+
 }

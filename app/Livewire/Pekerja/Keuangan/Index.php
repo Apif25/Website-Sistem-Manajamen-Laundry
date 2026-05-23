@@ -55,9 +55,22 @@ class Index extends Component
 
     public function delete(int $id, KeuanganService $service): void
     {
-        abort_unless($this->canManage(), 403);
+        $keuangan = $service->findById($id);
+
+        if ($keuangan->id_pembayaran) {
+            session()->flash(
+                'error',
+                'Data pemasukan dari pembayaran tidak dapat dihapus.'
+            );
+            return;
+        }
+
         $service->destroy($id);
-        session()->flash('success', 'Data keuangan berhasil dihapus.');
+
+        session()->flash(
+            'success',
+            'Data keuangan berhasil dihapus.'
+        );
     }
 
     #[On('keuangan-saved')]
