@@ -19,6 +19,7 @@ class Pekerja extends Authenticatable
         'email',
         'password',
         'must_change_password',
+        'access_code',
         'nama_pekerja',
         'no_telepon',
         'alamat',

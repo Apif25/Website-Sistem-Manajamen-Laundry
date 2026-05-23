@@ -84,6 +84,17 @@ Route::prefix('pekerja')->name('pekerja.')->group(function () {
             Route::get('/auth/Verify2FA', Verify2FA::class)
                 ->name('pekerja.Verify2FA');
         });
+
+        // Setup Access Code
+        Route::get(
+            '/security/access-code',
+            \App\Livewire\Pekerja\Security\AccessCode::class
+        )->name('access-code.create');
+        Route::get(
+            '/security/verify-access-code',
+            \App\Livewire\Pekerja\Security\VerifyAccessCode::class
+        )->name('access-code.verify');
+
         // Dashboard — semua role
         Route::get('/dashboard', \App\Livewire\Pekerja\Dashboard::class)->name('dashboard');
 
@@ -93,7 +104,7 @@ Route::prefix('pekerja')->name('pekerja.')->group(function () {
         // --------------------------------------------------------------
         // ADMIN — Manajemen Pekerja & Pelanggan
         // --------------------------------------------------------------
-        Route::middleware('role:admin')->group(function () {
+        Route::middleware('role:admin', 'access.code.exists')->group(function () {
 
             // Pekerja
             Route::get('/index', \App\Livewire\Pekerja\Index::class)->name('index');
