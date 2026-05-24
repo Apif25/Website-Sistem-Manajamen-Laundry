@@ -1,0 +1,131 @@
+
+.laundry-navbar {
+    display: inline-block;
+    background-color: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08), 0 4px 12px rgba(0, 0, 0, 0.04);
+    overflow: hidden;
+    padding: 0;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid rgba(0, 0, 0, 0.03);
+}
+
+.laundry-navbar .nav-list {
+    display: flex;
+    align-items: center;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.laundry-navbar .nav-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    height: 72px; /* Set layout height */
+}
+
+/* Base styles for normal links */
+.laundry-navbar .nav-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    padding: 0 20px;
+    text-decoration: none;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Nav Icons */
+.laundry-navbar .nav-icon {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Text inside link - accordion expand on hover! */
+.laundry-navbar .nav-text {
+    max-width: 0;
+    opacity: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    font-family: 'Instrument Sans', 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: #1e70c5; /* Premium blue accent */
+    letter-spacing: 0.5px;
+    transition: max-width 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
+                opacity 0.3s ease, 
+                margin-left 0.3s ease;
+    margin-left: 0;
+}
+
+/* Hover effects for normal nav links */
+.laundry-navbar .nav-link:hover {
+    background-color: rgba(30, 112, 197, 0.04);
+}
+
+.laundry-navbar .nav-link:hover .nav-icon {
+    transform: scale(1.1) translateY(-2px);
+}
+
+.laundry-navbar .nav-link:hover .nav-text {
+    max-width: 180px; /* Max space for labels */
+    opacity: 1;
+    margin-left: 10px; /* Space between icon and text */
+}
+
+/* Active/Hover status marker line underneath */
+.laundry-navbar .nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 3px;
+    background-color: #1e70c5;
+    border-radius: 3px 3px 0 0;
+    transition: all 0.3s ease;
+    transform: translateX(-50%);
+}
+
+.laundry-navbar .nav-link:hover::after {
+    width: 40%;
+}
+
+/* WhatsApp Nav Item (the final blue block) */
+.laundry-navbar .nav-whatsapp {
+    background-color: #2b7bc6; /* Matching blue background from design */
+    height: 72px;
+    transition: background-color 0.3s ease;
+}
+
+.laundry-navbar .whatsapp-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 76px; /* Slightly wider block for WhatsApp icon */
+    height: 100%;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.laundry-navbar .whatsapp-icon {
+    width: 38px;
+    height: 38px;
+    object-fit: contain;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.12));
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.laundry-navbar .nav-whatsapp:hover {
+    background-color: #1e6eb8; /* Darker blue focus */
+}
+
+.laundry-navbar .whatsapp-link:hover .whatsapp-icon {
+    transform: scale(1.15) rotate(8deg); /* Smooth pop with a subtle rotation */
+}
