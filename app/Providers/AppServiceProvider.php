@@ -3,9 +3,16 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Event;
+
+use Illuminate\Auth\Events\Login;
+use Illuminate\Auth\Events\Logout;
+use Illuminate\Auth\Events\Failed;
+
+use App\Listeners\AuditAuthListener;
+
 use App\Repositories\Contracts\ProsesRepositoryInterface;
 use App\Repositories\ProsesRepository;
-
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -25,6 +32,19 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        Event::listen(
+            Login::class,
+            [AuditAuthListener::class, 'handleLogin']
+        );
+
+        Event::listen(
+            Logout::class,
+            [AuditAuthListener::class, 'handleLogout']
+        );
+
+        Event::listen(
+            Failed::class,
+            [AuditAuthListener::class, 'handleFailed']
+        );
     }
 }

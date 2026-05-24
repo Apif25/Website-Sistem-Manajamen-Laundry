@@ -20,7 +20,7 @@ class PekerjaSeeder extends Seeder
             'alamat'        => 'Jl. Merdeka No. 123',
             'jenis_kelamin' => 'Pria',
         ]);
-        $admin->assignRole('admin');
+        $admin->assignRole('super admin');
 
         // -------------------------------------------------------
         // PETUGAS
@@ -34,19 +34,6 @@ class PekerjaSeeder extends Seeder
             'jenis_kelamin' => 'Pria',
         ]);
         $petugas->assignRole('petugas');
-
-        // -------------------------------------------------------
-        // MANAJER
-        // -------------------------------------------------------
-        $manajer = Pekerja::create([
-            'email'         => 'manajer@laundry.com',
-            'password'      => bcrypt('password'),
-            'nama_pekerja'  => 'Budi',
-            'no_telepon'    => '083234567890',
-            'alamat'        => 'Jl. Sudirman No. 45',
-            'jenis_kelamin' => 'Pria',
-        ]);
-        $manajer->assignRole('manajer');
 
         // -------------------------------------------------------
         // OWNER

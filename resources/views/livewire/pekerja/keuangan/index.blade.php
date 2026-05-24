@@ -51,8 +51,9 @@
                 <i class="bi bi-plus-lg me-1"></i> Tambah Keuangan
             </button>
             @else
-            <span class="badge bg-secondary px-3 py-2">
-                <i class="bi bi-eye me-1"></i> Mode Baca
+            <span class="badge bg-light text-dark border px-3 py-2">
+                <i class="bi bi-shield-lock me-1"></i>
+                Akses Terbatas
             </span>
             @endif
         </div>
@@ -115,6 +116,51 @@
 
             </div>
 
+            {{-- Ringkasan Keuangan --}}
+            <div class="row g-3 mb-4">
+
+                @php
+                $totalPemasukan = $keuangans->where('jenis', 'Pemasukan')->sum('jumlah');
+                $totalPengeluaran = $keuangans->where('jenis', 'Pengeluaran')->sum('jumlah');
+                $saldo = $totalPemasukan - $totalPengeluaran;
+                @endphp
+
+                <div class="col-md-4">
+                    <div class="card border shadow-sm h-100">
+                        <div class="card-body">
+                            <small class="text-muted">Total Pemasukan</small>
+                            <h4 class="text-success mb-0">
+                                Rp {{ number_format($totalPemasukan, 0, ',', '.') }}
+                            </h4>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="card border shadow-sm h-100">
+                        <div class="card-body">
+                            <small class="text-muted">Total Pengeluaran</small>
+                            <h4 class="text-danger mb-0">
+                                Rp {{ number_format($totalPengeluaran, 0, ',', '.') }}
+                            </h4>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="card border shadow-sm h-100">
+                        <div class="card-body">
+                            <small class="text-muted">Saldo Bersih</small>
+                            <h4 class="{{ $saldo >= 0 ? 'text-primary' : 'text-danger' }} mb-0">
+                                Rp {{ number_format($saldo, 0, ',', '.') }}
+                            </h4>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
             {{-- Table --}}
             <div class="table-responsive">
                 <table class="table table-hover align-middle text-nowrap mb-0">
@@ -171,9 +217,11 @@
                             </td>
 
                             <td style="max-width: 220px;">
-                                <div class="text-truncate text-muted"
+                                <div
+                                    class="text-truncate text-muted"
+                                    style="max-width: 220px;"
                                     title="{{ $keuangan->keterangan }}">
-                                    {{ $keuangan->keterangan }}
+                                    {{ $keuangan->keterangan ?? '-' }}
                                 </div>
                             </td>
 
@@ -197,8 +245,9 @@
                                     <button
                                         wire:click="delete({{ $keuangan->id_keuangan }})"
                                         wire:confirm="Yakin ingin menghapus data keuangan ini?"
-                                        class="btn btn-danger btn-sm">
-                                        <i class="bi bi-trash me-1"></i>Hapus
+                                        class="btn btn-sm btn-danger"
+                                        title="Hapus">
+                                        <i class="bi bi-trash"></i>
                                     </button>
                                 </div>
                                 @else
@@ -227,12 +276,12 @@
         </div>
     </div>
 
-    {{-- Modal Form — hanya manajer --}}
+    {{-- Modal Form — hanya owner --}}
     @if ($canManage)
     @livewire('pekerja.keuangan.form')
     @endif
 
-    {{-- Modal Show — semua role (manajer + owner) --}}
+    {{-- Modal Show — semua role (owner) --}}
     @if ($detail)
     <div class="modal fade show d-block"
         tabindex="-1"

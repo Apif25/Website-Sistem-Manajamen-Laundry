@@ -12,7 +12,7 @@ class RolePermissionSeeder extends Seeder
         // -------------------------------------------------------
         // ADMIN — full akses ke pekerja & pelanggan + profile
         // -------------------------------------------------------
-        $admin = Role::findByName('admin', 'pekerja');
+        $admin = Role::findByName('super admin', 'pekerja');
         $admin->syncPermissions([
             'pekerja.index',
             'pekerja.create',
@@ -60,10 +60,10 @@ class RolePermissionSeeder extends Seeder
         ]);
 
         // -------------------------------------------------------
-        // MANAJER — full akses keuangan + profile
+        // OWNER — full akses keuangan + profile
         // -------------------------------------------------------
-        $manajer = Role::findByName('manajer', 'pekerja');
-        $manajer->syncPermissions([
+        $owner = Role::findByName('owner', 'pekerja');
+        $owner->syncPermissions([
             'pembayaran.index',
             'stockbarang.index',
             'inventaris.index',

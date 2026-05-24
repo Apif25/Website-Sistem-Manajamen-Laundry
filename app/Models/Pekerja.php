@@ -6,10 +6,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
+use App\Traits\LogsActivity;
 
 class Pekerja extends Authenticatable
 {
-    use HasFactory, Notifiable, HasRoles;
+    use HasFactory, Notifiable, HasRoles, LogsActivity;
 
     protected $table = 'Pekerja';
     protected $primaryKey = 'id_pekerja';
@@ -42,4 +43,19 @@ class Pekerja extends Authenticatable
         'email_verified_at' => 'datetime',
         'google2fa_enabled' => 'boolean'
     ];
+
+    /**
+     * Field yang tidak akan masuk audit log.
+     */
+    protected function getAuditHidden(): array
+    {
+        return property_exists($this, 'auditHidden')
+            ? $this->auditHidden
+            : [
+                'password',
+                'remember_token',
+                'pin',
+                'access_code',
+            ];
+    }
 }

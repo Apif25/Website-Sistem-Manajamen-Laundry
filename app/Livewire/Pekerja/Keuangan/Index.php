@@ -23,14 +23,13 @@ class Index extends Component
     }
 
     /**
-     * Hanya manajer yang bisa create/edit/delete.
+     * Hanya owner yang bisa create/edit/delete.
      * Owner hanya bisa read (index).
      */
     public function canManage(): bool
     {
-        return Auth::guard('pekerja')->user()->hasRole('manajer');
+        return Auth::guard('pekerja')->user()->hasRole('owner');
     }
-
     public function openCreate(): void
     {
         abort_unless($this->canManage(), 403);
@@ -55,6 +54,8 @@ class Index extends Component
 
     public function delete(int $id, KeuanganService $service): void
     {
+        abort_unless($this->canManage(), 403);
+
         $keuangan = $service->findById($id);
 
         if ($keuangan->id_pembayaran) {
@@ -72,7 +73,7 @@ class Index extends Component
             'Data keuangan berhasil dihapus.'
         );
     }
-
+    
     #[On('keuangan-saved')]
     public function handleSaved(): void
     {

@@ -4,13 +4,20 @@ namespace App\Livewire\Pekerja\Security;
 
 use Livewire\Component;
 use Livewire\Attributes\Layout;
-use Illuminate\Support\Facades\Hash;
+use App\Services\AccessCodeService;
 
 #[Layout('backend.layouts.app')]
 class VerifyAccessCode extends Component
 {
     public string $access_code = '';
     public string $redirectTo = '';
+
+    protected AccessCodeService $accessCodeService;
+
+    public function boot(AccessCodeService $accessCodeService)
+    {
+        $this->accessCodeService = $accessCodeService;
+    }
 
     public function mount()
     {
@@ -21,7 +28,6 @@ class VerifyAccessCode extends Component
     {
         $this->resetErrorBag('access_code');
     }
-
 
     public function verify()
     {
@@ -35,17 +41,55 @@ class VerifyAccessCode extends Component
             return redirect()->route('pekerja.access-code.create');
         }
 
-        if (! Hash::check($this->access_code, $pekerja->access_code)) {
-            $this->addError('access_code', 'Kode akses salah.');
+        // Sudah mencapai batas percobaan
+        if ($this->accessCodeService->tooManyAttempts($pekerja)) {
+
+            $this->accessCodeService->logout();
+
+            return redirect()
+                ->route('pekerja.login')
+                ->with(
+                    'error',
+                    'Anda telah 3 kali memasukkan kode akses yang salah dan telah dikeluarkan dari sistem.'
+                );
+        }
+
+        // Kode salah
+        if (! $this->accessCodeService->verify($pekerja, $this->access_code)) {
+
+            $this->accessCodeService->hitAttempt($pekerja);
+
+            $remaining = $this->accessCodeService->remainingAttempts($pekerja);
+
+            // Jika percobaan ke-3
+            if ($remaining <= 0) {
+
+                $this->accessCodeService->logout();
+
+                return redirect()
+                    ->route('pekerja.login')
+                    ->with(
+                        'error',
+                        'Anda telah 3 kali memasukkan kode akses yang salah dan telah dikeluarkan dari sistem.'
+                    );
+            }
+
+            $this->addError(
+                'access_code',
+                "Kode akses salah. Sisa percobaan: {$remaining}"
+            );
+
             return;
         }
 
-        session([
-            'access_code_verified' => true,
-            'access_code_verified_at' => now()->timestamp,
-        ]);
+        // Berhasil
+        $this->accessCodeService->clearAttempts($pekerja);
 
-        return redirect($this->redirectTo ?: route('pekerja.dashboard'));
+        $this->accessCodeService->markVerified();
+
+        return redirect(
+            $this->redirectTo ?: route('pekerja.dashboard')
+        );
     }
 
     public function render()

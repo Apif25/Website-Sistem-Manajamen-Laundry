@@ -104,7 +104,11 @@ Route::prefix('pekerja')->name('pekerja.')->group(function () {
         // --------------------------------------------------------------
         // ADMIN — Manajemen Pekerja & Pelanggan
         // --------------------------------------------------------------
-        Route::middleware('role:admin', 'access.code.exists')->group(function () {
+        Route::middleware('role:super admin', 'access.code.exists')->group(function () {
+
+            // Audit Log
+            Route::get('/audit-log', \App\Livewire\Pekerja\AuditLog::class)
+                ->name('audit-log');
 
             // Pekerja
             Route::get('/index', \App\Livewire\Pekerja\Index::class)->name('index');
@@ -123,7 +127,7 @@ Route::prefix('pekerja')->name('pekerja.')->group(function () {
         // --------------------------------------------------------------
         // PETUGAS — Pemesanan, Pesanan, Proses, Pembayaran, Stok, Inventaris
         // --------------------------------------------------------------
-        Route::middleware('role:petugas|manajer')->group(function () {
+        Route::middleware('role:petugas|owner')->group(function () {
 
             // Pemesanan
             Route::prefix('pemesanan')->name('pemesanan.')->group(function () {
@@ -167,7 +171,7 @@ Route::prefix('pekerja')->name('pekerja.')->group(function () {
         // MANAJER — full CRUD keuangan
         // OWNER   — read only keuangan (hanya index & pdf)
         // --------------------------------------------------------------
-        Route::middleware('role:manajer|owner')->group(function () {
+        Route::middleware('role:owner')->group(function () {
 
             Route::prefix('keuangan')->name('keuangan.')->group(function () {
                 Route::get('/index', \App\Livewire\Pekerja\Keuangan\Index::class)->name('index');
