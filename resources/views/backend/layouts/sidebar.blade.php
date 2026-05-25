@@ -125,6 +125,14 @@
                     @endif
                 </a>
             </li>
+
+            {{-- Backup DB--}}
+            <li class="sidebar-item {{ request()->routeIs('pekerja.backup.index') ? 'active' : '' }}">
+                <a href="{{ route('pekerja.backup.index') }}" wire:navigate class="sidebar-link">
+                    <i class="bi bi-database-fill-gear"></i>
+                    <span>Backup Database</span>
+                </a>
+            </li>
             @endrole
 
             {{-- =============================================

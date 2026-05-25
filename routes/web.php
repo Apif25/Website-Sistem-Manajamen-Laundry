@@ -110,6 +110,10 @@ Route::prefix('pekerja')->name('pekerja.')->group(function () {
             Route::get('/audit-log', \App\Livewire\Pekerja\AuditLog::class)
                 ->name('audit-log');
 
+            // ✅ Backup Database — ikut group yang sama
+            Route::get('/backup', \App\Livewire\Pekerja\BackupDatabase::class)->name('backup.index');
+
+
             // Pekerja
             Route::get('/index', \App\Livewire\Pekerja\Index::class)->name('index');
             Route::get('/create', \App\Livewire\Pekerja\Create::class)->name('create');

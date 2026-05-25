@@ -23,7 +23,7 @@
                 <div class="text-center mb-4">
                     <div style="background:#fff; padding:16px; border-radius:12px; display:inline-block;">
                         <img
-                            src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data={{ rawurlencode($qrCodeUrl) }}"
+                            src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data={{ $qrCodeUrl }}"
                             alt="QR Code 2FA">
                     </div>
                 </div>
