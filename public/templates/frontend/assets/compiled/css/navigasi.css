@@ -1,13 +1,31 @@
+/*Buat Reset html CSS*/
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    /* Mencegah scrollbar horizontal gaib jika ada elemen meluber sedikit */
+    overflow-x: hidden; 
+}
 
+*, *:before, *:after {
+    box-sizing: inherit;
+}
+
+/* ===================================================
+   BASE & DESKTOP STYLES (Modifikasi dari kode awal Anda)
+   =================================================== */
 .laundry-navbar {
-    display: inline-block;
+    position: fixed;   
+    top: 50px;          
+    right: 50px;        
     background-color: #ffffff;
     border-radius: 16px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08), 0 4px 12px rgba(0, 0, 0, 0.04);
-    overflow: hidden;
-    padding: 0;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    border: 1px solid rgba(0, 0, 0, 0.03);
+    z-index: 1000;
+    overflow: hidden;
 }
 
 .laundry-navbar .nav-list {
@@ -23,10 +41,9 @@
     align-items: center;
     justify-content: center;
     position: relative;
-    height: 72px; /* Set layout height */
+    height: 72px; 
 }
 
-/* Base styles for normal links */
 .laundry-navbar .nav-link {
     display: flex;
     align-items: center;
@@ -39,7 +56,6 @@
     overflow: hidden;
 }
 
-/* Nav Icons */
 .laundry-navbar .nav-icon {
     width: 32px;
     height: 32px;
@@ -47,7 +63,6 @@
     transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-/* Text inside link - accordion expand on hover! */
 .laundry-navbar .nav-text {
     max-width: 0;
     opacity: 0;
@@ -56,31 +71,27 @@
     font-family: 'Instrument Sans', 'Inter', sans-serif;
     font-size: 13px;
     font-weight: 700;
-    color: #1e70c5; /* Premium blue accent */
+    color: #1e70c5; 
     letter-spacing: 0.5px;
-    transition: max-width 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
-                opacity 0.3s ease, 
-                margin-left 0.3s ease;
+    transition: max-width 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease, margin-left 0.3s ease;
     margin-left: 0;
 }
 
-/* Hover effects for normal nav links */
-.laundry-navbar .nav-link:hover {
+/* Hover effects Desktop */
+.laundry-navbar .nav-list .nav-link:hover {
     background-color: rgba(30, 112, 197, 0.04);
 }
-
-.laundry-navbar .nav-link:hover .nav-icon {
+.laundry-navbar .nav-list .nav-link:hover .nav-icon {
     transform: scale(1.1) translateY(-2px);
 }
-
-.laundry-navbar .nav-link:hover .nav-text {
-    max-width: 180px; /* Max space for labels */
+.laundry-navbar .nav-list .nav-link:hover .nav-text {
+    max-width: 180px; 
     opacity: 1;
-    margin-left: 10px; /* Space between icon and text */
+    margin-left: 10px; 
 }
 
-/* Active/Hover status marker line underneath */
-.laundry-navbar .nav-link::after {
+/* Underline Indicator Desktop */
+.laundry-navbar .nav-list .nav-link::after {
     content: '';
     position: absolute;
     bottom: 0;
@@ -92,29 +103,28 @@
     transition: all 0.3s ease;
     transform: translateX(-50%);
 }
-
-.laundry-navbar .nav-link:hover::after {
+.laundry-navbar .nav-list .nav-link:hover::after {
     width: 40%;
 }
 
-/* WhatsApp Nav Item (the final blue block) */
-.laundry-navbar .nav-whatsapp {
-    background-color: #2b7bc6; /* Matching blue background from design */
+/* photo-profile Nav Item (memiliki background biru) */
+.laundry-navbar .nav-photo-profile {
+    background-color: #2b7bc6;
     height: 72px;
     transition: background-color 0.3s ease;
 }
 
-.laundry-navbar .whatsapp-link {
+.laundry-navbar .photo-profile-link {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 76px; /* Slightly wider block for WhatsApp icon */
+    width: 76px; 
     height: 100%;
     text-decoration: none;
     transition: all 0.3s ease;
 }
 
-.laundry-navbar .whatsapp-icon {
+.laundry-navbar .photo-profile-icon {
     width: 38px;
     height: 38px;
     object-fit: contain;
@@ -122,10 +132,148 @@
     transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-.laundry-navbar .nav-whatsapp:hover {
+.laundry-navbar .nav-photo-profile:hover {
     background-color: #1e6eb8; /* Darker blue focus */
 }
 
-.laundry-navbar .whatsapp-link:hover .whatsapp-icon {
+.laundry-navbar .photo-profile-link:hover .photo-profile-icon {
     transform: scale(1.15) rotate(8deg); /* Smooth pop with a subtle rotation */
+}
+
+.laundry-navbar .nav-photo-profile:hover { background-color: #1e6eb8; }
+.laundry-navbar .photo-profile-link:hover .photo-profile-icon { transform: scale(1.15) rotate(8deg); }
+
+/* Sembunyikan elemen mobile secara default di desktop */
+.laundry-navbar .menu-toggle,
+.laundry-navbar .side-bar,
+.sidebar-overlay {
+    display: none;
+}
+
+
+/* ===================================================
+   RESPONSIVE MEDIA QUERIES (Layar < 992px)
+   =================================================== */
+@media screen and (max-width: 992px) {
+    /* Sembunyikan Nav Bar horizontal bawaan desktop */
+    .laundry-navbar .nav-list {
+        display: none;
+    }
+
+    /* Modifikasi pembungkus utama agar memosisikan tombol Hamburger di pojok */
+    .laundry-navbar {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: transparent;
+        box-shadow: none;
+        border: none;
+        z-index: 10000;
+    }
+
+    /* Style Tombol Toggle Hamburger */
+    .laundry-navbar .menu-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 50px;
+        height: 50px;
+        background-color: #ffffff;
+        border: 1px solid rgba(0, 0, 0, 0.05);
+        border-radius: 50%;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        cursor: pointer;
+        z-index: 10001;
+        position: relative;
+        font-size: 22px;
+        color: #1e70c5;
+        transition: all 0.3s ease;
+    }
+    .laundry-navbar .menu-toggle:active {
+        transform: scale(0.9);
+    }
+
+    /* Style Komponen Side Bar */
+    .laundry-navbar .side-bar {
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        top: 0;
+        right: -320px; /* Tersembunyi di luar batas kanan layar */
+        width: 290px;
+        height: 100vh;
+        background-color: #ffffff;
+        box-shadow: -10px 0 40px rgba(0, 0, 0, 0.15);
+        margin: 0;
+        padding: 90px 0 0 0; /* Beri ruang agar menu tidak tertutup tombol toggle */
+        list-style: none;
+        transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Memunculkan Sidebar saat class .active ditambahkan via JS */
+    .laundry-navbar .side-bar.active {
+        right: 0;
+    }
+
+    /* Mengatur item menu di dalam sidebar */
+    .laundry-navbar .side-bar .nav-item {
+        width: 100%;
+        height: 56px;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.02);
+    }
+
+    .laundry-navbar .side-bar .nav-link {
+        width: 100%;
+        justify-content: flex-start;
+        padding: 0 24px;
+    }
+
+    /* Teks Menu tampil menetap di Mobile */
+    .laundry-navbar .side-bar .nav-text {
+        max-width: 200px;
+        opacity: 1;
+        margin-left: 15px;
+        color: #333333;
+        font-size: 14px;
+    }
+
+    .laundry-navbar .side-bar .nav-icon {
+        width: 26px;
+        height: 26px;
+    }
+
+    /* Tombol photo-profile di posisi paling bawah Sidebar */
+    .laundry-navbar .side-bar .nav-photo-profile {
+        margin-top: auto; 
+        background-color: #2b7bc6;
+        height: 70px;
+    }
+    .laundry-navbar .side-bar .photo-profile-link {
+        width: 100%;
+        justify-content: center;
+    }
+    .laundry-navbar .side-bar .photo-profile-icon {
+        width: 32px;
+        height: 32px;
+    }
+
+    /* Overlay Efek Blur/Gelap di belakang sidebar */
+    .sidebar-overlay {
+        display: block;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: rgba(0, 0, 0, 0.4);
+        backdrop-filter: blur(4px);
+        z-index: 999;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.4s ease;
+    }
+    .sidebar-overlay.active {
+        opacity: 1;
+        pointer-events: auto;
+    }
 }
