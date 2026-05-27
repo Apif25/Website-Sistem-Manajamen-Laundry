@@ -12,7 +12,7 @@
             </a>
         </li>
         <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="#" class="nav-link open-order-popup">
                 <img src="{{ asset('img/icon/Van.png') }}" alt="Antar Jemput" class="nav-icon">
                 <span class="nav-text">ANTAR JEMPUT</span>
             </a>
@@ -56,7 +56,7 @@
             </a>
         </li>
         <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="#" class="nav-link open-order-popup">
                 <img src="{{ asset('img/icon/Van.png') }}" alt="Antar Jemput" class="nav-icon">
                 <span class="nav-text">ANTAR JEMPUT</span>
             </a>

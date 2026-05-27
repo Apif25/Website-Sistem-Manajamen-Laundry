@@ -25,5 +25,64 @@ document.addEventListener('DOMContentLoaded', () => {
         if (e.target === loginModal) {
             loginModal.classList.remove('show');
         }
+        if (e.target === orderModal) {
+            orderModal.classList.remove('show');
+        }
+    });
+
+    // ==========================================
+    // LAYANAN ANTAR JEMPUT POPUP JS             
+    // ==========================================
+    const orderModal = document.getElementById('orderModal');
+    const closeOrderBtn = document.getElementById('close-order-popup');
+    
+    // Find "ANTAR JEMPUT" trigger buttons (handles class, id, and textual fallback)
+    let openOrderBtns = Array.from(document.querySelectorAll('.open-order-popup, #open-order-popup'));
+    if (openOrderBtns.length === 0) {
+        document.querySelectorAll('a').forEach(link => {
+            const text = link.textContent.trim().toUpperCase();
+            if (text.includes('ANTAR JEMPUT')) {
+                openOrderBtns.push(link);
+            }
+        });
+    }
+
+    // Bind open events
+    openOrderBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (orderModal) {
+                orderModal.classList.add('show');
+            }
+        });
+    });
+
+    // Bind close event
+    if (closeOrderBtn && orderModal) {
+        closeOrderBtn.addEventListener('click', () => {
+            orderModal.classList.remove('show');
+        });
+    }
+
+    // Tabs Switcher Logic
+    const tabBtns = document.querySelectorAll('.order-tabs .tab-btn');
+    const tabContents = document.querySelectorAll('.order-popup-body .tab-content');
+
+    tabBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const targetTab = btn.getAttribute('data-tab');
+
+            // Toggle active class on tab buttons
+            tabBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            // Toggle active class on contents
+            tabContents.forEach(content => {
+                content.classList.remove('active');
+                if (content.id === `tab-${targetTab}`) {
+                    content.classList.add('active');
+                }
+            });
+        });
     });
 });

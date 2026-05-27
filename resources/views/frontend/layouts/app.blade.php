@@ -18,8 +18,10 @@
 </main>
 
 @include('livewire.pelanggan.form.loginpopup')
+@include('livewire.pelanggan.form.orderform')
 
 <script src="{{ asset('templates/frontend/assets/compiled/js/navigasi.js') }}"></script>
 <script src="{{ asset('templates/frontend/assets/compiled/js/popup.js') }}"></script>
+<script src="{{ asset('templates/frontend/assets/compiled/js/beranda.js') }}"></script>
 </body>
 </html>

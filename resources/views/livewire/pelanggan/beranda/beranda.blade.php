@@ -8,7 +8,4 @@
     <button>Pelajari Lebih lanjut</button>
     <img src="{{ asset('img/beranda/anime wallpaper.jpg') }}" alt="background-img" class="background-img">
 </div>
-<div >
-
-</div>
 @endsection
