@@ -98,7 +98,7 @@
 /* Hover tombol */
 .landing-page button:hover {
     /* Mengubah warna biru menjadi sedikit lebih gelap/terang saat di-hover (opsi lebih baik dibanding opacity) */
-    background-color: #2F80C0; 
+    background-color: #FF5E1A; 
 }
 
 .landing-page button:hover::after {

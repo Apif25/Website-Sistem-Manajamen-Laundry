@@ -144,9 +144,7 @@ html, body {
 .laundry-navbar .photo-profile-link:hover .photo-profile-icon { transform: scale(1.15) rotate(8deg); }
 
 /* Sembunyikan elemen mobile secara default di desktop */
-.laundry-navbar .menu-toggle,
-.laundry-navbar .side-bar,
-.sidebar-overlay {
+.laundry-navbar .bottom-navbar{
     display: none;
 }
 
@@ -155,125 +153,85 @@ html, body {
    RESPONSIVE MEDIA QUERIES (Layar < 992px)
    =================================================== */
 @media screen and (max-width: 992px) {
-    /* Sembunyikan Nav Bar horizontal bawaan desktop */
     .laundry-navbar .nav-list {
         display: none;
     }
 
-    /* Modifikasi pembungkus utama agar memosisikan tombol Hamburger di pojok */
-    .laundry-navbar {
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        background: transparent;
-        box-shadow: none;
-        border: none;
-        z-index: 10000;
-    }
-
-    /* Style Tombol Toggle Hamburger */
-    .laundry-navbar .menu-toggle {
+    .laundry-navbar .bottom-navbar{
         display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 50px;
-        height: 50px;
-        background-color: #ffffff;
-        border: 1px solid rgba(0, 0, 0, 0.05);
-        border-radius: 50%;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        cursor: pointer;
-        z-index: 10001;
-        position: relative;
-        font-size: 22px;
-        color: #1e70c5;
-        transition: all 0.3s ease;
-    }
-    .laundry-navbar .menu-toggle:active {
-        transform: scale(0.9);
     }
 
-    /* Style Komponen Side Bar */
-    .laundry-navbar .side-bar {
-        display: flex;
-        flex-direction: column;
+    .bottom-navbar {
         position: fixed;
-        top: 0;
-        right: -320px; /* Tersembunyi di luar batas kanan layar */
-        width: 290px;
-        height: 100vh;
-        background-color: #ffffff;
-        box-shadow: -10px 0 40px rgba(0, 0, 0, 0.15);
-        margin: 0;
-        padding: 90px 0 0 0; /* Beri ruang agar menu tidak tertutup tombol toggle */
-        list-style: none;
-        transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    /* Memunculkan Sidebar saat class .active ditambahkan via JS */
-    .laundry-navbar .side-bar.active {
-        right: 0;
-    }
-
-    /* Mengatur item menu di dalam sidebar */
-    .laundry-navbar .side-bar .nav-item {
-        width: 100%;
-        height: 56px;
-        border-bottom: 1px solid rgba(0, 0, 0, 0.02);
-    }
-
-    .laundry-navbar .side-bar .nav-link {
-        width: 100%;
-        justify-content: flex-start;
-        padding: 0 24px;
-    }
-
-    /* Teks Menu tampil menetap di Mobile */
-    .laundry-navbar .side-bar .nav-text {
-        max-width: 200px;
-        opacity: 1;
-        margin-left: 15px;
-        color: #333333;
-        font-size: 14px;
-    }
-
-    .laundry-navbar .side-bar .nav-icon {
-        width: 26px;
-        height: 26px;
-    }
-
-    /* Tombol photo-profile di posisi paling bawah Sidebar */
-    .laundry-navbar .side-bar .nav-photo-profile {
-        margin-top: auto; 
-        background-color: #2b7bc6;
-        height: 70px;
-    }
-    .laundry-navbar .side-bar .photo-profile-link {
-        width: 100%;
-        justify-content: center;
-    }
-    .laundry-navbar .side-bar .photo-profile-icon {
-        width: 32px;
-        height: 32px;
-    }
-
-    /* Overlay Efek Blur/Gelap di belakang sidebar */
-    .sidebar-overlay {
-        display: block;
-        position: fixed;
-        top: 0;
+        bottom: 0;
         left: 0;
-        width: 100vw;
-        height: 100vh;
-        background-color: rgba(0, 0, 0, 0.4);
-        backdrop-filter: blur(4px);
-        z-index: 999;
-        opacity: 0;
-        pointer-events: none;
-        transition: opacity 0.4s ease;
+        width: 100%;
+        height: 85px; 
+        background-color: #ffffff; 
+        box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.08); 
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        margin: 0;
+        padding: 4px 0; 
+        list-style: none;
+        z-index: 9999; 
     }
-    .sidebar-overlay.active {
-        opacity: 1;
-        pointer-events: auto;
+
+    .bottom-navbar .nav-item {
+        flex: 1;
+        min-width: 0; 
+        text-align: center;
+    }
+
+    .bottom-navbar .nav-link {
+        display: flex !important;
+        flex-direction: column !important; 
+        align-items: center !important;
+        /* KUNCI UTAMA 1: Sejajarkan konten dari atas ke bawah agar posisi awal selalu sejajar */
+        justify-content: flex-start !important; 
+        height: 100% !important;
+        width: 100% !important;
+        padding: 8px 2px 0 2px !important; /* Beri padding atas agar icon tidak terlalu mepet ke atas navbar */
+        text-decoration: none;
+        color: #00a0b0; 
+        overflow: visible !important;
+    }
+
+    .bottom-navbar .nav-icon {
+        /* KUNCI UTAMA 2: Mengunci ukuran icon agar konsisten */
+        width: 24px !important;       
+        height: 24px !important; 
+        max-width: 100% !important;   
+        flex-shrink: 0 !important;    
+        margin-bottom: 6px !important; /* Jarak konstan antara icon dan teks */
+        object-fit: contain;
+        transform: none !important;
+    }
+
+    .bottom-navbar .nav-text {
+        display: block !important;
+        opacity: 1 !important;          
+        max-width: 100% !important;     
+        margin-left: 0 !important;      
+        width: 100% !important;
+        
+        /* KUNCI UTAMA 3: Batasi tinggi maksimal teks dan posisikan di atas (top alignment) */
+        height: 24px !important;       /* Menyediakan ruang vertikal konstan setara 2 baris teks pendek */
+        display: flex !important;
+        align-items: flex-start !important; /* Memaksa teks baris pertama mulai dari baris yang sama */
+        justify-content: center !important;
+        
+        font-size: 9px !important;       
+        font-weight: 700 !important;
+        line-height: 1.2 !important;     
+        text-align: center !important;
+        white-space: normal !important;  
+        word-wrap: break-word !important; 
+        color: #1e70c5 !important;       
+    }
+    
+    .bottom-navbar .nav-link::after {
+        display: none !important;
     }
 }

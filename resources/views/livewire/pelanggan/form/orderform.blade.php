@@ -42,22 +42,30 @@
                 <form id="orderForm">
                     <div class="order-input-group">
                         <label for="jenis_pemesanan">Jenis Pemesanan</label>
-                        <input type="text" id="jenis_pemesanan" name="jenis_pemesanan" placeholder="Value Input" required>
+                        <select type="text" id="jenis_pemesanan" name="jenis_pemesanan" required>
+                            <option value="" disabled selected hidden>Pilih Jenis Pemesanan</option>
+                            <option value="Satuan">Satuan</option>
+                            <option value="Kiloan">Kiloan</option>
+                        </select>
                     </div>
 
                     <div class="order-input-group">
                         <label for="layanan_pemesanan">Layanan Pemesanan</label>
-                        <input type="text" id="layanan_pemesanan" name="layanan_pemesanan" placeholder="Value Input" required>
+                        <select type="text" id="layanan_pemesanan" name="layanan_pemesanan" required>
+                            <option value="" disabled selected hidden>Pilih Lyanan Pemesanan</option>
+                            <option value="Cepat">Cepat</option>
+                            <option value="Biasa">Biasa</option>
+                        </select>
                     </div>
 
                     <div class="order-input-grid">
                         <div class="order-input-group">
                             <label for="jumlah_barang">Jumlah Barang</label>
-                            <input type="text" id="jumlah_barang" name="jumlah_barang" placeholder="Value Input" required>
+                            <input type="number" id="jumlah_barang" name="jumlah_barang" placeholder="Jumlah Barang" required>
                         </div>
                         <div class="order-input-group">
                             <label for="tanggal_pemesanan">Tanggal Pemesanan</label>
-                            <input type="text" id="tanggal_pemesanan" name="tanggal_pemesanan" placeholder="Value Input" required>
+                            <input type="date" id="tanggal_pemesanan" name="tanggal_pemesanan" placeholder="Tanggal Pemesanan" required>
                         </div>
                     </div>
 
@@ -71,7 +79,7 @@
                             </svg>
                             <span>Ketentuan Pemesanan</span>
                         </a>
-                        <button type="submit" class="btn-kirim">Kirim</button>
+                        <button type="submit" class="btn-submit-order">Kirim</button>
                     </div>
                 </form>
             </div>

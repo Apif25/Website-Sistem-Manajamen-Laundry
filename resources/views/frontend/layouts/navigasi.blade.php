@@ -1,9 +1,4 @@
 <nav class="laundry-navbar">
-    <button class="menu-toggle" id="menuToggle" aria-label="Toggle Navigation">
-        <span class="icon-bar open-icon">☰</span>
-        <span class="icon-bar close-icon" style="display: none;">✕</span>
-    </button>
-
     <ul class="nav-list">
         <li class="nav-item">
             <a href="#" class="nav-link">
@@ -25,20 +20,14 @@
         </li>
         <li class="nav-item">
             <a href="#" class="nav-link">
+                <img src="{{ asset('img/icon/Purchase Order.png') }}" alt="Lokasi" class="nav-icon">
+                <span class="nav-text">PESANAN ANDA</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="#" class="nav-link">
                 <img src="{{ asset('img/icon/People.png') }}" alt="Tentang Kami" class="nav-icon">
                 <span class="nav-text">TENTANG KAMI</span>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a href="#" class="nav-link">
-                <img src="{{ asset('img/icon/Place Marker.png') }}" alt="Lokasi" class="nav-icon">
-                <span class="nav-text">LOKASI</span>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a href="#" class="nav-link">
-                <img src="{{ asset('img/icon/Rotary Dial Telephone.png') }}" alt="Kontak Kami" class="nav-icon">
-                <span class="nav-text">KONTAK KAMI</span>
             </a>
         </li>
         <li class="nav-item nav-photo-profile">
@@ -48,13 +37,9 @@
         </li>
     </ul>
 
-    <ul class="side-bar">
-        <li class="nav-item">
-            <a href="#" class="nav-link">
-                <img src="{{ asset('img/icon/Home Page.png') }}" alt="Beranda" class="nav-icon">
-                <span class="nav-text">BERANDA</span>
-            </a>
-        </li>
+<!-- Responsive navigasi -->
+
+    <ul class="bottom-navbar">
         <li class="nav-item">
             <a href="#" class="nav-link open-order-popup">
                 <img src="{{ asset('img/icon/Van.png') }}" alt="Antar Jemput" class="nav-icon">
@@ -69,23 +54,21 @@
         </li>
         <li class="nav-item">
             <a href="#" class="nav-link">
+                <img src="{{ asset('img/icon/Home Page.png') }}" alt="Beranda" class="nav-icon">
+                <span class="nav-text">BERANDA</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="#" class="nav-link">
                 <img src="{{ asset('img/icon/People.png') }}" alt="Tentang Kami" class="nav-icon">
                 <span class="nav-text">TENTANG KAMI</span>
             </a>
         </li>
         <li class="nav-item">
             <a href="#" class="nav-link">
-                <img src="{{ asset('img/icon/Place Marker.png') }}" alt="Lokasi" class="nav-icon">
-                <span class="nav-text">LOKASI</span>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a href="#" class="nav-link">
-                <img src="{{ asset('img/icon/Rotary Dial Telephone.png') }}" alt="Kontak Kami" class="nav-icon">
-                <span class="nav-text">KONTAK KAMI</span>
+                <img src="{{ asset('img/icon/Purchase Order.png') }}" alt="Lokasi" class="nav-icon">
+                <span class="nav-text">PESANAN ANDA</span>
             </a>
         </li>
     </ul>
 </nav>
-
-<div class="sidebar-overlay" id="sidebarOverlay"></div>

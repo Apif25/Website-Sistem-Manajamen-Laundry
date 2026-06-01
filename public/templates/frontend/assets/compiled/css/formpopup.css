@@ -82,6 +82,39 @@
     box-shadow: 0 0 0 3px rgba(43, 130, 201, 0.15);
 }
 
+/*select
+/* Samakan Select dengan Input Layanan Antar Jemput */
+.order-input-group select {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1.5px solid #8abceb;
+    border-radius: 8px;
+    font-size: 14px;
+    color: #2B82C9;
+    outline: none;
+    background-color: #ffffff;
+    cursor: pointer;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    
+    /* Hilangkan panah default bawaan Windows/Chrome/Safari */
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    
+    /* Tambahkan panah custom minimalis warna biru */
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%232B82C9' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'></polyline></svg>");
+    background-repeat: no-repeat;
+    background-position: right 16px center;
+    background-size: 16px;
+    padding-right: 40px; /* Supaya teks pilihan tidak menabrak panah */
+}
+
+/* Efek Focus saat Dropdown diklik */
+.order-input-group select:focus {
+    border-color: #2B82C9;
+    box-shadow: 0 0 0 3px rgba(43, 130, 201, 0.15);
+}
+
 /* Opsi Ingat Saya & Lupa Password */
 .form-options {
     display: flex;
@@ -118,8 +151,7 @@
     display: block;
     margin: 0 auto 32px auto;
     padding: 14px;
-    background: linear-gradient(180deg, #3B82F6 0%, #60A5FA 100%);
-    border: none;
+    background: linear-gradient(180deg, #FF5E1A 0%, #FF9E66 100%);    border: none;
     border-radius: 25px; /* Membuat bentuk kapsul/oval */
     color: #ffffff;
     font-size: 18px;
@@ -199,22 +231,21 @@
 /* Close Button for Order Popup */
 .btn-close-order {
     position: absolute;
-    top: 24px;
+    top: 55px;
     right: 28px;
+    transform: translateY(-50%);
     background: none;
     border: none;
-    color: #ffffff;
-    font-size: 32px;
+    color: #FF1E56; /* Merah terang cerah sesuai rekomendasi */
+    font-size: 40px;
     font-weight: bold;
     cursor: pointer;
     line-height: 1;
-    z-index: 10;
-    transition: transform 0.2s, color 0.2s;
+    transition: transform 0.2s;
 }
 
 .btn-close-order:hover {
-    transform: scale(1.15);
-    color: #FF5E1A; /* Accent orange on hover */
+    transform: translateY(-50%) scale(1.2);
 }
 
 /* Header */
@@ -376,7 +407,7 @@
     opacity: 0.8;
 }
 
-.btn-kirim {
+.btn-submit-order {
     background-color: #FF5E1A; /* Accent orange */
     color: #ffffff;
     border: none;
@@ -388,11 +419,11 @@
     transition: background-color 0.2s, transform 0.1s;
 }
 
-.btn-kirim:hover {
+.btn-submit-order:hover {
     background-color: #e55315;
 }
 
-.btn-kirim:active {
+.btn-submit-order:active {
     transform: scale(0.98);
 }
 
@@ -452,7 +483,7 @@
     .btn-ketentuan {
         justify-content: center;
     }
-    .btn-kirim {
+    .btn-submit-order {
         width: 100%;
     }
 }
