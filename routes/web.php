@@ -24,6 +24,10 @@ Route::get('/', function () {
     return view('frontend.beranda.index');
 });
 
+Route::get('/Produk&Layanan', function () {
+    return view('frontend.Produk & Layanan.index');
+});
+
 // ============================================================================
 // PELANGGAN ROUTES
 // ============================================================================

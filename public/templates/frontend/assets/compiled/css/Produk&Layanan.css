@@ -1,0 +1,114 @@
+/* Reset dasar & box sizing */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+}
+
+/* Kontainer Utama Split Screen */
+.split-container {
+    display: flex;
+    width: 100%;
+    height: 100vh; /* Memenuhi tinggi layar penuh */
+    overflow: hidden;
+}
+
+/* Pengaturan masing-masing kartu (Link) */
+.split-card {
+    position: relative;
+    flex: 1; /* Membagi 2 secara rata (50% - 50%) */
+    text-decoration: none;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Mengatur gambar agar fit di dalam background */
+.split-card img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
+    transition: transform 0.5s ease; /* Efek zoom halus */
+}
+
+/* OVERLAY DEFAULT UNTUK KEDUA SISI */
+.split-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(30, 80, 150, 0.45); /* Warna teal transparan awal */
+    z-index: 2;
+    transition: background-color 0.5s ease; /* Transisi halus saat warna menghilang */
+}
+
+/* --- PERUBAHAN DI SINI: HOVER MASING-MASING SISI --- */
+/* Hanya menghapus overlay pada kartu yang sedang di-hover saja */
+.split-card:hover::after {
+    background-color: rgba(0, 0, 0, 0); /* Menjadi transparan sepenuhnya */
+}
+
+/* Memberikan sedikit efek zoom pada gambar yang sedang di-hover */
+.split-card:hover img {
+    transform: scale(1.05);
+}
+
+/* Pembungkus Konten Teks di Tengah */
+.content {
+    position: relative;
+    z-index: 3; /* Pastikan teks berada di atas overlay */
+    text-align: center;
+    color: #ffffff;
+}
+
+/* Styling Judul H1 */
+.content h1 {
+    font-size: 3.5rem;
+    font-weight: 300;
+    letter-spacing: 4px;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+}
+
+/* Styling Tombol / Teks "Lihat Semua" */
+.btn-lihat {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1rem;
+    font-weight: bold;
+    color: #ffffff;
+}
+
+/* Lingkaran icon panah */
+.arrow-icon {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 28px;
+    height: 28px;
+    border: 1px solid #ffffff;
+    border-radius: 50%;
+    font-style: normal;
+    font-size: 1.2rem;
+    line-height: 1;
+    padding-bottom: 3px;
+}
+
+/* --- RESPONSIVE UNTUK SMARTPHONE (Opsional) --- */
+@media (max-width: 768px) {
+    .split-container {
+        flex-direction: column;
+    }
+    .content h1 {
+        font-size: 2.5rem;
+    }
+}

@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="{{ asset('templates/frontend/assets/compiled/css/beranda.css') }}">
     <link rel="stylesheet" href="{{ asset('templates/frontend/assets/compiled/css/formpopup.css') }}">
     <link rel="stylesheet" href="{{ asset('templates/frontend/assets/compiled/css/footer.css') }}">
+    <link rel="stylesheet" href="{{ asset('templates/frontend/assets/compiled/css/Produk&Layanan.css') }}">
 </head>
 <body>
 <div id="navigasi">
