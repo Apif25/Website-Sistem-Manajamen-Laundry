@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="{{ asset('templates/frontend/assets/compiled/css/navigasi.css') }}">
     <link rel="stylesheet" href="{{ asset('templates/frontend/assets/compiled/css/beranda.css') }}">
     <link rel="stylesheet" href="{{ asset('templates/frontend/assets/compiled/css/formpopup.css') }}">
+    <link rel="stylesheet" href="{{ asset('templates/frontend/assets/compiled/css/footer.css') }}">
 </head>
 <body>
 <div id="navigasi">
@@ -16,6 +17,8 @@
 <main class="main-content">
     @yield('content')
 </main>
+
+@include('frontend.layouts.footer')
 
 @include('livewire.pelanggan.form.loginpopup')
 @include('livewire.pelanggan.form.orderform')

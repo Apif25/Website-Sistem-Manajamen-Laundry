@@ -148,6 +148,10 @@ html, body {
     display: none;
 }
 
+/* Sembunyikan profil mobile secara default (pada desktop) */
+.mobile-profile {
+    display: none;
+}
 
 /* ===================================================
    RESPONSIVE MEDIA QUERIES (Layar < 992px)
@@ -233,5 +237,21 @@ html, body {
     
     .bottom-navbar .nav-link::after {
         display: none !important;
+    }
+
+    .mobile-profile {
+        display: block;
+        position: fixed; /* Tetap di posisinya meskipun di-scroll */
+        top: 20px;       /* Jarak dari atas layar */
+        right: 5px;     /* Jarak dari kanan layar */
+        z-index: 999;    /* Memastikan ikon berada di atas gambar background */
+    }
+
+    .mobile-profile-icon {
+        width: 40px;     /* Atur ukuran ikon sesuai kenyamanan visual */
+        height: 40px;
+        border-radius: 50%; /* Membuat ikon menjadi lingkaran jika backgroundnya putih */
+        padding: 5px;
+        object-fit: cover;
     }
 }

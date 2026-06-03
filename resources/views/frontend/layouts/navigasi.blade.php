@@ -31,14 +31,13 @@
             </a>
         </li>
         <li class="nav-item nav-photo-profile">
-            <a href="#" class="photo-profile-link" id="open-popup">
+            <a href="#" class="photo-profile-link open-popup-login">
                 <img src="{{ asset('img/icon/Profile.png') }}" alt="foto profil" class="photo-profile-icon">
             </a>
         </li>
     </ul>
 
 <!-- Responsive navigasi -->
-
     <ul class="bottom-navbar">
         <li class="nav-item">
             <a href="#" class="nav-link open-order-popup">
@@ -60,15 +59,21 @@
         </li>
         <li class="nav-item">
             <a href="#" class="nav-link">
-                <img src="{{ asset('img/icon/People.png') }}" alt="Tentang Kami" class="nav-icon">
-                <span class="nav-text">TENTANG KAMI</span>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a href="#" class="nav-link">
                 <img src="{{ asset('img/icon/Purchase Order.png') }}" alt="Lokasi" class="nav-icon">
                 <span class="nav-text">PESANAN ANDA</span>
             </a>
         </li>
+        <li class="nav-item">
+            <a href="#" class="nav-link">
+                <img src="{{ asset('img/icon/People.png') }}" alt="Tentang Kami" class="nav-icon">
+                <span class="nav-text">TENTANG KAMI</span>
+            </a>
+        </li>
     </ul>
+
+    <div class="mobile-profile">
+    <a href="#" class="photo-profile-link open-popup-login">
+        <img src="{{ asset('img/icon/Profile.png') }}" alt="foto profil" class="mobile-profile-icon">
+    </a>
+    </div>
 </nav>

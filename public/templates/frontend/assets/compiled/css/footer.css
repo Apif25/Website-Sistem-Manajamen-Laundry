@@ -1,0 +1,146 @@
+/* ========================================== */
+/* LAUNDRY FOOTER STYLING                     */
+/* ========================================== */
+
+.laundry-footer {
+    background-color: #1e293b; /* Warna gelap modern (Slate) */
+    color: #cbd5e1;
+    font-family: 'Arial', sans-serif;
+    padding: 60px 0 20px 0;
+    margin-top: 60px;
+    width: 100%;
+}
+
+.footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: grid;
+    grid-template-columns: 2fr 1fr; /* Diubah menjadi 2 kolom nyata */
+    gap: 40px;
+    justify-content: space-between; /* Mendorong kolom kanan ke ujung */
+}
+
+.footer-column {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* Kolom Kiri (Branding) */
+.brand-column {
+    text-align: left;
+    align-items: flex-start;
+}
+
+.footer-logo {
+    color: #ffffff;
+    font-size: 24px;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+}
+
+.footer-logo span {
+    color: #2B82C9; /* Warna biru khas Kelana Laundry */
+}
+
+.footer-description {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #94a3b8;
+    max-width: 450px; /* Membatasi agar teks deskripsi tidak terlalu melar ke kanan */
+}
+
+/* Kolom Kanan (Kontak) - Dibuat Menempel ke Kanan */
+.contact-column {
+    align-items: flex-end; 
+    text-align: right;
+}
+
+.footer-title {
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: bold;
+    position: relative;
+    padding-bottom: 8px;
+}
+
+/* Garis dekoratif di bawah judul mengikuti sisi kanan */
+.contact-column .footer-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: 0; /* Mulai dari kanan */
+    left: auto;
+    width: 30px;
+    height: 2px;
+    background-color: #2B82C9;
+}
+
+/* Info List Kontak */
+.footer-contact {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    font-size: 14px;
+}
+
+.footer-contact li {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end; /* Menyusun konten li rata kanan */
+    gap: 10px;
+}
+
+.contact-icon {
+    font-size: 16px;
+}
+
+/* Hak Cipta (Bagian Paling Bawah) */
+.footer-bottom {
+    max-width: 1200px;
+    margin: 40px auto 0 auto;
+    padding: 20px 24px 0 24px;
+    border-top: 1px solid #334155;
+    text-align: center;
+    font-size: 13px;
+    color: #64748b;
+}
+
+/* ========================================== */
+/* RESPONSIVE OVERRIDES (MOBILE & TABLET)     */
+/* ========================================== */
+
+@media (max-width: 768px) {
+    .footer-container {
+        grid-template-columns: 1fr; /* Menjadi 1 kolom bertumpuk di HP */
+        gap: 32px;
+    }
+
+    /* Kembalikan semua teks dan elemen ke tengah saat di HP */
+    .footer-column,
+    .contact-column {
+        text-align: center;
+        align-items: center;
+    }
+
+    /* Kembalikan posisi garis dekoratif h3 ke tengah */
+    .contact-column .footer-title::after {
+        left: 50%;
+        right: auto;
+        transform: translateX(-50%); 
+    }
+
+    /* Kembalikan susunan list ke tengah */
+    .footer-contact li {
+        justify-content: center;
+    }
+
+    .laundry-footer {
+        /* Jarak ekstra agar tidak menabrak bar menu mobile Anda */
+        padding-bottom: 105px; 
+    }
+}
