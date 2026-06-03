@@ -21,7 +21,7 @@ use App\Livewire\Pekerja\Auth\FirstPassword;
 // ============================================================================
 
 Route::get('/', function () {
-    return view('pelanggan.beranda.beranda');
+    return view('frontend.beranda.index');
 });
 
 // ============================================================================
