@@ -22,11 +22,24 @@ use App\Livewire\Pekerja\Auth\FirstPassword;
 
 Route::get('/', function () {
     return view('frontend.beranda.index');
-});
+})->name('beranda');
 
-Route::get('/Produk&Layanan', function () {
+Route::get('/produk-layanan', function () {
     return view('frontend.Produk & Layanan.index');
-});
+})->name('produk_layanan');
+
+Route::get('/produk', function () {
+    return view('frontend.Produk & Layanan.produk');
+})->name('produk');
+
+Route::get('/layanan', function () {
+    return view('frontend.Produk & Layanan.layanan');
+})->name('layanan');
+
+Route::get('/pesanan-anda', function () {
+    return view('frontend.pesanan anda.index');
+})->name('pesanan_anda');
+
 
 // ============================================================================
 // PELANGGAN ROUTES

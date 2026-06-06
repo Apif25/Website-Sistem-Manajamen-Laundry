@@ -103,6 +103,141 @@
     padding-bottom: 3px;
 }
 
+/* ==========================================================================
+   1. KONTANER UTAMA (BANNER)
+   ========================================================================== */
+.top-container {
+    position: relative;      /* Menjadi acuan koordinat untuk gambar dan teks di dalamnya */
+    width: 100%;
+    height: 75vh;            /* Setinggi 1/4 dari tinggi layar monitor/HP */
+    margin: 0;
+    padding: 0;
+    
+    /* Kelengkungan besar di sudut bawah (kiri dan kanan) */
+    border-bottom-left-radius: 90px;
+    border-bottom-right-radius: 90px;
+    
+    /* Memotong gambar & overlay agar presisi mengikuti kelengkungan radius */
+    overflow: hidden; 
+}
+
+/* ==========================================================================
+   2. GAMBAR LATAR BELAKANG (TAG IMG)
+   ========================================================================== */
+.top-container .bg-hero-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+    
+    /* Mengisi ruang banner secara proporsional tanpa merusak rasio asli gambar */
+    object-fit: cover;
+    object-position: center;
+    
+    /* Memastikan gambar berada di lapisan paling belakang */
+    z-index: 1; 
+}
+
+/* ==========================================================================
+   3. OVERLAY LAPISAN GELAP & STRUKTUR TEKS
+   ========================================================================== */
+.top-container-text {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    
+    /* Efek lapisan gelap transparan tipis (20%) agar teks putih mudah dibaca */
+    background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2));
+    
+    /* Menggunakan Flexbox untuk menaruh teks otomatis tepat di tengah banner */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    /* Menaikkan layer teks agar berada di atas gambar */
+    z-index: 2; 
+}
+
+/* ==========================================================================
+   4. STYLE TEKS UTAMA (H1)
+   ========================================================================== */
+.top-container-text h1 {
+    color: #ffffff;                 /* Warna putih bersih */
+    font-family: 'Arial', sans-serif;
+    font-size: 2.5rem;              /* Ukuran huruf besar proporsional */
+    font-weight: bold;
+    text-transform: uppercase;      /* Memaksa huruf kapital semua */
+    letter-spacing: 2px;            /* Jarak antar huruf seperti contoh gambar */
+    text-align: center;
+    margin: 0;
+    padding: 0 20px;
+    
+    /* Bayangan halus di belakang teks agar terlihat jelas di segala warna gambar */
+    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);
+}
+
+/* produk */
+/* 1. Pengaturan Grid / Pembungkus List Produk */
+.prd-grid {
+    margin: 100px 60px;
+    display: grid;
+    /* Membuat kolom otomatis pas dengan layar, minimal lebar kartu 180px */
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 20px; /* Jarak antar kartu produk */
+    padding: 20px;
+}
+
+/* 2. Desain Kartu Produk */
+.prd-card {
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Efek Hover (Kartu agak terangkat saat disentuh kursor) */
+.prd-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Mengatur Link di dalam Kartu */
+.prd-card a {
+    text-decoration: none;
+    color: #333333;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+/* 3. Pengaturan Gambar Produk */
+.prd-card img {
+    width: 100%;
+    height: 200px; /* Atur tinggi seragam */
+    object-fit: cover; /* Gambar otomatis terpotong rapi tanpa gepeng */
+    background-color: #f9f9f9;
+}
+
+/* 4. Pengaturan Teks Nama Produk */
+.prd-card .prd-title {
+    font-size: 14px;
+    font-weight: 600;
+    margin: 12px 12px 12px 12px;
+    line-height: 1.4;
+
+    text-align: center;
+    /* Membuat teks otomatis jadi titik-titik (...) jika terlalu panjang (max 2 baris) */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
 /* --- RESPONSIVE UNTUK SMARTPHONE (Opsional) --- */
 @media (max-width: 768px) {
     .split-container {
@@ -110,5 +245,29 @@
     }
     .content h1 {
         font-size: 2.5rem;
+    }
+    .top-container {
+        height: 45vh; /* Mengurangi tinggi banner agar tidak terlalu memakan layar tablet */
+        border-bottom-left-radius: 45px;  /* Mengecilkan kelengkungan agar proporsional */
+        border-bottom-right-radius: 45px; /* Mengecilkan kelengkungan agar proporsional */
+    }
+
+    .top-container-text h1 {
+        font-size: 2rem; /* Memperkecil ukuran font h1 */
+        letter-spacing: 1.5px; /* Sedikit merapatkan jarak antar huruf */
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .top-container {
+        height: 35vh; /* Tinggi banner yang ideal untuk layar HP (sekitar 1/3 layar) */
+        border-bottom-left-radius: 30px;  /* Kelengkungan lebih soft untuk layar kecil */
+        border-bottom-right-radius: 30px; /* Kelengkungan lebih soft untuk layar kecil */
+    }
+
+    .top-container-text h1 {
+        font-size: 1.6rem; /* Ukuran font disesuaikan agar tidak patah menjadi terlalu banyak baris */
+        letter-spacing: 1px;
+        padding: 0 15px; /* Menyesuaikan padding kiri-kanan teks */
     }
 }
