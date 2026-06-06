@@ -16,29 +16,23 @@ use App\Livewire\Pekerja\Auth\Setup2FA;
 use App\Livewire\Pekerja\Auth\Verify2FA;
 use App\Livewire\Pekerja\Auth\FirstPassword;
 
+use App\Livewire\Frontend\Beranda;
+use App\Livewire\Frontend\ProdukLayanan\Index as ProdukLayananIndex;
+use App\Livewire\Frontend\ProdukLayanan\Produk;
+use App\Livewire\Frontend\ProdukLayanan\Layanan;
+use App\Livewire\Frontend\PesananAnda\Index as PesananAndaIndex;
+use App\Livewire\Frontend\PesananAnda\Tracker as PesananAndaTracker;
+
 // ============================================================================
 // WELCOME
 // ============================================================================
 
-Route::get('/', function () {
-    return view('frontend.beranda.index');
-})->name('beranda');
-
-Route::get('/produk-layanan', function () {
-    return view('frontend.Produk & Layanan.index');
-})->name('produk_layanan');
-
-Route::get('/produk', function () {
-    return view('frontend.Produk & Layanan.produk');
-})->name('produk');
-
-Route::get('/layanan', function () {
-    return view('frontend.Produk & Layanan.layanan');
-})->name('layanan');
-
-Route::get('/pesanan-anda', function () {
-    return view('frontend.pesanan anda.index');
-})->name('pesanan_anda');
+Route::get('/', Beranda::class)->name('beranda');
+Route::get('/produk-layanan', ProdukLayananIndex::class)->name('produk_layanan');
+Route::get('/produk', Produk::class)->name('produk');
+Route::get('/layanan', Layanan::class)->name('layanan');
+Route::get('/pesanan-anda', PesananAndaIndex::class)->name('pesanan_anda');
+Route::get('/pesanan-anda/tracker', PesananAndaTracker::class)->name('pesanan_anda.tracker');
 
 
 // ============================================================================

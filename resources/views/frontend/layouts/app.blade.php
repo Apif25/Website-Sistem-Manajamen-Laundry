@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="{{ asset('templates/frontend/assets/compiled/css/footer.css') }}">
     <link rel="stylesheet" href="{{ asset('templates/frontend/assets/compiled/css/Produk&Layanan.css') }}">
     <link rel="stylesheet" href="{{ asset('templates/frontend/assets/compiled/css/Pesanan.css') }}">
+    <link rel="stylesheet" href="{{ asset('templates/frontend/assets/compiled/css/tracker.css') }}">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 
 @livewireStyles
@@ -20,6 +21,7 @@
 </div>
 
 <main class="main-content">
+    {{ $slot ?? '' }}
     @yield('content')
 </main>
 

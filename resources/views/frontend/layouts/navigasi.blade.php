@@ -1,7 +1,7 @@
 <nav class="laundry-navbar">
     <ul class="nav-list">
         <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="{{ route('beranda') }}" class="nav-link">
                 <img src="{{ asset('img/icon/Home Page.png') }}" alt="Beranda" class="nav-icon">
                 <span class="nav-text">BERANDA</span>
             </a>
@@ -13,13 +13,13 @@
             </a>
         </li>
         <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="{{ route('produk_layanan') }}" class="nav-link">
                 <img src="{{ asset('img/icon/Clothes in Laundry.png') }}" alt="Produk & Layanan" class="nav-icon">
                 <span class="nav-text">PRODUK & LAYANAN</span>
             </a>
         </li>
         <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="{{ route('pesanan_anda') }}" class="nav-link">
                 <img src="{{ asset('img/icon/Purchase Order.png') }}" alt="Lokasi" class="nav-icon">
                 <span class="nav-text">PESANAN ANDA</span>
             </a>
@@ -46,19 +46,19 @@
             </a>
         </li>
         <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="{{ route('produk_layanan') }}" class="nav-link">
                 <img src="{{ asset('img/icon/Clothes in Laundry.png') }}" alt="Produk & Layanan" class="nav-icon">
                 <span class="nav-text">PRODUK & LAYANAN</span>
             </a>
         </li>
         <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="{{ route('beranda') }}" class="nav-link">
                 <img src="{{ asset('img/icon/Home Page.png') }}" alt="Beranda" class="nav-icon">
                 <span class="nav-text">BERANDA</span>
             </a>
         </li>
         <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="{{ route('pesanan_anda') }}" class="nav-link">
                 <img src="{{ asset('img/icon/Purchase Order.png') }}" alt="Lokasi" class="nav-icon">
                 <span class="nav-text">PESANAN ANDA</span>
             </a>
