@@ -2,12 +2,16 @@
 
 namespace App\Livewire\Pekerja\Auth;
 
-use Livewire\Component;
-use Livewire\Attributes\Layout;
 use Illuminate\Support\Facades\Auth;
-use PragmaRX\Google2FA\Google2FA;
+use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
+use Livewire\Component;
+use PragmaRX\Google2FA\Google2FA;
 
+use BaconQrCode\Writer;
+use BaconQrCode\Renderer\ImageRenderer;
+use BaconQrCode\Renderer\Image\SvgImageBackEnd;
+use BaconQrCode\Renderer\RendererStyle\RendererStyle;
 
 #[Layout('backend.layouts.auth')]
 #[Title('Login Pekerja')]
@@ -15,6 +19,7 @@ class Setup2FA extends Component
 {
     public string $secret = '';
     public string $qrCodeUrl = '';
+    public string $qrCodeSvg = '';
     public string $otp_code = '';
 
     public function mount()
@@ -32,10 +37,8 @@ class Setup2FA extends Component
         $google2fa = new Google2FA();
 
         if (!$pekerja->google2fa_secret) {
-            $secret = $google2fa->generateSecretKey();
-
             $pekerja->update([
-                'google2fa_secret' => $secret,
+                'google2fa_secret' => $google2fa->generateSecretKey(),
             ]);
 
             $pekerja->refresh();
@@ -48,6 +51,28 @@ class Setup2FA extends Component
             $pekerja->email,
             $this->secret
         );
+
+        $this->generateQrCode();
+    }
+
+    protected function generateQrCode(): void
+    {
+        try {
+            $renderer = new ImageRenderer(
+                new RendererStyle(250),
+                new SvgImageBackEnd()
+            );
+
+            $writer = new Writer($renderer);
+
+            $this->qrCodeSvg = $writer->writeString(
+                $this->qrCodeUrl
+            );
+        } catch (\Throwable $e) {
+            report($e);
+
+            $this->qrCodeSvg = '';
+        }
     }
 
     public function enable()
@@ -85,7 +110,9 @@ class Setup2FA extends Component
             'google2fa_enabled' => true,
         ]);
 
-        session(['2fa_verified' => true]);
+        session([
+            '2fa_verified' => true,
+        ]);
 
         session()->flash(
             'success',

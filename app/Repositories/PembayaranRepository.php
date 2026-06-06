@@ -27,6 +27,11 @@ class PembayaranRepository
         return $this->model->findOrFail($id);
     }
 
+    public function findByOrderId(string $orderId)
+    {
+        return Pembayaran::where('midtrans_order_id', $orderId)->first();
+    }
+
     public function create(array $data): Pembayaran
     {
         return $this->model->create($data);

@@ -3,6 +3,7 @@
 namespace App\Livewire\Pekerja\Pembayaran;
 
 use App\Services\PembayaranService;
+use App\Models\Pesanan;
 use Carbon\Carbon;
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -18,14 +19,18 @@ class Form extends Component
     public string $harga_pembayaran = '';
     public string $tanggal_pembayaran = '';
 
+    // Midtrans Snap
+    public ?string $snap_token = null;
+    public ?string $status_pembayaran = null;
+
     // Dropdown Data
     public $pesananList = [];
 
     protected function rules(): array
     {
         return [
-            'id_pesanan' => 'required|exists:pesanan,id_pesanan',
-            'harga_pembayaran' => 'required|numeric|min:0',
+            'id_pesanan'         => 'required|exists:pesanan,id_pesanan',
+            'harga_pembayaran'   => 'required|numeric|min:0',
             'tanggal_pembayaran' => 'required|date',
         ];
     }
@@ -34,16 +39,35 @@ class Form extends Component
     {
         return [
             'id_pesanan.required' => 'Pesanan wajib dipilih.',
-            'id_pesanan.exists' => 'Pesanan tidak valid.',
+            'id_pesanan.exists'   => 'Pesanan tidak valid.',
 
             'harga_pembayaran.required' => 'Harga pembayaran wajib diisi.',
-            'harga_pembayaran.numeric' => 'Harga pembayaran harus berupa angka.',
-            'harga_pembayaran.min' => 'Harga pembayaran tidak boleh negatif.',
+            'harga_pembayaran.numeric'  => 'Harga pembayaran harus berupa angka.',
+            'harga_pembayaran.min'      => 'Harga pembayaran tidak boleh negatif.',
 
             'tanggal_pembayaran.required' => 'Tanggal pembayaran wajib diisi.',
-            'tanggal_pembayaran.date' => 'Format tanggal tidak valid.',
+            'tanggal_pembayaran.date'     => 'Format tanggal tidak valid.',
         ];
     }
+
+    /**
+     * AUTO FILL HARGA SAAT PESANAN DIPILIH
+     */
+    public function updatedIdPesanan($value): void
+    {
+        if (empty($value)) {
+            $this->harga_pembayaran = '';
+            return;
+        }
+
+        $pesanan = collect($this->pesananList)
+            ->firstWhere('id_pesanan', (int) $value);
+
+        if ($pesanan) {
+            $this->harga_pembayaran = (string) $pesanan->harga;
+        }
+    }
+
 
     #[On('open-form')]
     public function openModal(
@@ -62,13 +86,22 @@ class Form extends Component
 
             $pembayaran = $service->findById($id);
 
-            $this->fill([
-                'id_pesanan' => $pembayaran->id_pesanan,
-                'harga_pembayaran' => (string) $pembayaran->harga_pembayaran,
-                'tanggal_pembayaran' => Carbon::parse(
-                    $pembayaran->tanggal_pembayaran
-                )->format('Y-m-d\TH:i'),
-            ]);
+            if ($pembayaran) {
+
+                $this->fill([
+                    'id_pesanan' => $pembayaran->id_pesanan,
+
+                    'harga_pembayaran' => (string)
+                    $pembayaran->harga_pembayaran,
+
+                    'tanggal_pembayaran' => Carbon::parse(
+                        $pembayaran->tanggal_pembayaran
+                    )->format('Y-m-d\TH:i'),
+
+                    'snap_token' => $pembayaran->snap_token,
+                    'status_pembayaran' => $pembayaran->status_pembayaran,
+                ]);
+            }
         }
 
         $this->showModal = true;
@@ -87,7 +120,14 @@ class Form extends Component
 
         if ($this->mode === 'edit' && $this->editId) {
 
-            $service->update($this->editId, $validated);
+            $service->update(
+                $this->editId,
+                [
+                    'id_pesanan'         => $validated['id_pesanan'],
+                    'harga_pembayaran'   => $validated['harga_pembayaran'],
+                    'tanggal_pembayaran' => $validated['tanggal_pembayaran'],
+                ]
+            );
 
             session()->flash(
                 'success',
@@ -95,17 +135,62 @@ class Form extends Component
             );
         } else {
 
-            $service->store($validated);
+            $customer = [
+                'first_name' => 'Pelanggan',
+                'email'      => 'noreply@example.com',
+                'phone'      => '08123456789',
+            ];
+
+            $pembayaran = $service->storeViaMidtrans(
+                [
+                    'id_pesanan'       => $validated['id_pesanan'],
+                    'harga_pembayaran' => $validated['harga_pembayaran'],
+                ],
+                $customer
+            );
+
+            $this->editId = $pembayaran->id_pembayaran;
+
+            $this->snap_token = $pembayaran->snap_token;
+
+            $this->status_pembayaran =
+                $pembayaran->status_pembayaran;
 
             session()->flash(
                 'success',
-                'Pembayaran berhasil ditambahkan.'
+                'Transaksi Midtrans berhasil dibuat.'
+            );
+
+            $this->dispatch(
+                'open-snap',
+                token: $this->snap_token
             );
         }
 
-        $this->closeModal();
-
         $this->dispatch('pembayaran-saved');
+    }
+
+    #[On('refresh-payment-status')]
+    public function refreshStatus(
+        PembayaranService $service
+    ): void {
+
+        if (! $this->editId) {
+            return;
+        }
+
+        $pembayaran = $service->findById(
+            $this->editId
+        );
+
+        if ($pembayaran) {
+
+            $this->status_pembayaran =
+                $pembayaran->status_pembayaran;
+
+            $this->snap_token =
+                $pembayaran->snap_token;
+        }
     }
 
     private function resetForm(): void
@@ -115,6 +200,8 @@ class Form extends Component
             'harga_pembayaran',
             'tanggal_pembayaran',
             'editId',
+            'snap_token',
+            'status_pembayaran',
         ]);
 
         $this->resetValidation();
@@ -122,6 +209,8 @@ class Form extends Component
 
     public function render()
     {
-        return view('livewire.pekerja.pembayaran.form');
+        return view(
+            'livewire.pekerja.pembayaran.form'
+        );
     }
 }

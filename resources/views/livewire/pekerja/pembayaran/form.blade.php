@@ -1,7 +1,4 @@
-{{-- resources/views/livewire/pekerja/pembayaran/form.blade.php --}}
-
 <div>
-
     {{-- Modal --}}
     <div
         class="modal fade {{ $showModal ? 'show d-block' : '' }}"
@@ -38,12 +35,10 @@
                         </label>
 
                         <select
-                            wire:model="id_pesanan"
+                            wire:model.live="id_pesanan"
                             class="form-select @error('id_pesanan') is-invalid @enderror">
 
-                            <option value="">
-                                -- Pilih Pesanan --
-                            </option>
+                            <option value="">-- Pilih Pesanan --</option>
 
                             @foreach ($pesananList as $pesanan)
                             <option value="{{ $pesanan->id_pesanan }}">
@@ -79,10 +74,9 @@
                                 type="number"
                                 wire:model="harga_pembayaran"
                                 min="0"
-                                step="0.01"
-                                placeholder="0"
+                                step="1"
+                                readonly
                                 class="form-control @error('harga_pembayaran') is-invalid @enderror">
-
                         </div>
 
                         @error('harga_pembayaran')
@@ -114,6 +108,66 @@
 
                     </div>
 
+                    {{-- Informasi Snap --}}
+                    @if($mode === 'create')
+
+                    <div class="alert alert-info border-0">
+                        <div class="d-flex">
+                            <i class="bi bi-credit-card me-2"></i>
+                            <div>
+                                Setelah klik <strong>Buat Pembayaran</strong>,
+                                popup Midtrans akan muncul dan pelanggan dapat
+                                memilih metode pembayaran seperti QRIS,
+                                GoPay, ShopeePay, Virtual Account, dan lainnya.
+                            </div>
+                        </div>
+                    </div>
+
+                    @endif
+
+                    {{-- Status Pembayaran --}}
+                    @if($status_pembayaran)
+
+                    <div class="mb-3">
+
+                        <label class="form-label fw-medium">
+                            Status Pembayaran
+                        </label>
+
+                        <div>
+
+                            @if($status_pembayaran === 'settlement')
+
+                            <span class="badge bg-success fs-6">
+                                Lunas
+                            </span>
+
+                            @elseif($status_pembayaran === 'pending')
+
+                            <span class="badge bg-warning text-dark fs-6">
+                                Menunggu Pembayaran
+                            </span>
+
+                            @elseif(in_array($status_pembayaran, ['expire', 'cancel', 'deny']))
+
+                            <span class="badge bg-danger fs-6">
+                                {{ strtoupper($status_pembayaran) }}
+                            </span>
+
+                            @else
+
+                            <span class="badge bg-secondary fs-6">
+                                {{ strtoupper($status_pembayaran) }}
+                            </span>
+
+                            @endif
+
+                        </div>
+
+                    </div>
+
+                    @endif
+
                 </div>
 
                 {{-- Footer --}}
@@ -138,7 +192,10 @@
                             wire:loading.remove
                             wire:target="save">
 
-                            {{ $mode === 'edit' ? 'Simpan' : 'Tambah' }}
+                            {{ $mode === 'edit'
+                                ? 'Simpan'
+                                : 'Buat Pembayaran' }}
+
                         </span>
 
                         <span
@@ -146,7 +203,8 @@
                             wire:target="save">
 
                             <span class="spinner-border spinner-border-sm me-1"></span>
-                            Menyimpan...
+                            Memproses...
+
                         </span>
 
                     </button>
@@ -157,4 +215,42 @@
         </div>
     </div>
 
+    {{-- Midtrans Snap --}}
+    @if($snap_token)
+
+    <script>
+        document.addEventListener('livewire:init', () => {
+
+            Livewire.on('open-snap', (event) => {
+
+                const token = event.token;
+
+                if (!token) {
+                    return;
+                }
+
+                snap.pay(token, {
+
+                    onSuccess: function(result) {
+                        Livewire.dispatch('refresh-payment-status');
+                    },
+
+                    onPending: function(result) {
+                        Livewire.dispatch('refresh-payment-status');
+                    },
+
+                    onError: function(result) {
+                        console.error(result);
+                    },
+
+                    onClose: function() {
+                        Livewire.dispatch('refresh-payment-status');
+                    }
+                });
+
+            });
+
+        });
+    </script>
+    @endif
 </div>

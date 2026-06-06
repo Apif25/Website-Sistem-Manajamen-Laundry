@@ -110,7 +110,7 @@ Route::prefix('pekerja')->name('pekerja.')->group(function () {
             Route::get('/audit-log', \App\Livewire\Pekerja\AuditLog::class)
                 ->name('audit-log');
 
-            // ✅ Backup Database — ikut group yang sama
+            // Backup Database — ikut group yang sama
             Route::get('/backup', \App\Livewire\Pekerja\BackupDatabase::class)->name('backup.index');
 
 
@@ -158,6 +158,8 @@ Route::prefix('pekerja')->name('pekerja.')->group(function () {
             // Pembayaran
             Route::prefix('pembayaran')->name('pembayaran.')->group(function () {
                 Route::get('/index', \App\Livewire\Pekerja\Pembayaran\Index::class)->name('index');
+                Route::get('/proses/{idPesanan}', \App\Livewire\Pekerja\Pembayaran\PembayaranProcess::class)->name('proses');
+                Route::get('/finish', \App\Livewire\Pekerja\Pembayaran\PembayaranProcess::class)->name('finish');
             });
 
             // Stock Barang

@@ -1,7 +1,63 @@
 <div id="auth">
 
+    <style>
+        /* PANEL KIRI */
+        #auth-left {
+            padding: 3rem 4rem;
+        }
+
+        /* PANEL KANAN */
+        #auth-right {
+            position: relative;
+            height: 100vh;
+            overflow: hidden;
+            padding: 0 !important;
+            background: none !important;
+        }
+
+        .auth-bg-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* Overlay gelap agar teks terlihat */
+        .auth-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, .35);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 60px;
+            color: #fff;
+        }
+
+        .auth-overlay h2 {
+            color: #93c5fd;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: .5rem;
+        }
+
+        .auth-overlay p {
+            color: #dbeafe;
+            font-size: 1.1rem;
+            margin-bottom: 0;
+            opacity: .9;
+        }
+
+        @media (max-width: 991.98px) {
+            #auth-left {
+                padding: 2rem;
+            }
+        }
+    </style>
+
     <div class="row h-100">
 
+        {{-- LEFT --}}
         <div class="col-lg-5 col-12">
 
             <div id="auth-left">
@@ -14,10 +70,10 @@
                     </a>
                 </div>
 
-                <h1 class="auth-title">Log in.</h1>
+                <h1 class="auth-title">Login</h1>
 
                 <p class="auth-subtitle mb-5">
-                    Log in with your data that you entered during registration.
+                    Masuk Ke Sistem Informasi Manajemen Laundry
                 </p>
 
                 @if (session()->has('error'))
@@ -74,7 +130,7 @@
                             wire:model="remember">
 
                         <label class="form-check-label text-gray-600">
-                            Keep me logged in
+                            Ingat Saya
                         </label>
                     </div>
 
@@ -85,7 +141,9 @@
                         </div>
 
                         @error('captcha')
-                        <small class="text-danger d-block mt-2">{{ $message }}</small>
+                        <small class="text-danger d-block mt-2">
+                            {{ $message }}
+                        </small>
                         @enderror
                     </div>
 
@@ -98,7 +156,7 @@
 
                         <span wire:loading.remove wire:target="login">
                             <i class="bi bi-box-arrow-in-right me-1"></i>
-                            Log in
+                            Login
                         </span>
 
                         <span wire:loading wire:target="login">
@@ -114,8 +172,21 @@
 
         </div>
 
+        {{-- RIGHT --}}
         <div class="col-lg-7 d-none d-lg-block">
-            <div id="auth-right"></div>
+            <div id="auth-right">
+
+                <img
+                    src="{{ asset('images/login-bg.jpg') }}"
+                    alt="Login Background"
+                    class="auth-bg-image">
+
+                <div class="auth-overlay">
+                    <h2>Sistem Informasi Manajemen Laundry</h2>
+                    <p>Selamat Datang di Portal Pekerja</p>
+                </div>
+
+            </div>
         </div>
 
     </div>
@@ -138,7 +209,6 @@
         const container = document.getElementById('recaptcha-container');
         if (!container) return;
 
-        // Jangan render ulang kalau sudah ada iframe di dalam
         if (container.querySelector('iframe')) return;
 
         if (typeof grecaptcha === 'undefined' || typeof grecaptcha.render === 'undefined') {
@@ -154,13 +224,11 @@
         });
     }
 
-    // Dipanggil otomatis oleh Google reCAPTCHA API setelah script selesai load
     window.onRecaptchaLoad = function() {
         renderRecaptcha();
     };
 
     document.addEventListener('livewire:init', () => {
-        // Fallback kalau grecaptcha sudah ready sebelum livewire:init
         if (typeof grecaptcha !== 'undefined') {
             renderRecaptcha();
         }
