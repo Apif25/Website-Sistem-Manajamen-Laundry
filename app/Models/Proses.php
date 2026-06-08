@@ -22,6 +22,7 @@ class Proses extends Model
      */
     const STEPS = [
         'Menunggu',
+        'Penjemputan',
         'Pencucian',
         'Penyetrikaan',
         'Pengantaran',

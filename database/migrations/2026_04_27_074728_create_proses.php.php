@@ -20,6 +20,7 @@ return new class extends Migration
 
             $table->enum('proses', [
                 'Menunggu',
+                'Penjemputan',
                 'Pencucian',
                 'Penyetrikaan',
                 'Pengantaran',
