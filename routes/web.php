@@ -17,6 +17,7 @@ use App\Livewire\Pekerja\Auth\Verify2FA;
 use App\Livewire\Pekerja\Auth\FirstPassword;
 
 use App\Livewire\Frontend\Beranda;
+use App\livewire\Frontend\Auth\Login;
 use App\Livewire\Frontend\ProdukLayanan\Index as ProdukLayananIndex;
 use App\Livewire\Frontend\ProdukLayanan\Produk;
 use App\Livewire\Frontend\ProdukLayanan\Layanan;
@@ -27,33 +28,39 @@ use App\Livewire\Frontend\PesananAnda\Tracker as PesananAndaTracker;
 // WELCOME
 // ============================================================================
 
-Route::get('/', Beranda::class)->name('beranda');
-Route::get('/produk-layanan', ProdukLayananIndex::class)->name('produk_layanan');
-Route::get('/produk', Produk::class)->name('produk');
-Route::get('/layanan', Layanan::class)->name('layanan');
-Route::get('/pesanan-anda', PesananAndaIndex::class)->name('pesanan_anda');
-Route::get('/pesanan-anda/tracker', PesananAndaTracker::class)->name('pesanan_anda.tracker');
-
-
-// ============================================================================
-// PELANGGAN ROUTES
-// ============================================================================
+Route::get('/', function () {
+    return redirect('/pelanggan');
+}); 
 
 Route::prefix('pelanggan')->name('pelanggan.')->group(function () {
 
-    Route::middleware('guest:pelanggan')->group(function () {
-        Route::get('/register', [PelangganController::class, 'showRegister'])->name('register');
-        Route::post('/register', [PelangganController::class, 'register']);
+    Route::get('/', Beranda::class)
+        ->name('beranda');
 
-        Route::get('/login', [PelangganController::class, 'showLogin'])->name('login');
-        Route::post('/login', [PelangganController::class, 'login']);
+    Route::get('/produk-layanan', ProdukLayananIndex::class)
+        ->name('produk_layanan');
+
+    Route::get('/produk', Produk::class)
+        ->name('produk');
+
+    Route::get('/layanan', Layanan::class)
+        ->name('layanan');
+
+    Route::middleware('auth.pelanggan')->group(function () {
+
+        Route::get('/pesanan-anda', PesananAndaIndex::class)
+            ->name('pesanan_anda');
+
+        Route::get('/pesanan-anda/tracker', PesananAndaTracker::class)
+            ->name('pesanan_anda.tracker');
+
     });
 
-    Route::middleware('auth:pelanggan')->group(function () {
-        Route::post('/logout', [PelangganController::class, 'logout'])->name('logout');
-        Route::get('/dashboard', fn() => view('pelanggan.dashboard'))->name('dashboard');
-    });
 });
+
+Route::get('/login', Login::class)
+    ->middleware('guest:pelanggan')
+    ->name('login');
 
 // ============================================================================
 // PEKERJA ROUTES

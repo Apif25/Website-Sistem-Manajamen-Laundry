@@ -22,6 +22,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'role_or_permission' => RoleOrPermissionMiddleware::class,
             'pekerja.2fa' => \App\Http\Middleware\TwoFactorMiddleware::class,
             'access.code.exists' => \App\Http\Middleware\EnsureAccessCodeExists::class,
+            'auth.pelanggan' =>\App\Http\Middleware\Authenticate::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

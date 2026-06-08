@@ -13,9 +13,14 @@
     <link rel="stylesheet" href="{{ asset('templates/frontend/assets/compiled/css/tracker.css') }}">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 
+    <link rel="icon" type="image/png" href="{{ asset('img/icon/Favicon.jpeg') }}">
+
 @livewireStyles
 </head>
-<body>
+
+<body x-data="{ openLogin: {{ session()->has('open_login_modal') ? 'true' : 'false' }} }"
+      @login-success.window="openLogin = false">
+
 <div id="navigasi">
     @include('frontend.layouts.navigasi')
 </div>
@@ -26,8 +31,6 @@
 </main>
 
 @include('frontend.layouts.footer')
-
-@include('livewire.frontend.form.loginpopup')
 @include('livewire.frontend.form.orderform')
 
 <script src="{{ asset('templates/frontend/assets/compiled/js/navigasi.js') }}"></script>

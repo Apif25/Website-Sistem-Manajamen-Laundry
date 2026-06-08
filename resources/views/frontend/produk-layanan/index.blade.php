@@ -1,5 +1,5 @@
 <div class="split-container">
-    <a href="{{ route('produk') }}" class="split-card card-produk">
+    <a href="{{ route('pelanggan.produk') }}" class="split-card card-produk" wire:navigate>
         <img src="{{ asset('img/produk & layanan/Produk.png') }}" alt="Produk">
         <div class="content">
             <h1>PRODUK</h1>
@@ -7,7 +7,7 @@
         </div>
     </a>
     
-    <a href="{{ route('layanan') }}" class="split-card card-layanan">
+    <a href="{{ route('pelanggan.layanan') }}" class="split-card card-layanan" wire:navigate>
         <img src="{{ asset('img/produk & layanan/Layanan.png') }}" alt="Layanan">
         <div class="content">
             <h1>LAYANAN</h1>

@@ -17,7 +17,7 @@ class RedirectIfAuthenticated
         foreach ($guards as $guard) {
             if ($guard && Auth::guard($guard)->check()) {
                 return match ($guard) {
-                    'pelanggan' => redirect()->route('pelanggan.dashboard'),
+                    'pelanggan' => redirect()->route('pelanggan.beranda'),
                     'pekerja'   => redirect()->route('pekerja.dashboard'),
                     default     => redirect('/'),
                 };

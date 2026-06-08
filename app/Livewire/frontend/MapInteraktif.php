@@ -10,7 +10,6 @@ class MapInteraktif extends Component
 
     public function mount()
     {
-        // Menyediakan data lokasi default (laundry hub/store locations)
         $this->locations = [
             [
                 'name' => 'Kelana Laundry - Pusat Bekasi',
