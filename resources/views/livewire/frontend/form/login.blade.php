@@ -1,8 +1,10 @@
 <div class="login-page-container">
-    <div class="login-box">
-        <h2>LOGIN PELANGGAN</h2>
+    <div class="login-card">
 
-        <div class="login-body">
+        <!-- KIRI : FORM LOGIN -->
+        <div class="login-left">
+            <h2>LOGIN</h2>
+
             <form wire:submit.prevent="login">
 
                 <div class="input-group">
@@ -29,25 +31,32 @@
 
                 <div class="form-options">
                     <label class="remember-me">
-                        <input
-                            type="checkbox"
-                            wire:model="remember">
+                        <input type="checkbox" wire:model="remember">
                         <span>Ingat saya</span>
                     </label>
 
-                    <a href="#" class="forgot-password">Lupa Password</a>
+                    <a href="#" class="forgot-password">
+                        Lupa Password
+                    </a>
                 </div>
 
-                <button type="submit" class="btn-submit">MASUK</button>
+                <button type="submit" class="btn-submit">
+                    MASUK
+                </button>
 
-            </form>
-
-            <div class="login-footer">
-                <p>
+                <div class="login-footer">
                     Belum punya akun?
                     <a href="#">Buat akun</a>
-                </p>
-            </div>
+                </div>
+
+            </form>
         </div>
+
+        <!-- KANAN : GAMBAR -->
+        <div class="login-right">
+            <img src="{{ asset('img/login/Saki Rindo.jpg') }}"
+                 alt="Login Illustration">
+        </div>
+
     </div>
 </div>

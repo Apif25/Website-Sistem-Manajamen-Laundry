@@ -31,7 +31,7 @@
             </a>
         </li>
         <li class="nav-item nav-photo-profile">
-            <a href="#" class="photo-profile-link open-popup-login" wire:navigate>
+            <a href="{{ route('login') }}" class="photo-profile-link open-popup-login" wire:navigate>
                 <img src="{{ asset('img/icon/Profile.png') }}" alt="foto profil" class="photo-profile-icon">
             </a>
         </li>
@@ -72,7 +72,7 @@
     </ul>
 
     <div class="mobile-profile">
-    <a href="#" class="photo-profile-link open-popup-login" wire:navigate>
+    <a href="{{ route('login') }}" class="photo-profile-link open-popup-login" wire:navigate>
         <img src="{{ asset('img/icon/Profile.png') }}" alt="foto profil" class="mobile-profile-icon">
     </a>
     </div>

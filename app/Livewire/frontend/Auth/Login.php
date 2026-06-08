@@ -4,6 +4,8 @@ namespace App\Livewire\Frontend\Auth;
 
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
+use Livewire\Attributes\Layout;
+use Livewire\Attributes\Title;
 
 class Login extends Component
 {
@@ -33,6 +35,9 @@ class Login extends Component
         $this->addError('email', 'Email atau password salah.');
     }
 
+    // Mengatur layout file induk dan section tempat konten dirender
+    #[Layout('frontend.layouts.auth')] 
+    #[Title('Halaman Masuk Pelanggan')] // Mengatur variabel $title
     public function render()
     {
         return view('livewire.frontend.form.login');

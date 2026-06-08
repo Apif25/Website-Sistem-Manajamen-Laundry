@@ -6,20 +6,22 @@
     <title>Kelana Laundry</title>
     <link rel="stylesheet" href="{{ asset('templates/frontend/assets/compiled/css/navigasi.css') }}">
     <link rel="stylesheet" href="{{ asset('templates/frontend/assets/compiled/css/beranda.css') }}">
-    <link rel="stylesheet" href="{{ asset('templates/frontend/assets/compiled/css/formpopup.css') }}">
+    <link rel="stylesheet" href="{{ asset('templates/frontend/assets/compiled/css/orderpopup.css') }}">
     <link rel="stylesheet" href="{{ asset('templates/frontend/assets/compiled/css/footer.css') }}">
-    <link rel="stylesheet" href="{{ asset('templates/frontend/assets/compiled/css/Produk&Layanan.css') }}">
-    <link rel="stylesheet" href="{{ asset('templates/frontend/assets/compiled/css/Pesanan.css') }}">
+    <link rel="stylesheet" href="{{ asset('templates/frontend/assets/compiled/css/produk&layanan.css') }}">
+    <link rel="stylesheet" href="{{ asset('templates/frontend/assets/compiled/css/pesanan.css') }}">
+    <link rel="stylesheet" href="{{ asset('templates/frontend/assets/compiled/css/login.css') }}">
     <link rel="stylesheet" href="{{ asset('templates/frontend/assets/compiled/css/tracker.css') }}">
+
+
+
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 
     <link rel="icon" type="image/png" href="{{ asset('img/icon/Favicon.jpeg') }}">
 
 @livewireStyles
 </head>
-
-<body x-data="{ openLogin: {{ session()->has('open_login_modal') ? 'true' : 'false' }} }"
-      @login-success.window="openLogin = false">
+<body>
 
 <div id="navigasi">
     @include('frontend.layouts.navigasi')
@@ -30,8 +32,9 @@
     @yield('content')
 </main>
 
+<livewire:frontend.pemesanan.create-pemesanan-modal />
+
 @include('frontend.layouts.footer')
-@include('livewire.frontend.form.orderform')
 
 <script src="{{ asset('templates/frontend/assets/compiled/js/navigasi.js') }}"></script>
 <script src="{{ asset('templates/frontend/assets/compiled/js/popup.js') }}"></script>
