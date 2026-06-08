@@ -1,0 +1,212 @@
+.main-container {
+    max-width: 1100px;
+    margin: 80px 20px 50px 20px;
+}
+
+/* --- TABS NAVIGATION STYLES --- */
+.tabs-container {
+    display: flex;
+    gap: 8px;
+    background-color: transparent;
+    padding-left: 10px; /* Jarak geser dari sisi kiri */
+}
+
+.tab-btn-order {
+    padding: 14px 28px;
+    font-size: 15px;
+    font-weight: 600;
+    border: none;
+    border-radius: 16px 16px 0 0; /* Membuat lengkungan di atas saja sesuai gambar */
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s ease;
+}
+
+/* Efek saat Tab Aktif / Dipilih */
+.tab-btn-order.active {
+    background-color: #ffffff; /* Putih bersih menyatu dengan tabel bawah */
+    color: #0c7cd5; /* Teks jadi warna biru utama */
+}
+
+.tab-btn-order:not(.active) {
+    background-color: #258cd8;
+    color: #ffffff;
+}
+
+.tab-btn-order:not(.active):hover {
+    background-color: #3697db;
+}
+
+/* --- TABLE CONTENT WRAPPER --- */
+.table-content {
+    background-color: #ffffff;
+    padding: 24px;
+    border-radius: 0 16px 16px 16px; /* Sisi kiri atas tajam menyatu dengan tab aktif */
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+/* Menyembunyikan tabel yang tidak aktif secara default */
+.table-panel {
+    display: none;
+}
+
+/* Menampilkan tabel yang aktif */
+.table-panel.active {
+    display: block;
+}
+
+
+/* --- TABLE BASE STYLES --- */
+.table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.order-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    min-width: 750px;
+}
+
+.order-table th, 
+.order-table td {
+    padding: 14px 16px;
+    font-size: 14px;
+    vertical-align: middle;
+}
+
+.order-table thead tr {
+    background-color: #f8fafc;
+    border-bottom: 2px solid #e2e8f0;
+}
+
+.order-table th {
+    color: #64748b;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 11px;
+    letter-spacing: 0.5px;
+}
+
+.order-table tbody tr {
+    border-bottom: 1px solid #e2e8f0;
+    transition: background-color 0.2s ease;
+}
+
+.order-table tbody tr:hover {
+    background-color: #f8fafc;
+}
+
+.order-row {
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.order-row:hover {
+    background-color: #f5f5f5; /* Memberi warna background tipis saat di-hover */
+}
+
+.order-id {
+    font-weight: 600;
+    color: #0c7cd5;
+    text-decoration: none;
+}
+
+.customer-name {
+    font-weight: 500;
+    color: #1e293b;
+}
+
+/* --- BUTTON DETAIL --- */
+.btn-detail {
+    display: inline-block;
+    padding: 6px 14px;
+    background-color: #fff;
+    border: 1px solid #cbd5e1;
+    color: #475569;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.btn-detail:hover {
+    background-color: #0f172a;
+    color: #fff;
+    border-color: #0f172a;
+}
+
+/* --- RESPONSIVE STYLES (MEDIA QUERIES) --- */
+
+/* 1. Ukuran Layar Tablet (Maksimal 768px) */
+@media screen and (max-width: 768px) {
+    .main-container {
+        margin: 40px 15px 30px 15px; /* Mengurangi margin atas agar tidak terlalu kosong */
+    }
+
+    .tabs-container {
+        padding-left: 0; /* Meratakan tab dengan pinggiran konten pada layar kecil */
+        gap: 4px; /* Mempersempit jarak antar tab */
+    }
+
+    .tab-btn-order {
+        padding: 10px 16px; /* Mengecilkan ukuran tombol tab */
+        font-size: 13px;
+        border-radius: 12px 12px 0 0; /* Sedikit mengurangi kelengkungan */
+    }
+
+    .table-content {
+        padding: 16px; /* Mengurangi padding dalam agar area tabel lebih luas */
+        border-radius: 0 12px 12px 12px;
+    }
+    
+    .order-table th, 
+    .order-table td {
+        padding: 12px 10px; /* Sedikit mempersempit sel agar muat lebih banyak kolom */
+        font-size: 13px;
+    }
+}
+
+/* 2. Ukuran Layar HP/Mobile (Maksimal 480px) */
+@media screen and (max-width: 480px) {
+    .tabs-container {
+        /* Jika tab terlalu panjang, otomatis bisa di-scroll ke samping secara horizontal */
+        overflow-x: auto;
+        white-space: nowrap;
+        -webkit-overflow-scrolling: touch;
+        padding-bottom: 5px; /* Ruang untuk scrollbar halus jika muncul */
+    }
+
+    .tab-btn-order {
+        padding: 10px 14px;
+        font-size: 12px;
+        flex: 1 0 auto; /* Memastikan teks tab tidak terpotong (truncate) saat di-scroll */
+        justify-content: center;
+    }
+
+    /* Indikator visual bahwa tabel bisa digeser ke kanan/kiri */
+    .table-responsive {
+        position: relative;
+        border: 1px solid #e2e8f0;
+        border-radius: 8px;
+    }
+
+    .order-table th {
+        font-size: 10px;
+        letter-spacing: 0px;
+    }
+
+    .order-table td {
+        font-size: 12px;
+    }
+    
+    /* Mengoptimalkan ukuran tombol aksi di HP jika ada */
+    .btn-detail {
+        padding: 4px 10px;
+        font-size: 11px;
+    }
+}

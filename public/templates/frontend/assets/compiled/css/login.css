@@ -1,0 +1,229 @@
+/* Menggunakan font modern agar tampilan bersih */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Container utama memenuhi seluruh layar */
+.login-page-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f8f9fa; /* Warna latar belakang luar */
+}
+
+/* Card pembungkus form dan gambar */
+.login-card {
+    display: flex;
+    width: 100%;
+    max-width: 1100px; /* Diperlebar sedikit agar gambar mendapatkan ruang lebih besar */
+    min-height: 600px; /* MENENTUKAN PANJANG/TINGGI DEFAULT MINIMUM CARD */
+    background: #ffffff;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+/* ==========================================
+   KIRI : FORM LOGIN (DIBUAT LEBIH KECIL)
+   ========================================== */
+.login-left {
+    flex: 1; /* Rasio lebih kecil dari gambar */
+    padding: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+/* Tulisan "LOGIN" */
+.login-left h2 {
+    color: #3b82f6; /* Warna biru sesuai gambar */
+    font-size: 36px;
+    font-weight: 500;
+    text-align: center;
+    margin-bottom: 40px;
+    letter-spacing: 1px;
+}
+
+/* Wrapper per input field */
+.input-group {
+    margin-bottom: 20px;
+    position: relative;
+}
+
+/* Styling Input Email & Password */
+.input-group input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid #93c5fd; /* Border biru muda halus */
+    border-radius: 6px;
+    font-size: 14px;
+    color: #333;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.input-group input:focus {
+    border-color: #3b82f6;
+}
+
+/* Placeholder berwarna agak tipis */
+.input-group input::placeholder {
+    color: #94a3b8;
+}
+
+/* Error message dari Livewire */
+.text-danger {
+    color: #ef4444;
+    font-size: 12px;
+    margin-top: 4px;
+    display: block;
+}
+
+/* Baris opsi: Ingat Saya & Lupa Password */
+.form-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    font-size: 14px;
+}
+
+/* Checkbox 'Ingat saya' */
+.remember-me {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #64748b;
+    cursor: pointer;
+}
+
+.remember-me input {
+    cursor: pointer;
+    accent-color: #3b82f6;
+}
+
+/* Link 'Lupa Password' & 'Buat akun' warna Orange */
+.forgot-password, 
+.login-footer a {
+    color: #f97316; /* Warna orange hangat */
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.forgot-password:hover, 
+.login-footer a:hover {
+    text-decoration: underline;
+}
+
+/* Tombol MASUK */
+.btn-submit {
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(135deg, #60a5fa, #3b82f6); /* Efek gradasi biru lembut */
+    border: none;
+    border-radius: 30px; /* Membuat tombol berbentuk melengkung lonjong (pill) */
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    letter-spacing: 1px;
+    transition: opacity 0.2s;
+    margin-bottom: 40px;
+}
+
+.btn-submit:hover {
+    opacity: 0.9;
+}
+
+/* Footer teks bawah */
+.login-footer {
+    text-align: center;
+    font-size: 14px;
+    color: #64748b;
+}
+
+/* ==========================================
+   KANAN : GAMBAR ILLUSTRASI (LEBIH BESAR & TENGAH)
+   ========================================== */
+.login-right {
+    flex: 1.6; /* GAMBAR LEBIH BESAR DARIPADA FORM (Rasio form 1 : gambar 1.6) */
+    position: relative;
+    background-color: #000; /* Fallback warna hitam */
+    height: 100%;
+}
+
+.login-right img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Memastikan gambar terpotong rapi tanpa merusak aspek rasio */
+    object-position: center; /* FOKUS GAMBAR SELALU MENGARAH KE TENGAH */
+    display: block;
+}
+
+/* ==========================================
+   RESPONSIVE UNTUK LAYAR HANDPHONE / TABLET
+   ========================================== */
+@media (max-width: 768px) {
+    /* Menghilangkan padding luar screen agar card bisa pas dengan ukuran HP */
+    .login-page-container {
+        padding: 10px;
+    }
+
+    .login-card {
+        flex-direction: column;
+        margin: 0;
+        width: 100%;
+        min-height: 100vh; /* Membuat card setinggi layar HP penuh */
+        border-radius: 8px;
+        
+        /* 1. JADIKAN GAMBAR SEBAGAI BACKGROUND CARD */
+        background-image: url('/public/img/login/Saki\ Rindo.jpg'); /* Sesuaikan path folder image kamu */
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        position: relative;
+    }
+
+    /* 2. SEMBUNYIKAN DIV KANAN ASLINYA AGAR TIDAK DOUBLE */
+    .login-right {
+        display: none; 
+    }
+
+    /* 3. ATUR FORM LOGIN AGAR TRANSPARAN DAN BERADA DI ATAS BACKGROUND */
+    .login-left {
+        flex: 1;
+        width: 100%;
+        padding: 30px 20px; /* Padding diperkecil agar pas di HP kecil (320px) */
+        
+        /* Efek background putih transparan (Glassmorphism) agar teks form login tetap terbaca jelas */
+        background: rgba(255, 255, 255, 0.85); 
+        backdrop-filter: blur(4px); /* Efek blur halus di belakang form */
+        -webkit-backdrop-filter: blur(4px);
+        
+        justify-content: center;
+        align-items: stretch;
+    }
+
+    /* Menyesuaikan ukuran judul LOGIN agar lebih pas di HP */
+    .login-left h2 {
+        font-size: 28px;
+        margin-bottom: 25px;
+    }
+
+    /* Mengatur jarak opsi bawah agar tidak terlalu renggang di layar sempit */
+    .form-options {
+        margin-bottom: 20px;
+        font-size: 13px;
+    }
+
+    .btn-submit {
+        padding: 12px;
+        margin-bottom: 25px;
+    }
+}

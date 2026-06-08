@@ -1,0 +1,450 @@
+/* Reset & Font Styling */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+}
+
+/* Tombol Close (X) Merah Terang */
+.btn-close {
+    position: absolute;
+    top: 50%;
+    right: 24px;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: #FF1E56; /* Merah terang cerah sesuai rekomendasi */
+    font-size: 40px;
+    font-weight: bold;
+    cursor: pointer;
+    line-height: 1;
+    transition: transform 0.2s;
+}
+
+.btn-close:hover {
+    transform: translateY(-50%) scale(1.2);
+}
+
+/* Bagian Body Form */
+.popup-body {
+    padding: 32px 24px;
+}
+
+.input-group {
+    margin-bottom: 20px;
+}
+
+/* Styling Input Field */
+.input-group input {
+    width: 100%;
+    padding: 14px 16px;
+    border: 1.5px solid #5B9FD6;
+    border-radius: 8px;
+    font-size: 14px;
+    color: #333333;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.input-group input::placeholder {
+    color: #73A6D6;
+}
+
+.input-group input:focus {
+    border-color: #2B82C9;
+    box-shadow: 0 0 0 3px rgba(43, 130, 201, 0.15);
+}
+
+/*select
+/* Samakan Select dengan Input Layanan Antar Jemput */
+.order-input-group select {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1.5px solid #8abceb;
+    border-radius: 8px;
+    font-size: 14px;
+    color: #2B82C9;
+    outline: none;
+    background-color: #ffffff;
+    cursor: pointer;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    
+    /* Hilangkan panah default bawaan Windows/Chrome/Safari */
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    
+    /* Tambahkan panah custom minimalis warna biru */
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%232B82C9' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'></polyline></svg>");
+    background-repeat: no-repeat;
+    background-position: right 16px center;
+    background-size: 16px;
+    padding-right: 40px; /* Supaya teks pilihan tidak menabrak panah */
+}
+
+/* Efek Focus saat Dropdown diklik */
+.order-input-group select:focus {
+    border-color: #2B82C9;
+    box-shadow: 0 0 0 3px rgba(43, 130, 201, 0.15);
+}
+
+/* Tombol MASUK (Biru Gradasi Oval) */
+.btn-submit {
+    width: 80%;
+    display: block;
+    margin: 0 auto 32px auto;
+    padding: 14px;
+    background: linear-gradient(180deg, #FF5E1A 0%, #FF9E66 100%);    border: none;
+    border-radius: 25px; /* Membuat bentuk kapsul/oval */
+    color: #ffffff;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0px 4px 10px rgba(59, 130, 246, 0.3);
+    transition: opacity 0.2s;
+}
+
+.btn-submit:hover {
+    opacity: 0.9;
+}
+
+/* Bagian Footer */
+.popup-footer {
+    text-align: center;
+    font-size: 14px;
+    color: #3B82F6;
+}
+
+.popup-footer a {
+    color: #FF7A00; /* Warna Oranye sesuai gambar */
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.popup-footer a:hover {
+    text-decoration: underline;
+}
+
+/* Latar belakang gelap di luar kotak login */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Hitam transparan */
+    display: none; /* Sembunyi secara default */
+    justify-content: center;
+    align-items: center;
+    z-index: 9999; /* Agar berada di layer paling atas */
+}
+
+/* Ketika class 'show' ditambahkan oleh JavaScript */
+.modal-overlay.show {
+    display: flex;
+}
+
+/* ========================================== */
+/* LAYANAN ANTAR JEMPUT POPUP STYLING        */
+/* ========================================== */
+
+/* Main Popup Container */
+.order-popup {
+    width: 90%;
+    max-width: 440px; 
+    background-color: #ffffff;
+    border-radius: 20px; 
+    overflow: hidden;
+    box-shadow: 0px 15px 40px rgba(0, 0, 0, 0.15);
+    position: relative;
+    animation: popupFadeIn 0.3s ease-out;
+}
+
+@keyframes popupFadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Close Button for Order Popup */
+.btn-close-order {
+    position: absolute;
+    top: 30px; 
+    right: 15px;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: #FF1E56; 
+    font-size: 30px; 
+    font-weight: bold;
+    cursor: pointer;
+    line-height: 1;
+    transition: transform 0.2s;
+    z-index: 10;
+}
+
+.btn-close-order:hover {
+    transform: translateY(-50%) scale(1.1);
+}
+
+/* Header */
+.order-popup-header {
+    background-color: #2B82C9;
+    padding: 24px 20px 16px 20px; 
+    text-align: center;
+}
+
+.header-title-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.truck-icon {
+    width: 64px; 
+    height: 64px;
+    object-fit: contain;
+}
+
+.header-title-text {
+    color: #ffffff;
+    font-size: 18px; 
+    font-weight: bold;
+    letter-spacing: 0.5px;
+}
+
+/* Tabs Switcher */
+.order-tabs {
+    display: flex;
+    justify-content: center;
+    background-color: #2B82C9;
+    padding: 0 20px; 
+    gap: 8px;
+}
+
+.tab-btn {
+    flex: 1;
+    max-width: 140px; 
+    height: 40px; 
+    border: none;
+    font-size: 14px; 
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-top-left-radius: 15px; 
+    border-top-right-radius: 15px;
+}
+
+.tab-btn.active {
+    background-color: #ffffff;
+    color: #2B82C9;
+}
+
+.tab-btn:not(.active) {
+    background-color: #92BCE3;
+    color: #3E77B6;
+}
+
+.tab-btn:not(.active):hover {
+    background-color: #a4c9eb;
+}
+
+/* Body */
+.order-popup-body {
+    background-color: #ffffff;
+    padding: 24px; 
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+    animation: tabFadeIn 0.3s ease;
+}
+
+@keyframes tabFadeIn {
+    from { opacity: 0; transform: translateY(5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Form Styles */
+.order-input-group {
+    margin-bottom: 16px; 
+    display: flex;
+    flex-direction: column;
+}
+
+.order-input-group label {
+    color: #2B82C9;
+    font-weight: bold;
+    font-size: 14px; 
+    margin-bottom: 6px;
+    text-align: left;
+}
+
+.order-input-group input,
+.order-input-group select {
+    width: 100%;
+    padding: 10px 14px; 
+    border: 1.5px solid #8abceb;
+    border-radius: 8px; 
+    font-size: 13px; 
+    color: #2B82C9;
+    outline: none;
+    background-color: #ffffff;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.order-input-group input::placeholder {
+    color: #a5c9f2;
+}
+
+.order-input-group input:focus,
+.order-input-group select:focus {
+    border-color: #2B82C9;
+    box-shadow: 0 0 0 3px rgba(43, 130, 201, 0.15);
+}
+
+/* Input Grid */
+.order-input-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px; 
+}
+
+/* Form Footer */
+.order-form-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 24px; 
+    gap: 12px;
+}
+
+.btn-ketentuan {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    color: #2B82C9;
+    font-weight: bold;
+    font-size: 13px; 
+    transition: opacity 0.2s;
+}
+
+/* KUNCI UTAMA: Memaksa ikon biru besar menyusut proporsional */
+.btn-ketentuan img {
+    width: 18px !important;
+    height: 18px !important;
+    object-fit: contain;
+    flex-shrink: 0;
+}
+
+.btn-ketentuan:hover {
+    opacity: 0.8;
+}
+
+.btn-submit-order {
+    background-color: #FF5E1A; 
+    color: #ffffff;
+    border: none;
+    padding: 10px 28px; 
+    border-radius: 8px;
+    font-size: 14px; 
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+}
+
+.btn-submit-order:hover {
+    background-color: #e55315;
+}
+
+.btn-submit-order:active {
+    transform: scale(0.98);
+}
+
+/* QR Code Container (Whatsapp) */
+.qr-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 8px 0 16px 0;
+}
+
+.qr-card {
+    background-color: #ffffff;
+    padding: 16px; 
+    border-radius: 16px; 
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+    border: 1px solid #f0f0f0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 200px; 
+    height: 200px; 
+    transition: transform 0.3s ease;
+}
+
+.qr-card:hover {
+    transform: translateY(-3px);
+}
+
+.qr-code {
+    width: 100%;
+    height: 100%;
+}
+
+/* ========================================== */
+/* ONE & ONLY RESPONSIVE OVERRIDES (MOBILE)   */
+/* ========================================== */
+@media (max-width: 480px) {
+
+    .header-title-text {
+    color: #ffffff;
+    font-size: 12px; 
+    font-weight: bold;
+    letter-spacing: 0.5px;
+    }
+
+    .order-input-grid {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+    .order-popup {
+        border-radius: 16px;
+        width: 95%; 
+    }
+    .tab-btn {
+        font-size: 13px;
+        height: 36px;
+    }
+    .order-popup-body {
+        padding: 16px;
+    }
+    .order-form-footer {
+        flex-direction: column-reverse; /* Tombol kirim di atas, ketentuan di bawah agar jempol mudah menjangkau */
+        gap: 14px;
+        align-items: stretch;
+        text-align: center;
+    }
+    .btn-ketentuan {
+        justify-content: center;
+    }
+    .btn-submit-order {
+        width: 100%;
+        padding: 12px;
+    }
+}
