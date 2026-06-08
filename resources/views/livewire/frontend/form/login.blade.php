@@ -54,7 +54,7 @@
 
         <!-- KANAN : GAMBAR -->
         <div class="login-right">
-            <img src="{{ asset('img/login/Saki Rindo.jpg') }}"
+            <img src="{{ asset('img/login/login frontend.jpg') }}"
                  alt="Login Illustration">
         </div>
 
