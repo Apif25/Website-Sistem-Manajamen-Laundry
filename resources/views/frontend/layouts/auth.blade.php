@@ -11,9 +11,11 @@
     <title>{{ $title ?? 'Login' }}</title>
 
     <link rel="stylesheet" href="{{ asset('templates/frontend/assets/compiled/css/login.css') }}">
+    <link rel="icon" type="image/png" href="{{ asset('img/icon/Favicon.jpeg') }}">
         
     {{-- RECAPTCHA --}}
     <script src="https://www.google.com/recaptcha/api.js?onload=onRecaptchaLoad&render=explicit" async defer></script>
+
 
     {{-- LIVEWIRE --}}
     @livewireStyles

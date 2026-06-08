@@ -1,8 +1,4 @@
 <div>
-    <button wire:click="open" class="btn-open-order">
-        Pesan Sekarang
-    </button>
-
     @if($isOpen)
         <div class="modal-overlay" id="orderModal" style="display: flex;">
             <div class="order-popup">

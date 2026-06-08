@@ -7,7 +7,7 @@
             </a>
         </li>
         <li class="nav-item">
-            <a href="" class="nav-link open-order-popup">
+            <a onclick="Livewire.dispatch('openOrderModal')" class="nav-link open-order-popup">
                 <img src="{{ asset('img/icon/Van.png') }}" alt="Antar Jemput" class="nav-icon">
                 <span class="nav-text">ANTAR JEMPUT</span>
             </a>
@@ -40,7 +40,7 @@
 <!-- Responsive navigasi -->
     <ul class="bottom-navbar">
         <li class="nav-item">
-            <a href="" class="nav-link open-order-popup">
+            <a href="javascript:void(0)" onclick="Livewire.dispatch('openOrderModal')" class="nav-link open-order-popup">
                 <img src="{{ asset('img/icon/Van.png') }}" alt="Antar Jemput" class="nav-icon">
                 <span class="nav-text">ANTAR JEMPUT</span>
             </a>

@@ -40,6 +40,11 @@
                     </a>
                 </div>
 
+                <div id="google-recaptcha" class="mb-4" wire:ignore>
+                    <div class="g-recaptcha captcha-scale" data-sitekey="{{ config('recaptcha.site_key') }}" data-callback="setCaptchaToken"></div>
+                </div>
+                @error('captcha') <span class="text-danger text-sm">{{ $message }}</span> @enderror
+
                 <button type="submit" class="btn-submit">
                     MASUK
                 </button>
@@ -60,3 +65,21 @@
 
     </div>
 </div>
+
+@push('scripts')
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+<script>
+    // Sekarang aman digunakan karena berada langsung di dalam scope komponen login
+    function setCaptchaToken(token) {
+        @this.set('captcha', token);
+    }
+
+    document.addEventListener('livewire:init', () => {
+        Livewire.on('reset-recaptcha', () => {
+            if (typeof grecaptcha !== 'undefined') {
+                grecaptcha.reset();
+            }
+        });
+    });
+</script>
+@endpush

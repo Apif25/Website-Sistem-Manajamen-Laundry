@@ -32,8 +32,7 @@
     @yield('content')
 </main>
 
-<livewire:frontend.pemesanan.create-pemesanan-modal />
-
+@livewire('frontend.pemesanan.create-pemesanan-modal')
 @include('frontend.layouts.footer')
 
 <script src="{{ asset('templates/frontend/assets/compiled/js/navigasi.js') }}"></script>

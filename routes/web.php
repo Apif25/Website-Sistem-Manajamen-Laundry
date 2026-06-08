@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\PelangganController;
 use App\Http\Controllers\PemesananController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
