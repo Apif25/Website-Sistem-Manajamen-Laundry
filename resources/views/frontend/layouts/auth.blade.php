@@ -11,6 +11,7 @@
     <title>{{ $title ?? 'Login' }}</title>
 
     <link rel="stylesheet" href="{{ asset('templates/frontend/assets/compiled/css/login.css') }}">
+    <link rel="stylesheet" href="{{ asset('templates/frontend/assets/compiled/css/register.css') }}">
     <link rel="icon" type="image/png" href="{{ asset('img/icon/Favicon.jpeg') }}">
         
     {{-- RECAPTCHA --}}
