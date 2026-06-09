@@ -16,18 +16,28 @@ use Carbon\Carbon;
 #[Title('Halaman Pendaftaran Pelanggan')]
 class Register extends Component
 {
-    public $username;
+    // Properti untuk kontrol halaman/step
+    public $currentStep = 1;
+
+    // Properti Langkah 1 (Sesuai dengan wire:model di Blade Anda)
+    public $username; 
     public $email;
     public $password;
     public $password_confirmation;
     public $otp;
     public $terms = false;
 
-    // Aturan dasar yang digunakan untuk real-time validation (jika ada)
+    // Properti Langkah 2 (Sesuai dengan wire:model di Blade Anda)
+    public $no_telp;
+    public $jenis_kelamin;
+    public $alamat;
+
+    // Aturan dasar untuk real-time validation (hanya untuk Step 1)
     public function rules()
     {
         return [
-            'username' => 'required|min:3|unique:' . Pelanggan::class . ',username',
+            // Validasi unik diarahkan ke kolom 'nama_pelanggan' di database
+            'username' => 'required|min:3|unique:' . Pelanggan::class . ',nama_pelanggan',
             'email' => 'required|email|unique:' . Pelanggan::class . ',email',
             'password' => 'required|min:8|confirmed',
             'otp' => 'required|digits:6',
@@ -61,7 +71,6 @@ class Register extends Component
             Mail::to($this->email)->send(new SendOtpMail($generatedOtp));
             session()->flash('message', 'Kode OTP telah dikirim ke email ' . $this->email);
         } catch (\Exception $e) {
-            // Log error asli agar Anda bisa cek via `storage/logs/laravel.log` jika gagal
             logger($e->getMessage()); 
             session()->flash('error', 'Gagal mengirim email. Silakan cek konfigurasi mail server Anda.');
         }
@@ -69,32 +78,63 @@ class Register extends Component
 
     public function register()
     {
-        // 5. Validasi menyeluruh saat tombol Register ditekan
-        $this->validate();
+        // ================= JIKA USER BERADA DI STEP 1 =================
+        if ($this->currentStep == 1) {
+            $this->validate();
 
-        // 6. Validasi Kode OTP yang dimasukkan user
-        $otpCheck = DB::table('otps')
-            ->where('email', $this->email)
-            ->where('otp_code', $this->otp)
-            ->where('expires_at', '>', Carbon::now())
-            ->first();
+            // Validasi Kode OTP yang dimasukkan user
+            $otpCheck = DB::table('otps')
+                ->where('email', $this->email)
+                ->where('otp_code', $this->otp)
+                ->where('expires_at', '>', Carbon::now())
+                ->first();
 
-        if (!$otpCheck) {
-            $this->addError('otp', 'Kode OTP salah atau sudah kedaluwarsa!');
+            if (!$otpCheck) {
+                $this->addError('otp', 'Kode OTP salah atau sudah kedaluwarsa!');
+                return;
+            }
+
+            // Lanjut ke step 2
+            $this->currentStep = 2;
             return;
         }
 
-        // 7. Logika simpan user ke tabel pelanggan
-        Pelanggan::create([
-            'username' => $this->username,
-            'email' => $this->email,
-            'password' => Hash::make($this->password),
-        ]);
+        // ================= JIKA USER BERADA DI STEP 2 =================
+        if ($this->currentStep == 2) {
+            // Validasi inputan step 2 (menggunakan nama properti Livewire)
+            $this->validate([
+                'no_telp'       => 'required|numeric|digits_between:10,14',
+                'jenis_kelamin' => 'required|in:Pria,Wanita',
+                'alamat'        => 'required|min:10',
+            ], [
+                'no_telp.required'       => 'Nomor telepon wajib diisi.',
+                'no_telp.numeric'        => 'Nomor telepon harus berupa angka.',
+                'jenis_kelamin.required' => 'Jenis kelamin wajib dipilih.',
+                'jenis_kelamin.in'       => 'Pilihan jenis kelamin tidak valid.',
+                'alamat.required'        => 'Alamat wajib diisi.',
+                'alamat.min'             => 'Alamat minimal harus terdiri dari 10 karakter.',
+            ]);
 
-        // Hapus OTP setelah sukses
-        DB::table('otps')->where('email', $this->email)->delete();
+            // Logika simpan dengan pemetaan ke kolom asli database (Model Pelanggan)
+            Pelanggan::create([
+                'nama_pelanggan' => $this->username, // Memetakan $username ke kolom nama_pelanggan
+                'email'          => $this->email,
+                'password'       => Hash::make($this->password), 
+                'no_telepon'     => $this->no_telp,  // Memetakan $no_telp ke kolom no_telepon
+                'jenis_kelamin'  => $this->jenis_kelamin,
+                'alamat'         => $this->alamat,
+            ]);
 
-        return redirect()->route('login')->with('success', 'Pendaftaran berhasil!');
+            // Hapus OTP setelah sukses
+            DB::table('otps')->where('email', $this->email)->delete();
+
+            return redirect()->route('login')->with('success', 'Pendaftaran berhasil!');
+        }
+    }
+
+    public function backToStepOne()
+    {
+        $this->currentStep = 1;
     }
 
     public function render()
