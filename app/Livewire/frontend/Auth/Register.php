@@ -11,8 +11,9 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\SendOtpMail;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\RateLimiter;
 
-#[Layout('frontend.layouts.auth')] 
+#[Layout('frontend.layouts.auth')]
 #[Title('Halaman Pendaftaran Pelanggan')]
 class Register extends Component
 {
@@ -20,7 +21,7 @@ class Register extends Component
     public $currentStep = 1;
 
     // Properti Langkah 1 (Sesuai dengan wire:model di Blade Anda)
-    public $username; 
+    public $username;
     public $email;
     public $password;
     public $password_confirmation;
@@ -47,6 +48,22 @@ class Register extends Component
 
     public function sendOtp()
     {
+        // Rate Limit: maksimal 3 kali dalam 5 menit per email
+        $key = 'send-otp:' . $this->email;
+
+        if (RateLimiter::tooManyAttempts($key, 3)) {
+            $seconds = RateLimiter::availableIn($key);
+
+            session()->flash(
+                'error',
+                'Terlalu banyak permintaan OTP. Silakan coba lagi dalam ' . ceil($seconds / 60) . ' menit.'
+            );
+
+            return;
+        }
+
+        RateLimiter::hit($key, 300); // 300 detik = 5 menit
+
         // 1. Validasi khusus email Saja secara ketat sebelum kirim OTP
         $this->validate([
             'email' => 'required|email|unique:' . Pelanggan::class . ',email',
@@ -57,7 +74,7 @@ class Register extends Component
 
         // 3. Simpan ke database 'otps'
         DB::table('otps')->where('email', $this->email)->delete();
-        
+
         DB::table('otps')->insert([
             'email' => $this->email,
             'otp_code' => $generatedOtp,
@@ -69,13 +86,20 @@ class Register extends Component
         // 4. Kirim Email dengan try-catch yang lebih aman
         try {
             Mail::to($this->email)->send(new SendOtpMail($generatedOtp));
-            session()->flash('message', 'Kode OTP telah dikirim ke email ' . $this->email);
+
+            session()->flash(
+                'message',
+                'Kode OTP telah dikirim ke email ' . $this->email
+            );
         } catch (\Exception $e) {
-            logger($e->getMessage()); 
-            session()->flash('error', 'Gagal mengirim email. Silakan cek konfigurasi mail server Anda.');
+            logger($e->getMessage());
+
+            session()->flash(
+                'error',
+                'Gagal mengirim email. Silakan cek konfigurasi mail server Anda.'
+            );
         }
     }
-
     public function register()
     {
         // ================= JIKA USER BERADA DI STEP 1 =================
@@ -119,7 +143,7 @@ class Register extends Component
             Pelanggan::create([
                 'nama_pelanggan' => $this->username, // Memetakan $username ke kolom nama_pelanggan
                 'email'          => $this->email,
-                'password'       => Hash::make($this->password), 
+                'password'       => Hash::make($this->password),
                 'no_telepon'     => $this->no_telp,  // Memetakan $no_telp ke kolom no_telepon
                 'jenis_kelamin'  => $this->jenis_kelamin,
                 'alamat'         => $this->alamat,

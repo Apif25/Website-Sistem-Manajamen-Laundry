@@ -45,7 +45,7 @@
                         @error('otp') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                     <button type="button" wire:click="sendOtp" class="btn-kirim" wire:loading.attr="disabled">
-                        <span wire:loading.remove wire:target="sendOtp">Kirim</span>
+                        <span wire:loading.remove wire:target="sendOtp">Kirim OTP</span>
                         <span wire:loading wire:target="sendOtp">...</span>
                     </button>
                 </div>
