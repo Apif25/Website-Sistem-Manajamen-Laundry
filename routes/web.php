@@ -62,7 +62,9 @@ Route::get('/login', Login::class)
     ->middleware('guest:pelanggan')
     ->name('login');
 
-Route::get('/register', Register::class)->name('register');
+Route::get('/register', Register::class)
+    ->middleware('guest:pelanggan')
+    ->name('register');
 
 // ============================================================================
 // PEKERJA ROUTES

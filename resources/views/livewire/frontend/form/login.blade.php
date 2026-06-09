@@ -51,7 +51,7 @@
 
                 <div class="login-footer">
                     Belum punya akun?
-                    <a href="#">Buat akun</a>
+                    <a href="{{ asset('register') }}" wire:navigate>Buat akun</a>
                 </div>
 
             </form>

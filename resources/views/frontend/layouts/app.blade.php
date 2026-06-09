@@ -13,8 +13,6 @@
     <link rel="stylesheet" href="{{ asset('templates/frontend/assets/compiled/css/login.css') }}">
     <link rel="stylesheet" href="{{ asset('templates/frontend/assets/compiled/css/tracker.css') }}">
 
-
-
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 
     <link rel="icon" type="image/png" href="{{ asset('img/icon/Favicon.jpeg') }}">
