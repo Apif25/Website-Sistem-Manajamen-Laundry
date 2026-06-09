@@ -1,4 +1,4 @@
-<nav class="laundry-navbar">
+<nav class="laundry-navbar {{ auth('pelanggan')->check() ? 'user-logged-in' : '' }}">
     <ul class="nav-list">
         <li class="nav-item">
             <a href="{{ route('pelanggan.beranda') }}" class="nav-link" wire:navigate>
@@ -30,14 +30,31 @@
                 <span class="nav-text">TENTANG KAMI</span>
             </a>
         </li>
-        <li class="nav-item nav-photo-profile">
-            <a href="{{ route('login') }}" class="photo-profile-link open-popup-login" wire:navigate>
-                <img src="{{ asset('img/icon/Profile.png') }}" alt="foto profil" class="photo-profile-icon">
-            </a>
-        </li>
+        
+        @guest
+            <li class="nav-item nav-photo-profile nav-guest">
+                <a href="{{ route('login') }}" class="photo-profile-link open-popup-login" wire:navigate>
+                    <img src="{{ asset('img/icon/Profile.png') }}" alt="foto profil" class="photo-profile-icon">
+                </a>
+            </li>
+        @endguest
+
+        @auth('pelanggan')
+            <li class="nav-item nav-photo-profile dropdown-wrapper" x-data="{ open: false }" @click.away="open = false">
+                <button type="button" @click="open = !open" class="dropdown-trigger-btn">
+                    <img src="{{ asset('img/icon/Profile.png') }}" alt="foto profil" class="photo-profile-icon">
+                </button>
+        
+                <div class="dropdown-menu" x-show="open" x-transition style="display: none;">
+                    <a href="#" class="dropdown-item" wire:navigate>Profile</a>
+                    <button type="button" wire:click="logout" class="dropdown-item logout-btn">
+                        Logout
+                    </button>
+                </div>
+            </li>
+        @endauth
     </ul>
 
-<!-- Responsive navigasi -->
     <ul class="bottom-navbar">
         <li class="nav-item">
             <a href="javascript:void(0)" onclick="Livewire.dispatch('openOrderModal')" class="nav-link open-order-popup">
@@ -72,8 +89,25 @@
     </ul>
 
     <div class="mobile-profile">
-    <a href="{{ route('login') }}" class="photo-profile-link open-popup-login" wire:navigate>
-        <img src="{{ asset('img/icon/Profile.png') }}" alt="foto profil" class="mobile-profile-icon">
-    </a>
+        @guest
+            <a href="{{ route('login') }}" class="photo-profile-link open-popup-login nav-guest" wire:navigate>
+                <img src="{{ asset('img/icon/Profile.png') }}" alt="foto profil" class="mobile-profile-icon">
+            </a>
+        @endguest
+
+        @auth('pelanggan')
+            <div class="dropdown-wrapper" x-data="{ open: false }" @click.away="open = false">
+                <button type="button" @click="open = !open" class="dropdown-trigger-btn">
+                    <img src="{{ asset('img/icon/Profile.png') }}" alt="foto profil" class="mobile-profile-icon">
+                </button>
+        
+                <div class="dropdown-menu mobile-dropdown" x-show="open" x-transition style="display: none;">
+                    <a href="#" class="dropdown-item" wire:navigate>Profile</a>
+                    <button type="button" wire:click="logout" class="dropdown-item logout-btn">
+                        Logout
+                    </button>
+                </div>
+            </div>
+        @endauth
     </div>
 </nav>

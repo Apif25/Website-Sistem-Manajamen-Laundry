@@ -10,6 +10,7 @@ use Livewire\Attributes\Title;
 #[Title('Beranda')]
 class Beranda extends Component
 {
+    
     public function render()
     {
         return view('frontend.beranda.index');

@@ -49,7 +49,7 @@ class PelangganAuthService
      */
     public function logout(): void
     {
-        Auth::guard('Pelanggan')->logout();
+        Auth::guard('pelanggan')->logout();
 
         request()->session()->invalidate();
         request()->session()->regenerateToken();

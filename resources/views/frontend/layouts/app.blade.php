@@ -21,9 +21,7 @@
 </head>
 <body>
 
-<div id="navigasi">
-    @include('frontend.layouts.navigasi')
-</div>
+<livewire:frontend.navbar />
 
 <main class="main-content">
     {{ $slot ?? '' }}
