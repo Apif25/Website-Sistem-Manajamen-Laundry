@@ -1,0 +1,191 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Container utama dengan background gambar blur */
+.register-page-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    width: 100vw;
+    /* Ganti path gambar sesuai folder proyekmu */
+    background-image: url('/img/login/Saki Rindo.jpg'); 
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    padding: 20px;
+}
+
+/* Efek blur khusus untuk background luar tanpa memengaruhi isi card */
+.register-page-container::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: inherit;
+    filter: blur(10px) brightness(0.8); /* Efek blur dan sedikit digelapkan */
+    z-index: 1;
+}
+
+/* Card Register Utama */
+.register-card {
+    background: #ffffff;
+    width: 100%;
+    max-width: 550px; /* Lebar maksimal card agar proporsional */
+    padding: 50px 60px;
+    border-radius: 40px; /* Lengkungan besar di sudut sesuai gambar */
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+    position: relative;
+    z-index: 2; /* Menaikkan card di atas lapisan blur */
+}
+
+/* Judul REGISTER */
+.register-card h2 {
+    color: #4682b4; /* Warna biru soft steel */
+    font-size: 38px;
+    font-weight: 500;
+    text-align: center;
+    margin-bottom: 35px;
+    letter-spacing: 1px;
+}
+
+/* Wrapper Label dan Input */
+.input-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+/* Label Teks Input */
+.input-group label {
+    color: #4682b4;
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 6px;
+}
+
+/* Elemen Input */
+.input-group input, 
+.otp-row input {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid #4682b4; /* Border biru tipis halus */
+    border-radius: 6px;
+    font-size: 14px;
+    color: #333;
+    outline: none;
+    background-color: #ffffff;
+}
+
+/* Placeholder text styling */
+.input-group input::placeholder,
+.otp-row input::placeholder {
+    color: #94a3b8;
+    font-size: 13px;
+}
+
+/* Baris khusus OTP */
+.otp-row {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 25px;
+    align-items: center;
+}
+
+.otp-row input {
+    flex: 1; /* Mengisi sisa ruang */
+}
+
+/* Tombol Kirim OTP (Warna Orange) */
+.btn-kirim {
+    width: 100px;
+    padding: 10px 0;
+    background-color: #ff6611; /* Warna orange hangat cerah */
+    border: none;
+    border-radius: 6px;
+    color: white;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btn-kirim:hover {
+    background-color: #e55500;
+}
+
+/* Bagian Checkbox Syarat & Ketentuan */
+.terms-checkbox {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 35px;
+}
+
+.terms-checkbox input {
+    margin-top: 4px;
+    cursor: pointer;
+    accent-color: #3b82f6;
+}
+
+.terms-checkbox label {
+    font-size: 13px;
+    color: #4682b4;
+    line-height: 1.4;
+}
+
+.terms-checkbox label a {
+    color: #4682b4;
+    text-decoration: underline;
+}
+
+.terms-checkbox .required {
+    color: #ef4444; /* Bintang merah tanda wajib */
+    margin-left: 2px;
+}
+
+/* Tombol LANJUT Utama (Bentuk Pill Gradasi Biru) */
+.btn-lanjut {
+    display: block;
+    width: 65%; /* Tombol tidak full width, disesuaikan seperti gambar */
+    margin: 0 auto; /* Supaya posisinya di tengah */
+    padding: 12px;
+    background: linear-gradient(135deg, #5dade2, #3498db); /* Efek gradasi biru langit lembut */
+    border: none;
+    border-radius: 30px; /* Bentuk melengkung penuh (pill) */
+    color: white;
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+.btn-lanjut:hover {
+    opacity: 0.9;
+}
+
+/* ==========================================
+   RESPONSIVE LAYAR HP (DIBAWAH 768px)
+   ========================================== */
+@media (max-width: 576px) {
+    .register-card {
+        padding: 35px 25px;
+        border-radius: 25px;
+    }
+    
+    .register-card h2 {
+        font-size: 30px;
+    }
+
+    .otp-row {
+        gap: 10px;
+    }
+
+    .btn-lanjut {
+        width: 100%; /* Di HP diubah jadi full width agar lebih mudah ditekan */
+    }
+}

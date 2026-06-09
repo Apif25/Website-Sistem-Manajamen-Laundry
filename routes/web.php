@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\PelangganController;
 use App\Http\Controllers\PemesananController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -18,6 +17,7 @@ use App\Livewire\Pekerja\Auth\FirstPassword;
 
 use App\Livewire\Frontend\Beranda;
 use App\livewire\Frontend\Auth\Login;
+use App\Livewire\Frontend\Auth\Register;
 use App\Livewire\Frontend\ProdukLayanan\Index as ProdukLayananIndex;
 use App\Livewire\Frontend\ProdukLayanan\Produk;
 use App\Livewire\Frontend\ProdukLayanan\Layanan;
@@ -61,6 +61,8 @@ Route::prefix('pelanggan')->name('pelanggan.')->group(function () {
 Route::get('/login', Login::class)
     ->middleware('guest:pelanggan')
     ->name('login');
+
+Route::get('/register', Register::class)->name('register');
 
 // ============================================================================
 // PEKERJA ROUTES

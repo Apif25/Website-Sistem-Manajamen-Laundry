@@ -43,7 +43,6 @@ class CreatePemesananModal extends Component
 
     public function store()
     {
-        // Validasi input
         $this->validate([
             'jenis_pemesanan' => 'required|in:Satuan,Kiloan',
             'layanan_pemesanan' => 'required|in:Cepat,Biasa',
@@ -51,20 +50,24 @@ class CreatePemesananModal extends Component
             'tanggal_pemesanan' => 'required|date',
         ]);
 
-        // Simpan ke database
+        // 🔴 Perubahan di sini: Mengambil ID Pelanggan dari guard 'pelanggan' yang aktif
+        $idPelanggan = auth()->guard('pelanggan')->id();
+
+        // Proteksi: Jika belum login, jangan izinkan membuat pesanan
+        if (!$idPelanggan) {
+            $this->addError('jenis_pemesanan', 'Anda harus login terlebih dahulu.');
+            return;
+        }
+
         Pemesanan::create([
-            // Contoh mengambil id_pelanggan dari user yang login (sesuaikan dengan sistem Anda)
-            'id_pelanggan' => Auth::id() ?? 1, 
-            'jenis_pemesanan' => $this->jenis_pemesanan,
+            'id_pelanggan'      => $idPelanggan, // Menggunakan ID asli hasil login
+            'jenis_pemesanan'   => $this->jenis_pemesanan,
             'layanan_pemesanan' => $this->layanan_pemesanan,
-            'jumlah_brg' => $this->jumlah_brg,
+            'jumlah_brg'        => $this->jumlah_brg,
             'tanggal_pemesanan' => $this->tanggal_pemesanan,
         ]);
 
-        // Event opsional untuk refresh tabel di komponen lain atau memicu alert sukses
         $this->dispatch('pemesananCreated', 'Pemesanan berhasil dikirim!');
-
-        // Tutup modal
         $this->close();
     }
 
