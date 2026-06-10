@@ -10,35 +10,35 @@
 
     <div class="main-container">
         @if (session()->has('success'))
-            <div class="alert alert-success">
-                {{ session('success') }}
-            </div>
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
         @endif
 
         <form wire:submit.prevent="save" class="profile-form">
             <div class="profile-grid">
-                
+
                 <!-- KOLOM KIRI: DATA DIRI -->
                 <div class="profile-card">
                     <h3 class="card-title">Data Diri</h3>
-                    
+
                     <!-- Avatar Upload -->
                     <div class="avatar-upload-group">
                         <label class="avatar-label-title">Foto Profil :</label>
                         <div class="avatar-wrapper">
                             <label for="foto_profil" class="avatar-clickable-area">
                                 @if ($foto_profil && !$errors->has('foto_profil'))
-                                    <img src="{{ $foto_profil->temporaryUrl() }}" class="avatar-preview-img">
+                                <img src="{{ $foto_profil->temporaryUrl() }}" class="avatar-preview-img">
                                 @elseif ($foto_profil_existing)
-                                    <img src="{{ asset('storage/foto-pelanggan/' . $foto_profil_existing) }}" class="avatar-preview-img">
+                                <img src="{{ asset('storage/pelanggan/foto-pelanggan/' . $foto_profil_existing) }}" class="avatar-preview-img">
                                 @else
-                                    <div class="avatar-placeholder">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" viewBox="0 0 16 16">
-                                            <path d="M10.5 8.5a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
-                                            <path d="M2 4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V4zm5.354-1.146a.5.5 0 0 0-.708 0L1.146 8.354A1.5 1.5 0 0 0 1 9.414V12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V9.414a1.5 1.5 0 0 0-.414-1.06L9.354 2.854a.5.5 0 0 0-.708 0L5.354 6.146 7.354 2.854z"/>
-                                        </svg>
-                                        <span>PILIH FOTO</span>
-                                    </div>
+                                <div class="avatar-placeholder">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" viewBox="0 0 16 16">
+                                        <path d="M10.5 8.5a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
+                                        <path d="M2 4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V4zm5.354-1.146a.5.5 0 0 0-.708 0L1.146 8.354A1.5 1.5 0 0 0 1 9.414V12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V9.414a1.5 1.5 0 0 0-.414-1.06L9.354 2.854a.5.5 0 0 0-.708 0L5.354 6.146 7.354 2.854z" />
+                                    </svg>
+                                    <span>PILIH FOTO</span>
+                                </div>
                                 @endif
 
                                 <div class="avatar-hover-overlay">
@@ -52,9 +52,9 @@
                         <div wire:loading wire:target="foto_profil" class="avatar-loading-text">
                             <span>⏳</span> Memproses gambar...
                         </div>
-                        
-                        @error('foto_profil') 
-                            <span class="text-danger avatar-error-text">{{ $message }}</span> 
+
+                        @error('foto_profil')
+                        <span class="text-danger avatar-error-text">{{ $message }}</span>
                         @enderror
                     </div>
 
@@ -113,7 +113,7 @@
                         <select wire:model.live="province_id" class="select-field">
                             <option value="">-- Pilih Provinsi --</option>
                             @foreach($provinces as $prov)
-                                <option value="{{ $prov->id }}">{{ $prov->name }}</option>
+                            <option value="{{ $prov->id }}">{{ $prov->name }}</option>
                             @endforeach
                         </select>
                         @error('province_id') <span class="text-danger">{{ $message }}</span> @enderror
@@ -124,7 +124,7 @@
                         <select wire:model.live="regency_id" class="select-field">
                             <option value="">-- Pilih Kota/Kabupaten --</option>
                             @foreach($regencies as $reg)
-                                <option value="{{ $reg->id }}">{{ $reg->name }}</option>
+                            <option value="{{ $reg->id }}">{{ $reg->name }}</option>
                             @endforeach
                         </select>
                         @error('regency_id') <span class="text-danger">{{ $message }}</span> @enderror
@@ -135,7 +135,7 @@
                         <select wire:model="district_id" class="select-field">
                             <option value="">-- Pilih Kecamatan --</option>
                             @foreach($districts as $dist)
-                                <option value="{{ $dist->id }}">{{ $dist->name }}</option>
+                            <option value="{{ $dist->id }}">{{ $dist->name }}</option>
                             @endforeach
                         </select>
                         @error('district_id') <span class="text-danger">{{ $message }}</span> @enderror

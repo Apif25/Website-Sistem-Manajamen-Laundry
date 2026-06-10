@@ -40,8 +40,14 @@ class Create extends Component
 
         if ($pemesanan) {
             $this->id_pelanggan = $pemesanan->id_pelanggan;
+
+            // Ambil dari tabel Pemesanan
+            $this->jenis_pesanan = $pemesanan->jenis_pemesanan;
+            $this->layanan_pesanan = $pemesanan->layanan_pemesanan;
         } else {
             $this->id_pelanggan = '';
+            $this->jenis_pesanan = '';
+            $this->layanan_pesanan = '';
         }
     }
 

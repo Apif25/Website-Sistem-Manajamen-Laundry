@@ -79,7 +79,7 @@
                         <tr>
                             <th width="5%">ID</th>
                             <th>Nama Pelanggan</th>
-                            <th>Jenis Pemesanan</th>
+                            <th>Jenis</th>
                             <th>Layanan</th>
                             <th>Jumlah Brg</th>
                             <th>Tanggal</th>
