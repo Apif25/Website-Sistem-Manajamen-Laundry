@@ -282,10 +282,15 @@ html, body {
         margin-left: 0 !important;      
         width: 100% !important;
         height: auto !important;
-        font-size: 10px !important;      
+        font-size: 8px !important;      
         font-weight: 700 !important;
         text-align: center !important;
-        color: #1e70c5 !important;      
+        color: #1e70c5 !important;
+
+        /* KUNCI UTAMA AGAR TEKS TURUN KE BAWAH */
+        white-space: normal !important;       /* Mengizinkan teks membuat baris baru */
+        word-wrap: break-word !important;     /* Memutus kata yang terlalu panjang agar tidak keluar batas */
+        overflow-wrap: break-word !important; /* Standar modern untuk memutus kata */
     }
     
     .bottom-navbar .nav-link::after {

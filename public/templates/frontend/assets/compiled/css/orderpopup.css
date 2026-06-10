@@ -1,4 +1,6 @@
-/* Reset & Font Styling */
+/* ========================================== */
+/* RESET & GENERAL STYLING                    */
+/* ========================================== */
 * {
     box-sizing: border-box;
     margin: 0;
@@ -6,7 +8,34 @@
     font-family: 'Arial', sans-serif;
 }
 
-/* Tombol Close (X) Merah Terang */
+/* ========================================== */
+/* GENERAL MODAL OVERLAY                      */
+/* ========================================== */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Hitam transparan */
+    display: none; /* Sembunyi secara default */
+    justify-content: center;
+    align-items: center;
+    z-index: 9999; /* Layer paling atas */
+    
+    /* FITUR SCROLL: Mengizinkan overlay di-scroll jika modal terlalu tinggi */
+    overflow-y: auto;
+    padding: 20px 0;
+}
+
+/* Ketika class 'show' ditambahkan oleh JavaScript */
+.modal-overlay.show {
+    display: flex;
+}
+
+/* ========================================== */
+/* LOGIN POPUP STYLING                        */
+/* ========================================== */
 .btn-close {
     position: absolute;
     top: 50%;
@@ -14,7 +43,7 @@
     transform: translateY(-50%);
     background: none;
     border: none;
-    color: #FF1E56; /* Merah terang cerah sesuai rekomendasi */
+    color: #FF1E56; 
     font-size: 40px;
     font-weight: bold;
     cursor: pointer;
@@ -26,7 +55,6 @@
     transform: translateY(-50%) scale(1.2);
 }
 
-/* Bagian Body Form */
 .popup-body {
     padding: 32px 24px;
 }
@@ -35,7 +63,6 @@
     margin-bottom: 20px;
 }
 
-/* Styling Input Field */
 .input-group input {
     width: 100%;
     padding: 14px 16px;
@@ -56,47 +83,14 @@
     box-shadow: 0 0 0 3px rgba(43, 130, 201, 0.15);
 }
 
-/*select
-/* Samakan Select dengan Input Layanan Antar Jemput */
-.order-input-group select {
-    width: 100%;
-    padding: 12px 16px;
-    border: 1.5px solid #8abceb;
-    border-radius: 8px;
-    font-size: 14px;
-    color: #2B82C9;
-    outline: none;
-    background-color: #ffffff;
-    cursor: pointer;
-    transition: border-color 0.2s, box-shadow 0.2s;
-    
-    /* Hilangkan panah default bawaan Windows/Chrome/Safari */
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    
-    /* Tambahkan panah custom minimalis warna biru */
-    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%232B82C9' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'></polyline></svg>");
-    background-repeat: no-repeat;
-    background-position: right 16px center;
-    background-size: 16px;
-    padding-right: 40px; /* Supaya teks pilihan tidak menabrak panah */
-}
-
-/* Efek Focus saat Dropdown diklik */
-.order-input-group select:focus {
-    border-color: #2B82C9;
-    box-shadow: 0 0 0 3px rgba(43, 130, 201, 0.15);
-}
-
-/* Tombol MASUK (Biru Gradasi Oval) */
 .btn-submit {
     width: 80%;
     display: block;
     margin: 0 auto 32px auto;
     padding: 14px;
-    background: linear-gradient(180deg, #FF5E1A 0%, #FF9E66 100%);    border: none;
-    border-radius: 25px; /* Membuat bentuk kapsul/oval */
+    background: linear-gradient(180deg, #FF5E1A 0%, #FF9E66 100%);
+    border: none;
+    border-radius: 25px; /* Bentuk kapsul/oval */
     color: #ffffff;
     font-size: 18px;
     font-weight: bold;
@@ -109,7 +103,6 @@
     opacity: 0.9;
 }
 
-/* Bagian Footer */
 .popup-footer {
     text-align: center;
     font-size: 14px;
@@ -117,7 +110,7 @@
 }
 
 .popup-footer a {
-    color: #FF7A00; /* Warna Oranye sesuai gambar */
+    color: #FF7A00;
     text-decoration: none;
     font-weight: bold;
 }
@@ -126,30 +119,9 @@
     text-decoration: underline;
 }
 
-/* Latar belakang gelap di luar kotak login */
-.modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Hitam transparan */
-    display: none; /* Sembunyi secara default */
-    justify-content: center;
-    align-items: center;
-    z-index: 9999; /* Agar berada di layer paling atas */
-}
-
-/* Ketika class 'show' ditambahkan oleh JavaScript */
-.modal-overlay.show {
-    display: flex;
-}
-
 /* ========================================== */
-/* LAYANAN ANTAR JEMPUT POPUP STYLING        */
+/* LAYANAN ANTAR JEMPUT POPUP STYLING         */
 /* ========================================== */
-
-/* Main Popup Container */
 .order-popup {
     width: 90%;
     max-width: 440px; 
@@ -159,6 +131,12 @@
     box-shadow: 0px 15px 40px rgba(0, 0, 0, 0.15);
     position: relative;
     animation: popupFadeIn 0.3s ease-out;
+
+    /* FITUR SCROLL: Membatasi tinggi modal dan mengaktifkan scroll internal */
+    max-height: 90vh;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
 }
 
 @keyframes popupFadeIn {
@@ -172,7 +150,6 @@
     }
 }
 
-/* Close Button for Order Popup */
 .btn-close-order {
     position: absolute;
     top: 30px; 
@@ -279,7 +256,7 @@
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* Form Styles */
+/* Form Styles & Select */
 .order-input-group {
     margin-bottom: 16px; 
     display: flex;
@@ -305,6 +282,19 @@
     outline: none;
     background-color: #ffffff;
     transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+/* Custom Dropdown Styling */
+.order-input-group select {
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%232B82C9' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'></polyline></svg>");
+    background-repeat: no-repeat;
+    background-position: right 16px center;
+    background-size: 16px;
+    padding-right: 40px; 
 }
 
 .order-input-group input::placeholder {
@@ -344,7 +334,6 @@
     transition: opacity 0.2s;
 }
 
-/* KUNCI UTAMA: Memaksa ikon biru besar menyusut proporsional */
 .btn-terms img {
     width: 18px !important;
     height: 18px !important;
@@ -408,41 +397,44 @@
 }
 
 /* ========================================== */
-/* ONE & ONLY RESPONSIVE OVERRIDES (MOBILE)   */
+/* RESPONSIVE OVERRIDES (MOBILE)              */
 /* ========================================== */
 @media (max-width: 480px) {
-
     .header-title-text {
-    color: #ffffff;
-    font-size: 12px; 
-    font-weight: bold;
-    letter-spacing: 0.5px;
+        font-size: 12px; 
     }
 
     .order-input-grid {
         grid-template-columns: 1fr;
         gap: 0;
     }
+
     .order-popup {
         border-radius: 16px;
         width: 95%; 
+        max-height: 85vh; /* Sedikit lebih kecil di perangkat mobile */
     }
+
     .tab-btn {
         font-size: 13px;
         height: 36px;
     }
+
     .order-popup-body {
         padding: 16px;
     }
+
     .order-form-footer {
-        flex-direction: column-reverse; /* Tombol kirim di atas, ketentuan di bawah agar jempol mudah menjangkau */
+        flex-direction: column-reverse; 
         gap: 14px;
         align-items: stretch;
         text-align: center;
     }
+
     .btn-terms {
         justify-content: center;
     }
+
     .btn-submit-order {
         width: 100%;
         padding: 12px;

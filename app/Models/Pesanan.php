@@ -34,4 +34,13 @@ class Pesanan extends Model
         return $this->belongsTo(AlamatPelanggan::class, 'id_alamat', 'id_alamat');
     }
 
+    public function proses()
+    {
+        return $this->hasOne(Proses::class, 'id_pesanan', 'id_pesanan');
+    }
+
+    public function pembayaran()
+    {
+        return $this->hasOne(Pembayaran::class, 'id_pesanan', 'id_pesanan');
+    }
 }

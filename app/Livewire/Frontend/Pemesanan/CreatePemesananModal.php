@@ -16,6 +16,10 @@ class CreatePemesananModal extends Component
     public $jumlah_brg;
     public $tanggal_pemesanan;
 
+    // Properti Alamat
+    public $alamatList = [];
+    public $selectedAlamatId = '';
+
     // Variabel tab aktif (opsional jika ingin mempertahankan fitur tab)
     public $activeTab = 'website';
 
@@ -24,9 +28,22 @@ class CreatePemesananModal extends Component
     public function open()
     {
         $this->resetValidation();
-        $this->reset(['jenis_pemesanan', 'layanan_pemesanan', 'jumlah_brg', 'tanggal_pemesanan']);
+        $this->reset(['jenis_pemesanan', 'layanan_pemesanan', 'jumlah_brg', 'tanggal_pemesanan', 'selectedAlamatId']);
         // Isi otomatis tanggal hari ini jika diinginkan
         $this->tanggal_pemesanan = date('Y-m-d'); 
+        
+        $idPelanggan = auth()->guard('pelanggan')->id();
+        if ($idPelanggan) {
+            $pelanggan = \App\Models\Pelanggan::find($idPelanggan);
+            if ($pelanggan) {
+                $this->alamatList = $pelanggan->alamat()->get();
+                $alamatUtama = $pelanggan->alamat()->where('is_utama', true)->first()
+                    ?? $pelanggan->alamat()->first();
+                $this->selectedAlamatId = $alamatUtama?->id_alamat ?? '';
+            }
+        } else {
+            $this->alamatList = [];
+        }
         
         $this->isOpen = true;
     }
@@ -48,9 +65,13 @@ class CreatePemesananModal extends Component
             'layanan_pemesanan' => 'required|in:Cepat,Biasa',
             'jumlah_brg' => 'required|numeric|min:1',
             'tanggal_pemesanan' => 'required|date',
+            'selectedAlamatId' => 'required|exists:AlamatPelanggan,id_alamat',
+        ], [
+            'selectedAlamatId.required' => 'Alamat penjemputan / pengiriman wajib dipilih.',
+            'selectedAlamatId.exists' => 'Alamat yang dipilih tidak valid.',
         ]);
 
-        // 🔴 Perubahan di sini: Mengambil ID Pelanggan dari guard 'pelanggan' yang aktif
+        // Perubahan di sini: Mengambil ID Pelanggan dari guard 'pelanggan' yang aktif
         $idPelanggan = auth()->guard('pelanggan')->id();
 
         // Proteksi: Jika belum login, jangan izinkan membuat pesanan
@@ -59,14 +80,9 @@ class CreatePemesananModal extends Component
             return;
         }
 
-        $pelanggan = \App\Models\Pelanggan::find($idPelanggan);
-        $alamatUtama = $pelanggan?->alamat()->where('is_utama', true)->first()
-            ?? $pelanggan?->alamat()->first();
-        $idAlamat = $alamatUtama?->id_alamat;
-
         Pemesanan::create([
             'id_pelanggan'      => $idPelanggan, // Menggunakan ID asli hasil login
-            'id_alamat'         => $idAlamat,
+            'id_alamat'         => $this->selectedAlamatId,
             'jenis_pemesanan'   => $this->jenis_pemesanan,
             'layanan_pemesanan' => $this->layanan_pemesanan,
             'jumlah_brg'        => $this->jumlah_brg,

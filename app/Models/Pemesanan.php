@@ -28,4 +28,9 @@ class Pemesanan extends Model
     {
         return $this->belongsTo(AlamatPelanggan::class, 'id_alamat', 'id_alamat');
     }
+
+    public function pesanan()
+    {
+        return $this->hasOne(Pesanan::class, 'id_pemesanan', 'id_pemesanan');
+    }
 }
