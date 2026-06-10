@@ -16,6 +16,7 @@ use App\Livewire\Pekerja\Auth\Verify2FA;
 use App\Livewire\Pekerja\Auth\FirstPassword;
 
 use App\Livewire\Frontend\Beranda;
+use App\Livewire\Frontend\TentangKami;
 use App\Livewire\Frontend\Auth\Login;
 use App\Livewire\Frontend\Auth\Register;
 use App\Livewire\Frontend\ProdukLayanan\Index as ProdukLayananIndex;
@@ -44,6 +45,9 @@ Route::prefix('pelanggan')->name('pelanggan.')->group(function () {
 
     Route::get('/layanan', Layanan::class)
         ->name('layanan');
+
+    Route::get('/tentang-kami', TentangKami::class)
+        ->name('tentang-kami');
 
     Route::middleware('auth.pelanggan')->group(function () {
 

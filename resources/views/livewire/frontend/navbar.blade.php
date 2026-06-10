@@ -25,7 +25,7 @@
             </a>
         </li>
         <li class="nav-item">
-            <a href="#" class="nav-link" wire:navigate>
+            <a href="{{ route('pelanggan.tentang-kami') }}" class="nav-link" wire:navigate>
                 <img src="{{ asset('img/icon/People.png') }}" alt="Tentang Kami" class="nav-icon">
                 <span class="nav-text">TENTANG KAMI</span>
             </a>
@@ -84,7 +84,7 @@
             </a>
         </li>
         <li class="nav-item">
-            <a href="#" class="nav-link" wire:navigate>
+            <a href="{{ route('pelanggan.tentang-kami') }}" class="nav-link" wire:navigate>
                 <img src="{{ asset('img/icon/People.png') }}" alt="Tentang Kami" class="nav-icon">
                 <span class="nav-text">TENTANG KAMI</span>
             </a>

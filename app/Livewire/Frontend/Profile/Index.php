@@ -7,6 +7,7 @@ use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use App\Models\Pelanggan;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
@@ -150,8 +151,8 @@ class Index extends Component
         $namaFoto = $pelanggan->foto_profil;
         if ($this->foto_profil) {
             // Hapus foto lama jika ada
-            if ($pelanggan->foto_profil && \Storage::disk('public')->exists('foto-pelanggan/' . $pelanggan->foto_profil)) {
-                \Storage::disk('public')->delete('foto-pelanggan/' . $pelanggan->foto_profil);
+            if ($pelanggan->foto_profil && Storage::disk('public')->exists('foto-pelanggan/' . $pelanggan->foto_profil)) {
+                Storage::disk('public')->delete('foto-pelanggan/' . $pelanggan->foto_profil);
             }
             $namaFoto = $this->foto_profil->hashName();
             $this->foto_profil->storeAs('foto-pelanggan', $namaFoto, 'public');

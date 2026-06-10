@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="{{ asset('templates/frontend/assets/compiled/css/pesanan.css') }}">
     <link rel="stylesheet" href="{{ asset('templates/frontend/assets/compiled/css/login.css') }}">
     <link rel="stylesheet" href="{{ asset('templates/frontend/assets/compiled/css/tracker.css') }}">
+    <link rel="stylesheet" href="{{ asset('templates/frontend/assets/compiled/css/tentang-kami.css') }}">
 
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 
