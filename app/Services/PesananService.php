@@ -24,9 +24,13 @@ class PesananService
 
     public function create(array $data): Pesanan
     {
+        $pemesanan = \App\Models\Pemesanan::find($data['id_pemesanan']);
+        $idAlamat = $pemesanan?->id_alamat;
+
         return $this->pesananRepository->create([
             'id_pemesanan'    => $data['id_pemesanan'],
             'id_pelanggan'    => $data['id_pelanggan'],
+            'id_alamat'       => $idAlamat,
             'jenis_pesanan'   => $data['jenis_pesanan'],
             'layanan_pesanan' => $data['layanan_pesanan'],
             'berat'           => $data['berat'],
@@ -37,9 +41,13 @@ class PesananService
 
     public function update(int $id, array $data): bool
     {
+        $pemesanan = \App\Models\Pemesanan::find($data['id_pemesanan']);
+        $idAlamat = $pemesanan?->id_alamat;
+
         return $this->pesananRepository->update($id, [
             'id_pemesanan'    => $data['id_pemesanan'],
             'id_pelanggan'    => $data['id_pelanggan'],
+            'id_alamat'       => $idAlamat,
             'jenis_pesanan'   => $data['jenis_pesanan'],
             'layanan_pesanan' => $data['layanan_pesanan'],
             'berat'           => $data['berat'],

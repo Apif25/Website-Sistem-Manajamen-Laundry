@@ -49,7 +49,7 @@
                 </button>
         
                 <div class="dropdown-menu" x-show="open" x-transition style="display: none;">
-                    <a href="#" class="dropdown-item" wire:navigate>Profile</a>
+                    <a href="{{ route('pelanggan.profile') }}" class="dropdown-item" wire:navigate>Profile</a>
                     <button type="button" wire:click="logout" class="dropdown-item logout-btn">
                         Logout
                     </button>
@@ -108,7 +108,7 @@
                 </button>
         
                 <div class="dropdown-menu mobile-dropdown" x-show="open" x-transition style="display: none;">
-                    <a href="#" class="dropdown-item" wire:navigate>Profile</a>
+                    <a href="{{ route('pelanggan.profile') }}" class="dropdown-item" wire:navigate>Profile</a>
                     <button type="button" wire:click="logout" class="dropdown-item logout-btn">
                         Logout
                     </button>

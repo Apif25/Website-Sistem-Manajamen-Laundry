@@ -20,7 +20,6 @@ class Pelanggan extends Authenticatable
         'email',
         'password',
         'no_telepon',
-        'alamat',
         'jenis_kelamin',
         'foto_profil',
     ];
@@ -33,6 +32,16 @@ class Pelanggan extends Authenticatable
     protected $casts = [
         'password' => 'hashed',
         'no_telepon' => 'encrypted', // FIX: Diubah dari 'no_telp' menjadi 'no_telepon' agar sinkron dengan $fillable
-        'alamat' => 'encrypted',
     ];
+
+    public function alamat()
+    {
+        return $this->hasMany(AlamatPelanggan::class, 'id_pelanggan', 'id_pelanggan');
+    }
+
+    public function getAlamatAttribute()
+    {
+        $alamat = $this->alamat()->first();
+        return $alamat ? $alamat->formatted_alamat : null;
+    }
 }

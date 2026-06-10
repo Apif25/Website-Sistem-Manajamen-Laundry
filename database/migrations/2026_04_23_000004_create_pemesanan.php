@@ -15,6 +15,8 @@ return new class extends Migration
             $table->bigIncrements('id_pemesanan');
             $table->unsignedBigInteger('id_pelanggan');
             $table->foreign('id_pelanggan')->references('id_pelanggan')->on('Pelanggan')->onDelete('cascade');
+            $table->unsignedBigInteger('id_alamat')->nullable();
+            $table->foreign('id_alamat')->references('id_alamat')->on('AlamatPelanggan')->onDelete('set null');
             $table->enum('jenis_pemesanan', ['Satuan', 'Kiloan']);
             $table->enum('layanan_pemesanan', ['Cepat', 'Biasa']);
             $table->integer('jumlah_brg');

@@ -59,8 +59,14 @@ class CreatePemesananModal extends Component
             return;
         }
 
+        $pelanggan = \App\Models\Pelanggan::find($idPelanggan);
+        $alamatUtama = $pelanggan?->alamat()->where('is_utama', true)->first()
+            ?? $pelanggan?->alamat()->first();
+        $idAlamat = $alamatUtama?->id_alamat;
+
         Pemesanan::create([
             'id_pelanggan'      => $idPelanggan, // Menggunakan ID asli hasil login
+            'id_alamat'         => $idAlamat,
             'jenis_pemesanan'   => $this->jenis_pemesanan,
             'layanan_pemesanan' => $this->layanan_pemesanan,
             'jumlah_brg'        => $this->jumlah_brg,

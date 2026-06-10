@@ -15,6 +15,12 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        // Automatically seed Laravolt Indonesia tables if they are empty
+        if (\Illuminate\Support\Facades\DB::table('indonesia_provinces')->count() === 0) {
+            $this->command->info('Seeding Laravolt Indonesia...');
+            \Illuminate\Support\Facades\Artisan::call('laravolt:indonesia:seed');
+        }
+
         $this->call(RoleSeeder::class);
         $this->call(PermissionSeeder::class);
         $this->call(RolePermissionSeeder::class);

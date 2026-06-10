@@ -23,7 +23,6 @@ class PelangganAuthService
             'password'    => Hash::make($data['password']),
             'nama_pelanggan' => $data['nama_pelanggan'],
             'no_telepon'  => $data['no_telepon'] ?? null,
-            'alamat'      => $data['alamat'] ?? null,
         ]);
     }
 
@@ -55,21 +54,36 @@ class PelangganAuthService
         request()->session()->regenerateToken();
     }
 
-    /**
-     * Update profil pelanggan.
-     */
     public function updateProfile(int $id, array $data): bool
     {
         $updateData = [
             'nama_pelanggan' => $data['nama_pelanggan'] ?? null,
             'no_telepon' => $data['no_telepon'] ?? null,
-            'alamat'     => $data['alamat'] ?? null,
         ];
 
         if (! empty($data['password'])) {
             $updateData['password'] = Hash::make($data['password']);
         }
 
-        return $this->pelangganRepository->update($id, $updateData);
+        $result = $this->pelangganRepository->update($id, $updateData);
+
+        if (isset($data['alamat'])) {
+            $pelanggan = \App\Models\Pelanggan::find($id);
+            if ($pelanggan) {
+                $pelanggan->alamat()->updateOrCreate(
+                    ['id_pelanggan' => $id],
+                    [
+                        'label_alamat'   => 'Rumah',
+                        'province_id'    => 12, // Default/fallback IDs
+                        'regency_id'     => 181,
+                        'district_id'    => 2563,
+                        'alamat_lengkap' => $data['alamat'],
+                        'is_utama'       => true,
+                    ]
+                );
+            }
+        }
+
+        return $result;
     }
 }

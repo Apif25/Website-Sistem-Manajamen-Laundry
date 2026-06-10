@@ -50,6 +50,9 @@ Route::prefix('pelanggan')->name('pelanggan.')->group(function () {
         Route::get('/pesanan-anda', PesananAnda::class)
             ->name('pesanan_anda');
 
+        Route::get('/profile', \App\Livewire\Frontend\Profile\Index::class)
+            ->name('profile');
+
     });
 
 });

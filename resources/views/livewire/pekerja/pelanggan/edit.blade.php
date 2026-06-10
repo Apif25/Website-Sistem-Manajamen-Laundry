@@ -20,10 +20,59 @@
             @error('no_telepon') <small class="text-danger">{{ $message }}</small> @enderror
         </div>
 
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label>Label Alamat</label>
+                <input type="text" wire:model="label_alamat" class="form-control" placeholder="Contoh: Rumah, Kantor, Kos">
+                @error('label_alamat') <small class="text-danger">{{ $message }}</small> @enderror
+            </div>
+            
+            <div class="col-md-6 mb-3">
+                <label>Provinsi</label>
+                <select wire:model.live="province_id" class="form-control">
+                    <option value="">-- Pilih Provinsi --</option>
+                    @foreach($provinces as $prov)
+                        <option value="{{ $prov->id }}">{{ $prov->name }}</option>
+                    @endforeach
+                </select>
+                @error('province_id') <small class="text-danger">{{ $message }}</small> @enderror
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label>Kota / Kabupaten</label>
+                <select wire:model.live="regency_id" class="form-control" @disabled(empty($province_id))>
+                    <option value="">-- Pilih Kota / Kabupaten --</option>
+                    @foreach($regencies as $reg)
+                        <option value="{{ $reg->id }}">{{ $reg->name }}</option>
+                    @endforeach
+                </select>
+                @error('regency_id') <small class="text-danger">{{ $message }}</small> @enderror
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label>Kecamatan</label>
+                <select wire:model="district_id" class="form-control" @disabled(empty($regency_id))>
+                    <option value="">-- Pilih Kecamatan --</option>
+                    @foreach($districts as $dist)
+                        <option value="{{ $dist->id }}">{{ $dist->name }}</option>
+                    @endforeach
+                </select>
+                @error('district_id') <small class="text-danger">{{ $message }}</small> @enderror
+            </div>
+        </div>
+
         <div class="mb-3">
-            <label>Alamat</label>
-            <textarea wire:model="alamat" class="form-control"></textarea>
-            @error('alamat') <small class="text-danger">{{ $message }}</small> @enderror
+            <label>Alamat Lengkap (Jalan, RT/RW, No. Rumah)</label>
+            <textarea wire:model="alamat_lengkap" class="form-control" rows="3" placeholder="Masukkan nama jalan, nomor rumah, RT/RW"></textarea>
+            @error('alamat_lengkap') <small class="text-danger">{{ $message }}</small> @enderror
+        </div>
+
+        <div class="mb-3 form-check ms-3">
+            <input type="checkbox" wire:model="is_utama" id="is_utama" class="form-check-input" value="1">
+            <label class="form-check-label ms-1" for="is_utama">Jadikan Alamat Utama</label>
+            @error('is_utama') <small class="text-danger">{{ $message }}</small> @enderror
         </div>
 
         <div class="mb-3">

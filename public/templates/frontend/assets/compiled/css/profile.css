@@ -1,0 +1,242 @@
+/* ==========================================================================
+   STYLING HALAMAN PROFIL PELANGGAN
+   ========================================================================== */
+
+/* Grid Layout */
+.profile-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    margin-bottom: 30px;
+}
+
+/* Card Wrapper */
+.profile-card {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e2e8f0;
+}
+
+.card-title {
+    color: #4682b4;
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 25px;
+    border-bottom: 2px solid #f1f5f9;
+    padding-bottom: 10px;
+}
+
+/* Input Group */
+.input-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.input-group label {
+    color: #4682b4;
+    font-size: 13px;
+    font-weight: 500;
+    margin-bottom: 6px;
+}
+
+.input-group input, 
+.select-field, 
+.textarea-field {
+    width: 100%;
+    padding: 11px 14px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    font-size: 14px;
+    color: #334155;
+    outline: none;
+    background-color: #ffffff;
+    transition: all 0.2s ease;
+}
+
+.input-group input:focus, 
+.select-field:focus, 
+.textarea-field:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
+
+.select-field {
+    background-color: #ffffff;
+    cursor: pointer;
+}
+
+.textarea-field {
+    resize: vertical;
+}
+
+/* Avatar Upload styling */
+.avatar-upload-group {
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+.avatar-label-title {
+    display: block;
+    margin-bottom: 8px;
+    text-align: left;
+    font-weight: 500;
+    color: #4682b4;
+    font-size: 13px;
+}
+
+.avatar-wrapper {
+    position: relative;
+    display: inline-block;
+    margin-top: 5px;
+}
+
+.avatar-clickable-area {
+    cursor: pointer;
+    display: block;
+    position: relative;
+    width: 110px;
+    height: 110px;
+    margin: 0 auto;
+}
+
+.avatar-preview-img {
+    width: 110px;
+    height: 110px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid #3b82f6;
+    box-shadow: 0px 4px 8px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+}
+
+.avatar-placeholder {
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    border: 2px dashed #3b82f6;
+    background: #f0f8ff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #3b82f6;
+    transition: all 0.3s ease;
+}
+
+.avatar-placeholder span {
+    font-size: 10px;
+    font-weight: bold;
+    margin-top: 5px;
+}
+
+.avatar-hover-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    background: rgba(0,0,0,0.5);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: bold;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.hidden-file-input {
+    display: none;
+}
+
+.avatar-clickable-area:hover .avatar-hover-overlay {
+    opacity: 1;
+}
+
+.avatar-clickable-area:hover .avatar-preview-img {
+    filter: brightness(0.8);
+}
+
+.avatar-loading-text {
+    font-size: 12px;
+    color: #3b82f6;
+    margin-top: 8px;
+    font-weight: 500;
+}
+
+/* Form Actions */
+.profile-actions {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.btn-save {
+    padding: 12px 40px;
+    background: linear-gradient(135deg, #60a5fa, #3b82f6);
+    border: none;
+    border-radius: 30px;
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    letter-spacing: 0.5px;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 14px rgba(59, 130, 246, 0.3);
+}
+
+.btn-save:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+}
+
+.btn-save:active {
+    transform: translateY(0);
+}
+
+/* Alert styles */
+.alert {
+    padding: 14px 20px;
+    border-radius: 8px;
+    margin-bottom: 25px;
+    font-size: 14px;
+    font-weight: 500;
+    text-align: left;
+}
+
+.alert-success {
+    color: #15803d;
+    background-color: #f0fdf4;
+    border: 1px solid #bbf7d0;
+}
+
+.alert-danger {
+    color: #b91c1c;
+    background-color: #fef2f2;
+    border: 1px solid #fca5a5;
+}
+
+.text-danger {
+    color: #ef4444;
+    font-size: 12px;
+    margin-top: 5px;
+    text-align: left;
+}
+
+/* Responsive Breakpoints */
+@media (max-width: 768px) {
+    .profile-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    .profile-card {
+        padding: 20px;
+    }
+    .btn-save {
+        width: 100%;
+    }
+}

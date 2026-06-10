@@ -146,10 +146,51 @@
                 </div>
 
                 <div class="input-group">
-                    <label>Alamat Lengkap :</label>
-                    <textarea wire:model="alamat" placeholder="Masukkan Alamat Lengkap" rows="4" class="textarea-address"></textarea>
-                    @error('alamat') <span class="text-danger">{{ $message }}</span> @enderror
+                    <label>Label Alamat (Contoh: Rumah, Kantor, Kos) :</label>
+                    <input type="text" wire:model="label_alamat" placeholder="Masukkan label alamat">
+                    @error('label_alamat') <span class="text-danger">{{ $message }}</span> @enderror
                 </div>
+
+                <div class="input-group">
+                    <label>Provinsi :</label>
+                    <select wire:model.live="province_id" class="select-gender">
+                        <option value="">-- Pilih Provinsi --</option>
+                        @foreach($provinces as $prov)
+                            <option value="{{ $prov->id }}">{{ $prov->name }}</option>
+                        @endforeach
+                    </select>
+                    @error('province_id') <span class="text-danger">{{ $message }}</span> @enderror
+                </div>
+
+                <div class="input-group">
+                    <label>Kota/Kabupaten :</label>
+                    <select wire:model.live="regency_id" class="select-gender">
+                        <option value="">-- Pilih Kota/Kabupaten --</option>
+                        @foreach($regencies as $reg)
+                            <option value="{{ $reg->id }}">{{ $reg->name }}</option>
+                        @endforeach
+                    </select>
+                    @error('regency_id') <span class="text-danger">{{ $message }}</span> @enderror
+                </div>
+
+                <div class="input-group">
+                    <label>Kecamatan :</label>
+                    <select wire:model="district_id" class="select-gender">
+                        <option value="">-- Pilih Kecamatan --</option>
+                        @foreach($districts as $dist)
+                            <option value="{{ $dist->id }}">{{ $dist->name }}</option>
+                        @endforeach
+                    </select>
+                    @error('district_id') <span class="text-danger">{{ $message }}</span> @enderror
+                </div>
+
+                <div class="input-group">
+                    <label>Alamat Lengkap (Jalan, RT/RW, No. Rumah) :</label>
+                    <textarea wire:model="alamat_lengkap" class="textarea-address" rows="3" placeholder="Masukkan nama jalan, nomor rumah, RT/RW"></textarea>
+                    @error('alamat_lengkap') <span class="text-danger">{{ $message }}</span> @enderror
+                </div>
+
+
 
                 <div class="form-actions-group">
                     <button type="button" wire:click="backToStepOne" class="btn-back">

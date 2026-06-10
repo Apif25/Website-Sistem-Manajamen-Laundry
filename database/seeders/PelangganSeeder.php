@@ -13,54 +13,89 @@ class PelangganSeeder extends Seeder
      */
     public function run(): void
     {
-        Pelanggan::create([
+        $andi = Pelanggan::create([
             'email' => 'andi@gmail.com',
             'password' => Hash::make('password123'),
             'nama_pelanggan' => 'Andi Saputra',
             'no_telepon' => '081234567890',
-            'alamat' => 'Jl. Merdeka No. 10, Bandung',
             'jenis_kelamin' => 'Pria',
             'email_verified_at' => now(),
         ]);
+        $andi->alamat()->create([
+            'label_alamat' => 'Rumah',
+            'province_id' => 12,
+            'regency_id' => 181,
+            'district_id' => 2563,
+            'alamat_lengkap' => 'Jl. Merdeka No. 10',
+            'is_utama' => true,
+        ]);
 
-        Pelanggan::create([
+        $siti = Pelanggan::create([
             'email' => 'siti@gmail.com',
             'password' => Hash::make('password123'),
             'nama_pelanggan' => 'Siti Aisyah',
             'no_telepon' => '081298765432',
-            'alamat' => 'Jl. Mawar No. 5, Jakarta',
             'jenis_kelamin' => 'Wanita',
             'email_verified_at' => now(),
         ]);
+        $siti->alamat()->create([
+            'label_alamat' => 'Kantor',
+            'province_id' => 11,
+            'regency_id' => 159,
+            'district_id' => 1991,
+            'alamat_lengkap' => 'Jl. Mawar No. 5',
+            'is_utama' => true,
+        ]);
 
-        Pelanggan::create([
+        $budi = Pelanggan::create([
             'email' => 'budi@gmail.com',
             'password' => Hash::make('password123'),
             'nama_pelanggan' => 'Budi Santoso',
             'no_telepon' => '082112223333',
-            'alamat' => 'Jl. Melati No. 7, Surabaya',
             'jenis_kelamin' => 'Pria',
             'email_verified_at' => now(),
         ]);
+        $budi->alamat()->create([
+            'label_alamat' => 'Rumah',
+            'province_id' => 15,
+            'regency_id' => 264,
+            'district_id' => 3924,
+            'alamat_lengkap' => 'Jl. Melati No. 7',
+            'is_utama' => true,
+        ]);
 
-        Pelanggan::create([
+        $rina = Pelanggan::create([
             'email' => 'rina@gmail.com',
             'password' => Hash::make('password123'),
             'nama_pelanggan' => 'Rina Oktavia',
             'no_telepon' => '083344556677',
-            'alamat' => 'Jl. Kenanga No. 2, Yogyakarta',
             'jenis_kelamin' => 'Wanita',
             'email_verified_at' => now(),
         ]);
+        $rina->alamat()->create([
+            'label_alamat' => 'Kos',
+            'province_id' => 14,
+            'regency_id' => 227,
+            'district_id' => 3278,
+            'alamat_lengkap' => 'Jl. Kenanga No. 2',
+            'is_utama' => true,
+        ]);
 
-        Pelanggan::create([
+        $dedi = Pelanggan::create([
             'email' => 'dedi@gmail.com',
             'password' => Hash::make('password123'),
             'nama_pelanggan' => 'Dedi Kurniawan',
             'no_telepon' => '085566778899',
-            'alamat' => 'Jl. Anggrek No. 9, Bekasi',
             'jenis_kelamin' => 'Pria',
             'email_verified_at' => now(),
+        ]);
+        $dedi->alamat()->create([
+            'label_alamat' => 'Rumah',
+            'province_id' => 12,
+            'regency_id' => 183,
+            'district_id' => 2598,
+            'alamat_lengkap' => 'Jl. Anggrek No. 9',
+            'is_utama' => true,
         ]);
     }
 }

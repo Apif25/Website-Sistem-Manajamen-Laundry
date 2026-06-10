@@ -99,14 +99,26 @@
                         </div>
                     </div>
 
-                    <!-- Alamat full -->
-                    <div class="col-12">
+                    <!-- Tanggal -->
+                    <div class="col-md-6">
                         <div class="p-3 rounded border bg-body-tertiary shadow-sm">
                             <small class="text-muted d-block mb-1">
-                                Tanggal
+                                Tanggal Pemesanan
                             </small>
                             <div class="fw-semibold">
                                 {{ $pemesanan->Tanggal_Pemesanan ?? '-' }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Alamat -->
+                    <div class="col-12">
+                        <div class="p-3 rounded border bg-body-tertiary shadow-sm">
+                            <small class="text-muted d-block mb-1">
+                                Alamat Penjemputan / Pengiriman
+                            </small>
+                            <div class="fw-bold">
+                                {{ $pemesanan->alamat?->formatted_alamat ?? ($pemesanan->pelanggan?->alamat ?? '-') }}
                             </div>
                         </div>
                     </div>

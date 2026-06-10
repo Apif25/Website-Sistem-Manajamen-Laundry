@@ -34,8 +34,52 @@ class Register extends Component
     // Properti Langkah 2
     public $no_telp;
     public $jenis_kelamin;
-    public $alamat;
     public $foto_profil;
+
+    // Properti Alamat Utama
+    public $label_alamat = 'Rumah';
+    public $province_id = '';
+    public $regency_id = '';
+    public $district_id = '';
+    public $alamat_lengkap = '';
+
+    // Dropdown Options
+    public $provinces = [];
+    public $regencies = [];
+    public $districts = [];
+
+    public function mount()
+    {
+        $this->provinces = \Laravolt\Indonesia\Models\Province::orderBy('name')->get();
+    }
+
+    public function updatedProvinceId($value): void
+    {
+        $this->regency_id = '';
+        $this->district_id = '';
+        $this->regencies = [];
+        $this->districts = [];
+
+        if (!empty($value)) {
+            $province = \Laravolt\Indonesia\Models\Province::find($value);
+            if ($province) {
+                $this->regencies = \Laravolt\Indonesia\Models\City::where('province_code', $province->code)->orderBy('name')->get();
+            }
+        }
+    }
+
+    public function updatedRegencyId($value): void
+    {
+        $this->district_id = '';
+        $this->districts = [];
+
+        if (!empty($value)) {
+            $city = \Laravolt\Indonesia\Models\City::find($value);
+            if ($city) {
+                $this->districts = \Laravolt\Indonesia\Models\District::where('city_code', $city->code)->orderBy('name')->get();
+            }
+        }
+    }
     public function rules()
     {
         return [
@@ -118,24 +162,31 @@ class Register extends Component
             $this->currentStep = 2;
             return;
         }
-
         // ================= JIKA USER BERADA DI STEP 2 =================
         if ($this->currentStep == 2) {
-            // 4. Tambahkan validasi untuk foto_profil di Step 2
+            // 4. Tambahkan validasi untuk foto_profil & Alamat Utama di Step 2
             $this->validate([
-                'no_telp'       => 'required|numeric|digits_between:10,14',
-                'jenis_kelamin' => 'required|in:Pria,Wanita',
-                'alamat'        => 'required|min:10',
-                'foto_profil'   => 'nullable|image|max:2048', // Opsional, harus gambar, maks 2MB
+                'no_telp'        => 'required|numeric|digits_between:10,14',
+                'jenis_kelamin'  => 'required|in:Pria,Wanita',
+                'foto_profil'    => 'nullable|image|max:2048', // Opsional, harus gambar, maks 2MB
+                'label_alamat'   => 'required|string|max:50',
+                'province_id'    => 'required|integer',
+                'regency_id'     => 'required|integer',
+                'district_id'    => 'required|integer',
+                'alamat_lengkap' => 'required|string|min:5',
             ], [
-                'no_telp.required'       => 'Nomor telepon wajib diisi.',
-                'no_telp.numeric'        => 'Nomor telepon harus berupa angka.',
-                'jenis_kelamin.required' => 'Jenis kelamin wajib dipilih.',
-                'jenis_kelamin.in'       => 'Pilihan jenis kelamin tidak valid.',
-                'alamat.required'        => 'Alamat wajib diisi.',
-                'alamat.min'             => 'Alamat minimal harus terdiri dari 10 karakter.',
-                'foto_profil.image'      => 'File harus berupa gambar (jpg, jpeg, png).',
-                'foto_profil.max'        => 'Ukuran foto maksimal adalah 2MB.',
+                'no_telp.required'        => 'Nomor telepon wajib diisi.',
+                'no_telp.numeric'         => 'Nomor telepon harus berupa angka.',
+                'jenis_kelamin.required'  => 'Jenis kelamin wajib dipilih.',
+                'jenis_kelamin.in'        => 'Pilihan jenis kelamin tidak valid.',
+                'foto_profil.image'       => 'File harus berupa gambar (jpg, jpeg, png).',
+                'foto_profil.max'         => 'Ukuran foto maksimal adalah 2MB.',
+                'label_alamat.required'   => 'Label alamat wajib diisi.',
+                'province_id.required'    => 'Provinsi wajib dipilih.',
+                'regency_id.required'     => 'Kota/Kabupaten wajib dipilih.',
+                'district_id.required'    => 'Kecamatan wajib dipilih.',
+                'alamat_lengkap.required' => 'Alamat lengkap wajib diisi.',
+                'alamat_lengkap.min'      => 'Alamat lengkap minimal 5 karakter.',
             ]);
 
             // 5. Logika penyimpanan file foto jika diunggah
@@ -148,14 +199,23 @@ class Register extends Component
             }
 
             // Logika simpan ke database
-            Pelanggan::create([
+            $pelanggan = Pelanggan::create([
                 'nama_pelanggan' => $this->username,
                 'email'          => $this->email,
                 'password'       => Hash::make($this->password),
                 'no_telepon'     => $this->no_telp,
                 'jenis_kelamin'  => $this->jenis_kelamin,
-                'alamat'         => $this->alamat,
                 'foto_profil'    => $namaFoto, // 6. Simpan nama file ke kolom foto_profil
+            ]);
+
+            // Simpan alamat utama pelanggan
+            $pelanggan->alamat()->create([
+                'label_alamat'   => $this->label_alamat,
+                'province_id'    => $this->province_id,
+                'regency_id'     => $this->regency_id,
+                'district_id'    => $this->district_id,
+                'alamat_lengkap' => $this->alamat_lengkap,
+                'is_utama'       => true,
             ]);
 
             DB::table('otps')->where('email', $this->email)->delete();
