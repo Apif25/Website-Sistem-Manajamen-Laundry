@@ -31,7 +31,8 @@ class Index extends Component
     }
     public function render()
     {
-        $pelanggans = Pelanggan::latest()
+        $pelanggans = Pelanggan::with('alamat')
+            ->latest()
             ->when($this->search, function ($query) {
                 $query->where(function ($q) {
                     $q->where('nama_pelanggan', 'like', '%' . $this->search . '%')

@@ -119,6 +119,7 @@
                             <th>Email</th>
                             <th>No Telepon</th>
                             <th>Jenis Kelamin</th>
+                            <th> Alamat </th>
                             <th width="20%" class="text-center">
                                 Aksi
                             </th>
@@ -192,6 +193,23 @@
                                 @endif
 
                             </td>
+
+                            {{-- Alamat --}}
+                            {{-- Alamat --}}
+                            <td>
+                                @php
+                                $alamat = collect([
+                                $pelanggan->alamat,
+                                $pelanggan->village?->name,
+                                $pelanggan->district?->name,
+                                $pelanggan->city?->name,
+                                $pelanggan->province?->name,
+                                ])->filter()->implode(', ');
+                                @endphp
+
+                                {{ $alamat ?: '-' }}
+                            </td>
+
 
 
                             {{-- Aksi --}}
