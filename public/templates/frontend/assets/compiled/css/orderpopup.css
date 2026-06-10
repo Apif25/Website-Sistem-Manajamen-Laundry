@@ -333,7 +333,7 @@
     gap: 12px;
 }
 
-.btn-ketentuan {
+.btn-terms {
     display: inline-flex;
     align-items: center;
     gap: 8px;
@@ -345,14 +345,14 @@
 }
 
 /* KUNCI UTAMA: Memaksa ikon biru besar menyusut proporsional */
-.btn-ketentuan img {
+.btn-terms img {
     width: 18px !important;
     height: 18px !important;
     object-fit: contain;
     flex-shrink: 0;
 }
 
-.btn-ketentuan:hover {
+.btn-terms:hover {
     opacity: 0.8;
 }
 
@@ -440,7 +440,7 @@
         align-items: stretch;
         text-align: center;
     }
-    .btn-ketentuan {
+    .btn-terms {
         justify-content: center;
     }
     .btn-submit-order {

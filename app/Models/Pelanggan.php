@@ -22,6 +22,7 @@ class Pelanggan extends Authenticatable
         'no_telepon',
         'alamat',
         'jenis_kelamin',
+        'foto_profil',
     ];
 
     protected $hidden = [

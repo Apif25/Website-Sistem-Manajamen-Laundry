@@ -3,12 +3,12 @@
         <h2>REGISTER {{ $currentStep == 2 ? '(DATA DIRI)' : '' }}</h2>
 
         @if (session()->has('message'))
-            <div class="alert alert-success" style="color: green; margin-bottom: 15px; font-size: 14px;">
+            <div class="alert alert-success">
                 {{ session('message') }}
             </div>
         @endif
         @if (session()->has('error'))
-            <div class="alert alert-danger" style="color: red; margin-bottom: 15px; font-size: 14px;">
+            <div class="alert alert-danger">
                 {{ session('error') }}
             </div>
         @endif
@@ -39,26 +39,53 @@
                     @error('email') <span class="text-danger">{{ $message }}</span> @enderror
                 </div>
 
-                <div class="otp-row">
-                    <div style="flex: 1; display: flex; flex-direction: column;">
+                <div class="otp-row" x-data="{ 
+                        cooldown: 0, 
+                        timer: null,
+                        startCooldown() {
+                            this.cooldown = 60;
+                            if(this.timer) clearInterval(this.timer);
+                            this.timer = setInterval(() => {
+                                if(this.cooldown > 0) {
+                                    this.cooldown--;
+                                } else {
+                                    clearInterval(this.timer);
+                                }
+                            }, 1000);
+                        }
+                    }">
+                    <div class="otp-input-wrapper">
                         <input type="text" wire:model="otp" placeholder="Kode OTP">
                         @error('otp') <span class="text-danger">{{ $message }}</span> @enderror
+        
+                        <span x-show="cooldown > 0" class="otp-cooldown-text">
+                            Kirim ulang kode OTP dalam <strong x-text="cooldown"></strong> detik.
+                        </span>
                     </div>
-                    <button type="button" wire:click="sendOtp" class="btn-kirim" wire:loading.attr="disabled">
-                        <span wire:loading.remove wire:target="sendOtp">Kirim OTP</span>
+
+                    <button type="button" 
+                            wire:click="sendOtp" 
+                            @click="startCooldown()"
+                            class="btn-send" 
+                            x-bind:disabled="cooldown > 0"
+                            wire:loading.attr="disabled"
+                            x-bind:class="{ 'btn-otp-disabled': cooldown > 0 }">
+                        
+                        <span wire:loading.remove wire:target="sendOtp" x-show="cooldown === 0">Kirim OTP</span>
+                        <span wire:loading.remove wire:target="sendOtp" x-show="cooldown > 0">Tunggu...</span>
                         <span wire:loading wire:target="sendOtp">...</span>
                     </button>
                 </div>
 
                 <div class="terms-checkbox">
                     <input type="checkbox" wire:model="terms" id="terms">
-                    <label for="terms" style="font-size: 12px; color: #4682b4;">
-                        Saya setuju dengan syarat & ketentuan dan kebijakan privasi <span style="color:red">*</span>
+                    <label for="terms">
+                        Saya setuju dengan syarat & ketentuan dan kebijakan privasi <span class="required-star">*</span>
                     </label>
                     @error('terms') <br><span class="text-danger">{{ $message }}</span> @enderror
                 </div>
 
-                <button type="submit" class="btn-lanjut">
+                <button type="submit" class="btn-next">
                     <span wire:loading.remove wire:target="register">LANJUT</span>
                     <span wire:loading wire:target="register">PROSES...</span>
                 </button>
@@ -66,6 +93,42 @@
 
 
             @if($currentStep == 2)
+                <div class="input-group avatar-upload-group">
+                    <label class="avatar-label-title">Foto Profil (Opsional) :</label>
+
+                    <div class="avatar-wrapper">               
+
+                        <label for="foto_profil" class="avatar-clickable-area">
+
+                            @if ($foto_profil && !$errors->has('foto_profil'))
+                                <img src="{{ $foto_profil->temporaryUrl() }}" class="avatar-preview-img">
+                            @else
+                                <div class="avatar-placeholder">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" viewBox="0 0 16 16">
+                                        <path d="M10.5 8.5a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
+                                        <path d="M2 4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V4zm5.354-1.146a.5.5 0 0 0-.708 0L1.146 8.354A1.5 1.5 0 0 0 1 9.414V12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V9.414a1.5 1.5 0 0 0-.414-1.06L9.354 2.854a.5.5 0 0 0-.708 0L5.354 6.146 7.354 2.854z"/>
+                                    </svg>
+                                    <span>PILIH FOTO</span>
+                                </div>
+                            @endif
+
+                            <div class="avatar-hover-overlay">
+                                Ubah Foto
+                            </div>
+                        </label>
+
+                        <input type="file" id="foto_profil" wire:model="foto_profil" accept="image/*" class="hidden-file-input">
+                    </div>
+
+                    <div wire:loading wire:target="foto_profil" class="avatar-loading-text">                
+                        <span>⏳</span> Memproses gambar...
+                    </div>
+                    
+                    @error('foto_profil') 
+                        <span class="text-danger avatar-error-text">{{ $message }}</span> 
+                    @enderror
+                </div>
+
                 <div class="input-group">
                     <label>Nomor Telepon :</label>
                     <input type="text" wire:model="no_telp" placeholder="Masukkan Nomor Telepon (Contoh: 081234xxx)">
@@ -74,7 +137,7 @@
 
                 <div class="input-group">
                     <label>Jenis Kelamin :</label>
-                    <select wire:model="jenis_kelamin" style="width: 100%; padding: 10px; border-radius: 4px; border: 1px solid #ccc; font-family: inherit; box-sizing: border-box; background-color: white;">
+                    <select wire:model="jenis_kelamin" class="select-gender">
                         <option value="">-- Pilih Jenis Kelamin --</option>
                         <option value="Pria">Pria</option>
                         <option value="Wanita">Wanita</option>
@@ -84,16 +147,16 @@
 
                 <div class="input-group">
                     <label>Alamat Lengkap :</label>
-                    <textarea wire:model="alamat" placeholder="Masukkan Alamat Lengkap" rows="4" style="width: 100%; padding: 10px; border-radius: 4px; border: 1px solid #ccc; font-family: inherit; box-sizing: border-box;"></textarea>
+                    <textarea wire:model="alamat" placeholder="Masukkan Alamat Lengkap" rows="4" class="textarea-address"></textarea>
                     @error('alamat') <span class="text-danger">{{ $message }}</span> @enderror
                 </div>
 
-                <div style="display: flex; gap: 10px; margin-top: 20px;">
-                    <button type="button" wire:click="backToStepOne" class="btn-kembali" style="flex: 1; background-color: #6c757d; color: white; border: none; padding: 10px; border-radius: 4px; cursor: pointer; font-weight: bold;">
+                <div class="form-actions-group">
+                    <button type="button" wire:click="backToStepOne" class="btn-back">
                         KEMBALI
                     </button>
                     
-                    <button type="submit" class="btn-lanjut" style="flex: 2; margin-top: 0;">
+                    <button type="submit" class="btn-next btn-submit-registration">
                         <span wire:loading.remove wire:target="register">DAFTAR SEKARANG</span>
                         <span wire:loading wire:target="register">MENYIMPAN...</span>
                     </button>

@@ -11,14 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        schema::create('Pemesanan', function (Blueprint $table) {
+        Schema::create('Pemesanan', function (Blueprint $table) {
             $table->bigIncrements('id_pemesanan');
             $table->unsignedBigInteger('id_pelanggan');
-            $table->foreign('id_pelanggan')->references('id_pelanggan')->on('Pelanggan');
+            $table->foreign('id_pelanggan')->references('id_pelanggan')->on('Pelanggan')->onDelete('cascade');
             $table->enum('jenis_pemesanan', ['Satuan', 'Kiloan']);
-            $table->enum('layanan_pemesanan', ['Cepat', 'Biasa',]);
+            $table->enum('layanan_pemesanan', ['Cepat', 'Biasa']);
             $table->integer('jumlah_brg');
             $table->dateTime('tanggal_pemesanan');
+            
+            // Kolom baru untuk status pemesanan (Otomatis bernilai 'diproses' saat order dibuat)
+            $table->enum('status_pemesanan', ['diproses', 'selesai', 'dibatalkan'])->default('diproses');
+            
             $table->timestamps();
         });
     }
@@ -28,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
+        Schema::dropIfExists('Pemesanan');
     }
 };

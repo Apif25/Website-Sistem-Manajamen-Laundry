@@ -16,13 +16,12 @@ use App\Livewire\Pekerja\Auth\Verify2FA;
 use App\Livewire\Pekerja\Auth\FirstPassword;
 
 use App\Livewire\Frontend\Beranda;
-use App\livewire\Frontend\Auth\Login;
+use App\Livewire\Frontend\Auth\Login;
 use App\Livewire\Frontend\Auth\Register;
 use App\Livewire\Frontend\ProdukLayanan\Index as ProdukLayananIndex;
 use App\Livewire\Frontend\ProdukLayanan\Produk;
 use App\Livewire\Frontend\ProdukLayanan\Layanan;
-use App\Livewire\Frontend\PesananAnda\Index as PesananAndaIndex;
-use App\Livewire\Frontend\PesananAnda\Tracker as PesananAndaTracker;
+use App\Livewire\Frontend\PesananAnda\PesananAnda;
 
 // ============================================================================
 // WELCOME
@@ -48,11 +47,8 @@ Route::prefix('pelanggan')->name('pelanggan.')->group(function () {
 
     Route::middleware('auth.pelanggan')->group(function () {
 
-        Route::get('/pesanan-anda', PesananAndaIndex::class)
+        Route::get('/pesanan-anda', PesananAnda::class)
             ->name('pesanan_anda');
-
-        Route::get('/pesanan-anda/tracker', PesananAndaTracker::class)
-            ->name('pesanan_anda.tracker');
 
     });
 

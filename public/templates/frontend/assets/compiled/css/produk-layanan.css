@@ -79,7 +79,7 @@
 }
 
 /* Styling Tombol / Teks "Lihat Semua" */
-.btn-lihat {
+.btn-view {
     display: inline-flex;
     align-items: center;
     gap: 10px;

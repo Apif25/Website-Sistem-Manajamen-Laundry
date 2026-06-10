@@ -28,9 +28,8 @@
                                         <option value="Satuan">Satuan</option>
                                         <option value="Kiloan">Kiloan</option>
                                     </select>
-                                    @error('jenis_pemesanan') <span style="color: red; font-size: 12px;">{{ $message }}</span> @enderror
                                 </div>
-
+                                
                                 <div class="order-input-group">
                                     <label for="layanan_pemesanan">Layanan Pemesanan</label>
                                     <select id="layanan_pemesanan" wire:model="layanan_pemesanan">
@@ -53,9 +52,10 @@
                                         @error('tanggal_pemesanan') <span style="color: red; font-size: 12px;">{{ $message }}</span> @enderror
                                     </div>
                                 </div>
-
+                                
+                                @error('jenis_pemesanan') <span style="color: red; font-size: 12px;">{{ $message }}</span> @enderror
                                 <div class="order-form-footer">
-                                    <a href="#" class="btn-ketentuan">
+                                    <a href="#" class="btn-terms">
                                         <img src="{{ asset('img/icon/Purchase Order.png') }}" alt="Ketentuan">
                                         <span>Ketentuan Pemesanan</span>
                                     </a>

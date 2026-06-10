@@ -19,6 +19,7 @@ return new class extends Migration
             $table->text('no_telepon');
             $table->text('alamat');
             $table->enum('jenis_kelamin', ['Pria', 'Wanita']);
+            $table->string('foto_profil')->nullable(); // <-- Kolom baru untuk foto profil
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
             $table->timestamps();

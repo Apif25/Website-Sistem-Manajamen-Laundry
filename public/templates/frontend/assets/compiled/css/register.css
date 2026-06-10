@@ -1,3 +1,6 @@
+/* ==========================================================================
+   STYLING UTAMA & LAYOUT BASE
+   ========================================================================== */
 * {
     margin: 0;
     padding: 0;
@@ -12,7 +15,6 @@
     align-items: center;
     min-height: 100vh;
     width: 100vw;
-    /* Ganti path gambar sesuai folder proyekmu */
     background-image: url('/img/login/Saki Rindo.jpg'); 
     background-size: cover;
     background-position: center;
@@ -52,14 +54,34 @@
     letter-spacing: 1px;
 }
 
-/* Wrapper Label dan Input */
+/* ==========================================================================
+   NOTIFIKASI / ALERTS (SESSION FLASH)
+   ========================================================================== */
+.alert {
+    margin-bottom: 15px;
+    font-size: 14px;
+    padding: 10px;
+    border-radius: 6px;
+    text-align: center;
+}
+.alert-success {
+    color: green;
+    background-color: #e6f4ea;
+}
+.alert-danger {
+    color: red;
+    background-color: #fce8e6;
+}
+
+/* ==========================================================================
+   INPUTS, LABELS, & ERROR TEXT
+   ========================================================================== */
 .input-group {
     display: flex;
     flex-direction: column;
     margin-bottom: 20px;
 }
 
-/* Label Teks Input */
 .input-group label {
     color: #4682b4;
     font-size: 14px;
@@ -67,7 +89,6 @@
     margin-bottom: 6px;
 }
 
-/* Elemen Input */
 .input-group input, 
 .otp-row input {
     width: 100%;
@@ -80,14 +101,23 @@
     background-color: #ffffff;
 }
 
-/* Placeholder text styling */
 .input-group input::placeholder,
 .otp-row input::placeholder {
     color: #94a3b8;
     font-size: 13px;
 }
 
-/* Baris khusus OTP */
+/* Error Text dari Laravel Validasi */
+.text-danger {
+    color: #ef4444;
+    font-size: 12px;
+    margin-top: 5px;
+    text-align: left;
+}
+
+/* ==========================================================================
+   ALUR VALIDASI KODE OTP & COOLDOWN
+   ========================================================================== */
 .otp-row {
     display: flex;
     gap: 20px;
@@ -95,46 +125,208 @@
     align-items: center;
 }
 
-.otp-row input {
-    flex: 1; /* Mengisi sisa ruang */
+.otp-input-wrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.otp-cooldown-text {
+    font-size: 11px;
+    color: #6c757d;
+    margin-top: 5px;
+    text-align: left;
+}
+
+.otp-cooldown-text strong {
+    color: #4682b4;
 }
 
 /* Tombol Kirim OTP (Warna Orange) */
-.btn-kirim {
+.btn-send {
     width: 100px;
-    padding: 10px 0;
-    background-color: #ff6611; /* Warna orange hangat cerah */
-    border: none;
+    padding: 10px 0; /* Tinggi disesuaikan agar sejajar dengan input */
+    background-color: #ff6611;
+    border: 1px solid #ff6611; /* Ditambahkan border tipis agar tinggi presisi */
     border-radius: 6px;
     color: white;
     font-size: 14px;
     font-weight: 500;
     cursor: pointer;
     transition: background 0.2s;
+    text-align: center;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    align-self: flex-start; /* Mencegah tombol melar ke bawah */
 }
 
-.btn-kirim:hover {
+.btn-send:hover {
     background-color: #e55500;
 }
 
-/* Bagian Checkbox Syarat & Ketentuan */
+/* State Tombol OTP ketika terkunci (cooldown/loading) */
+.btn-otp-disabled {
+    background-color: #ced4da !important;
+    color: #6c757d !important;
+    cursor: not-allowed !important;
+    border: 1px solid #ced4da !important; /* Mencegah penyusutan ukuran tombol */
+}
+
+/* ==========================================================================
+   AVATAR UPLOAD & PREVIEW (STEP 2)
+   ========================================================================== */
+.avatar-upload-group {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.avatar-label-title {
+    display: block;
+    margin-bottom: 8px;
+    text-align: left;
+    font-weight: bold;
+}
+
+.avatar-wrapper {
+    position: relative;
+    display: inline-block;
+    margin-top: 5px;
+}
+
+.avatar-clickable-area {
+    cursor: pointer;
+    display: block;
+    position: relative;
+    width: 110px;
+    height: 110px;
+    margin: 0 auto;
+}
+
+.avatar-preview-img {
+    width: 110px;
+    height: 110px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid #4682b4;
+    box-shadow: 0px 4px 8px rgba(0,0,0,0.15);
+    transition: all 0.3s ease;
+}
+
+.avatar-placeholder {
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    border: 2px dashed #4682b4;
+    background: #f0f8ff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #4682b4;
+    transition: all 0.3s ease;
+}
+
+.avatar-placeholder span {
+    font-size: 10px;
+    font-weight: bold;
+    margin-top: 5px;
+}
+
+.avatar-hover-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    background: rgba(0,0,0,0.4);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: bold;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+
+.hidden-file-input {
+    display: none;
+}
+
+.avatar-loading-text {
+    font-size: 12px;
+    color: #4682b4;
+    margin-top: 8px;
+    font-weight: 500;
+}
+
+.avatar-loading-text span {
+    display: inline-block;
+    animation: spin 1s linear infinite;
+    margin-right: 5px;
+}
+
+.avatar-error-text {
+    display: block;
+    margin-top: 8px;
+    text-align: center;
+}
+
+/* Hover effects untuk Avatar */
+.avatar-clickable-area:hover .avatar-hover-overlay {
+    opacity: 1;
+}
+
+.avatar-clickable-area:hover .avatar-placeholder {
+    background: #e6f2ff;
+    border-color: #36648b;
+}
+
+/* ==========================================================================
+   INPUT KHUSUS STEP 2 (GENDER & ALAMAT)
+   ========================================================================== */
+.select-gender,
+.textarea-address {
+    width: 100%;
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #4682b4;
+    font-family: inherit;
+    box-sizing: border-box;
+}
+
+.select-gender {
+    background-color: white;
+}
+
+/* ==========================================================================
+   TERMS CHECKBOX, BUTTONS, ACTIONS GROUP
+   ========================================================================== */
+/* Cari .terms-checkbox yang lama, perbarui menjadi seperti ini: */
 .terms-checkbox {
     display: flex;
-    align-items: flex-start;
-    gap: 10px;
+    align-items: center; /* Mengubah posisi checkbox agar pas di tengah baris teks */
+    gap: 8px;
     margin-bottom: 35px;
+    text-align: left;
 }
 
 .terms-checkbox input {
-    margin-top: 4px;
+    margin-top: 0;
     cursor: pointer;
     accent-color: #3b82f6;
+    width: 14px;
+    height: 14px;
 }
 
 .terms-checkbox label {
-    font-size: 13px;
+    font-size: 11px; 
     color: #4682b4;
-    line-height: 1.4;
+    line-height: 1.2;
+    display: inline-block;
 }
 
 .terms-checkbox label a {
@@ -142,13 +334,41 @@
     text-decoration: underline;
 }
 
-.terms-checkbox .required {
-    color: #ef4444; /* Bintang merah tanda wajib */
+/* Merapikan tanda bintang merah */
+.terms-checkbox .required-star {
+    color: #ef4444;
+    font-weight: bold;
+    display: inline; /* Mengunci bintang agar selalu menempel di akhir kalimat */
     margin-left: 2px;
 }
 
+/* Pembungkus Tombol Kembali & Daftar di Step 2 */
+.form-actions-group {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+/* Tombol KEMBALI (Step 2) */
+.btn-back {
+    flex: 1; 
+    background-color: #6c757d; 
+    color: white; 
+    border: none; 
+    padding: 10px; 
+    border-radius: 4px; 
+    cursor: pointer; 
+    font-weight: bold;
+    font-size: 14px;
+    transition: background 0.2s;
+}
+
+.btn-back:hover {
+    background-color: #5a6268;
+}
+
 /* Tombol LANJUT Utama (Bentuk Pill Gradasi Biru) */
-.btn-lanjut {
+.btn-next {
     display: block;
     width: 65%; /* Tombol tidak full width, disesuaikan seperti gambar */
     margin: 0 auto; /* Supaya posisinya di tengah */
@@ -162,15 +382,29 @@
     letter-spacing: 1px;
     cursor: pointer;
     transition: opacity 0.2s;
+    text-align: center;
 }
 
-.btn-lanjut:hover {
+.btn-next:hover {
     opacity: 0.9;
 }
 
-/* ==========================================
-   RESPONSIVE LAYAR HP (DIBAWAH 768px)
-   ========================================== */
+/* Modifikasi tombol lanjut khusus untuk submit pendaftaran di Step 2 */
+.btn-submit-registration {
+    flex: 2;
+    margin-top: 0;
+    border-radius: 4px; /* Menyesuaikan style kotak tombol KEMBALI agar serasi */
+    width: auto;
+}
+
+/* ==========================================================================
+   ANIMATIONS & RESPONSIVE BREAKPOINTS
+   ========================================================================== */
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
 @media (max-width: 576px) {
     .register-card {
         padding: 35px 25px;
@@ -185,7 +419,15 @@
         gap: 10px;
     }
 
-    .btn-lanjut {
+    .btn-next {
         width: 100%; /* Di HP diubah jadi full width agar lebih mudah ditekan */
+    }
+
+    .form-actions-group {
+        flex-direction: column; /* Tombol bertumpuk vertikal di layar kecil */
+    }
+    
+    .btn-back {
+        order: 2; /* Menaruh tombol kembali di bawah tombol submit saat di mobile view */
     }
 }

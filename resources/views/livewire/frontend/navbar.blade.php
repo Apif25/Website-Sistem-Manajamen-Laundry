@@ -31,7 +31,7 @@
             </a>
         </li>
         
-        @guest
+        @guest('pelanggan')
             <li class="nav-item nav-photo-profile nav-guest">
                 <a href="{{ route('login') }}" class="photo-profile-link open-popup-login" wire:navigate>
                     <img src="{{ asset('img/icon/Profile.png') }}" alt="foto profil" class="photo-profile-icon">
@@ -42,7 +42,10 @@
         @auth('pelanggan')
             <li class="nav-item nav-photo-profile dropdown-wrapper" x-data="{ open: false }" @click.away="open = false">
                 <button type="button" @click="open = !open" class="dropdown-trigger-btn">
-                    <img src="{{ asset('img/icon/Profile.png') }}" alt="foto profil" class="photo-profile-icon">
+                    <img src="{{ auth('pelanggan')->user()->foto_profil ? asset('storage/foto-pelanggan/' . auth('pelanggan')->user()->foto_profil) : asset('img/icon/Profile.png') }}" 
+                         alt="foto profil" 
+                         class="photo-profile-icon" 
+                         style="object-fit: cover; border-radius: 50%;">
                 </button>
         
                 <div class="dropdown-menu" x-show="open" x-transition style="display: none;">
@@ -89,7 +92,7 @@
     </ul>
 
     <div class="mobile-profile">
-        @guest
+        @guest('pelanggan')
             <a href="{{ route('login') }}" class="photo-profile-link open-popup-login nav-guest" wire:navigate>
                 <img src="{{ asset('img/icon/Profile.png') }}" alt="foto profil" class="mobile-profile-icon">
             </a>
@@ -98,7 +101,10 @@
         @auth('pelanggan')
             <div class="dropdown-wrapper" x-data="{ open: false }" @click.away="open = false">
                 <button type="button" @click="open = !open" class="dropdown-trigger-btn">
-                    <img src="{{ asset('img/icon/Profile.png') }}" alt="foto profil" class="mobile-profile-icon">
+                    <img src="{{ auth('pelanggan')->user()->foto_profil ? asset('storage/foto-pelanggan/' . auth('pelanggan')->user()->foto_profil) : asset('img/icon/Profile.png') }}" 
+                         alt="foto profil" 
+                         class="mobile-profile-icon" 
+                         style="object-fit: cover; border-radius: 50%;">
                 </button>
         
                 <div class="dropdown-menu mobile-dropdown" x-show="open" x-transition style="display: none;">

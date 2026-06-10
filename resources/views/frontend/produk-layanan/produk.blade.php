@@ -1,6 +1,6 @@
 <div>
     <div class="top-container">
-        <img src="{{ asset('img/produk & layanan/Produk.png') }}" alt="Produk" class="bg-hero-image">
+        <img src="{{ asset('img/produk & layanan/Produk bg.jpg') }}" alt="Produk" class="bg-hero-image">
         <div class="top-container-text">
             <h1>PRODUK KAMI</h1>
         </div>

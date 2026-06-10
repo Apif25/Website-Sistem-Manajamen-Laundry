@@ -64,8 +64,13 @@ class Login extends Component
             $this->dispatch('reset-recaptcha');
 
             // Ambil pesan error email dari Service untuk ditampilkan di session flash atau properti error
-            $this->addError('email', $e->errors()['email'][0] ?? 'Login gagal.');
-            session()->flash('error', $e->errors()['email'][0] ?? 'Login gagal.');
+            if (isset($e->errors()['email'])) {
+                $this->addError('email', $e->errors()['email'][0]);
+                session()->flash('error', $e->errors()['email'][0]);
+            } else {
+                // Melempar kembali error validasi bawaan (seperti email required / password required) ke view
+                throw $e;
+            }
         }
     }
 
