@@ -4,6 +4,7 @@ namespace App\Livewire\Frontend\Profile;
 
 use Livewire\Component;
 use Livewire\WithFileUploads;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
@@ -149,12 +150,22 @@ class Index extends Component
 
         $namaFoto = $pelanggan->foto_profil;
         if ($this->foto_profil) {
+
             // Hapus foto lama jika ada
-            if ($pelanggan->foto_profil && \Storage::disk('public')->exists('foto-pelanggan/' . $pelanggan->foto_profil)) {
-                \Storage::disk('public')->delete('foto-pelanggan/' . $pelanggan->foto_profil);
+            if (
+                $pelanggan->foto_profil &&
+                Storage::disk('public')->exists('pelanggan/foto-pelanggan/' . $pelanggan->foto_profil)
+            ) {
+                Storage::disk('public')->delete('pelanggan/foto-pelanggan/' . $pelanggan->foto_profil);
             }
+
             $namaFoto = $this->foto_profil->hashName();
-            $this->foto_profil->storeAs('foto-pelanggan', $namaFoto, 'public');
+
+            $this->foto_profil->storeAs(
+                'pelanggan/foto-pelanggan',
+                $namaFoto,
+                'public'
+            );
         }
 
         $pelanggan->nama_pelanggan = $this->nama_pelanggan;

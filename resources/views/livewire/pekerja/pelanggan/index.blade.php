@@ -114,6 +114,7 @@
                     <thead class="table-light">
                         <tr>
                             <th width="5%">ID</th>
+                            <th>Foto</th>
                             <th>Nama</th>
                             <th>Email</th>
                             <th>No Telepon</th>
@@ -133,6 +134,27 @@
                             {{-- ID --}}
                             <td>
                                 {{ $loop->iteration }}
+                            </td>
+
+                            {{-- Foto --}}
+                            <td>
+                                @if ($pelanggan->foto_profil)
+
+                                <img src="{{ asset('storage/pelanggan/foto-pelanggan/' . $pelanggan->foto_profil) }}"
+                                    class="rounded-circle"
+                                    width="40"
+                                    height="40"
+                                    style="object-fit: cover;">
+
+                                @else
+
+                                <div class="bg-primary rounded-circle d-flex align-items-center justify-content-center"
+                                    style="width:40px;height:40px;">
+                                    <span class="text-white fw-bold">
+                                        {{ strtoupper(substr($pelanggan->nama_pelanggan, 0, 1)) }}
+                                    </span>
+                                </div>
+                                @endif
                             </td>
 
                             {{-- Nama --}}
