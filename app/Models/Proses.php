@@ -17,9 +17,6 @@ class Proses extends Model
         'proses',
     ];
 
-    /**
-     * Urutan tahapan proses (untuk step progression).
-     */
     const STEPS = [
         'Menunggu',
         'Penjemputan',
@@ -29,8 +26,29 @@ class Proses extends Model
         'Selesai',
     ];
 
+    /**
+     * Otomatis update status_pemesanan menjadi 'Selesai'
+     * ketika kolom 'proses' diubah menjadi 'Selesai'.
+     */
+    protected static function booted()
+    {
+        static::saved(function ($proses) {
+            // Cek apakah tahapan saat ini adalah 'Selesai'
+            if ($proses->proses === 'Selesai') {
+                // Berjalan mundur: Proses -> Pesanan -> Pemesanan
+                $pesanan = $proses->pesanan;
+                
+                if ($pesanan && $pesanan->pemesanan) {
+                    $pesanan->pemesanan->update([
+                        'status_pemesanan' => 'Selesai'
+                    ]);
+                }
+            }
+        });
+    }
+
     // ─────────────────────────────────────────
-    // Relationships
+    // Relationships & Helpers Anda yang lain tetap di sini...
     // ─────────────────────────────────────────
 
     public function pesanan(): BelongsTo
@@ -38,41 +56,19 @@ class Proses extends Model
         return $this->belongsTo(Pesanan::class, 'id_pesanan');
     }
 
-    // ─────────────────────────────────────────
-    // Helpers
-    // ─────────────────────────────────────────
-
-    /**
-     * Index step saat ini (0-based).
-     */
     public function currentStepIndex(): int
     {
         return array_search($this->proses, self::STEPS) ?? 0;
     }
 
-    /**
-     * Step berikutnya setelah step saat ini, atau null jika sudah Selesai.
-     */
     public function nextStep(): ?string
     {
         $index = $this->currentStepIndex();
         return self::STEPS[$index + 1] ?? null;
     }
 
-    /**
-     * Apakah proses sudah selesai semua.
-     */
     public function isSelesai(): bool
     {
         return $this->proses === 'Selesai';
-    }
-
-    /**
-     * Semua step yang sudah dilewati (termasuk yang sekarang).
-     */
-    public function completedSteps(): array
-    {
-        $index = $this->currentStepIndex();
-        return array_slice(self::STEPS, 0, $index + 1);
     }
 }

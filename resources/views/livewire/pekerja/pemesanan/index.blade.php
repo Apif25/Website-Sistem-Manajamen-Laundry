@@ -83,6 +83,7 @@
                             <th>Layanan</th>
                             <th>Jumlah Brg</th>
                             <th>Tanggal</th>
+                            <th>Status</th>
                             <th width="20%" class="text-center">Aksi</th>
                         </tr>
                     </thead>
@@ -111,6 +112,12 @@
                             <td>{{ $pemesanan->jumlah_brg }}</td>
 
                             <td>{{ \Carbon\Carbon::parse($pemesanan->tanggal_pemesanan)->format('d M Y, H:i') }}</td>
+
+                            <td>
+                                <span class="badge {{ $pemesanan->status_pemesanan === 'Diproses' ? 'bg-primary' : ($pemesanan->status_pemesanan === 'Selesai' ? 'bg-success' : 'bg-danger') }}">
+                                    {{ $pemesanan->status_pemesanan }}
+                                </span>
+                            </td>
 
                             <td class="text-center">
                                 <div class="d-flex justify-content-center gap-1">
@@ -142,7 +149,7 @@
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="7" class="text-center text-muted py-4">
+                            <td colspan="8" class="text-center text-muted py-4">
                                 <i class="bi bi-database-x fs-4 d-block mb-2"></i>
                                 Data pemesanan tidak ditemukan
                             </td>

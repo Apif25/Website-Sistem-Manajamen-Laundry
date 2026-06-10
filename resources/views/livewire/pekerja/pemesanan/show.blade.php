@@ -111,6 +111,20 @@
                         </div>
                     </div>
 
+                    <!-- Status -->
+                    <div class="col-md-6">
+                        <div class="p-3 rounded border bg-body-tertiary shadow-sm">
+                            <small class="text-muted d-block mb-1">
+                                Status Pemesanan
+                            </small>
+                            <div>
+                                <span class="badge {{ $pemesanan->status_pemesanan === 'Diproses' ? 'bg-primary' : ($pemesanan->status_pemesanan === 'Selesai' ? 'bg-success' : 'bg-danger') }}">
+                                    {{ $pemesanan->status_pemesanan ?? '-' }}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- Alamat -->
                     <div class="col-12">
                         <div class="p-3 rounded border bg-body-tertiary shadow-sm">

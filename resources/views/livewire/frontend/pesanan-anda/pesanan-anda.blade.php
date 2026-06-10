@@ -9,18 +9,18 @@
     <div class="main-container">
         <div class="tabs-container">
             <button type="button" 
-                    wire:click="switchTab('diproses')" 
-                    class="tab-btn-order {{ $statusAktif == 'diproses' ? 'active' : '' }}">
+                    wire:click="switchTab('Diproses')" 
+                    class="tab-btn-order {{ $statusAktif == 'Diproses' ? 'active' : '' }}">
                 Diproses
             </button>
             <button type="button" 
-                    wire:click="switchTab('selesai')" 
-                    class="tab-btn-order {{ $statusAktif == 'selesai' ? 'active' : '' }}">
+                    wire:click="switchTab('Selesai')" 
+                    class="tab-btn-order {{ $statusAktif == 'Selesai' ? 'active' : '' }}">
                 Selesai
             </button>
             <button type="button" 
-                    wire:click="switchTab('dibatalkan')" 
-                    class="tab-btn-order {{ $statusAktif == 'dibatalkan' ? 'active' : '' }}">
+                    wire:click="switchTab('Dibatalkan')" 
+                    class="tab-btn-order {{ $statusAktif == 'Dibatalkan' ? 'active' : '' }}">
                 Dibatalkan
             </button>
         </div>
@@ -34,6 +34,7 @@
                             <th>Tanggal</th>
                             <th>Jenis & Layanan</th>
                             <th>Jumlah Barang</th>
+                            <th>Status</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -46,10 +47,15 @@
                                     <span style="font-size: 12px; color: #6c757d;">{{ $item->layanan_pemesanan }}</span>
                                 </td>
                                 <td>{{ $item->jumlah_brg }} Pcs</td>
+                                <td>
+                                    <span class="badge-status {{ strtolower($item->status_pemesanan) }}">
+                                        {{ $item->status_pemesanan }}
+                                    </span>
+                                </td>
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="4" style="text-align: center; padding: 20px; color: #6c757d;">
+                                <td colspan="5" style="text-align: center; padding: 20px; color: #6c757d;">
                                     Tidak ada data pesanan yang {{ $statusAktif }}.
                                 </td>
                             </tr>

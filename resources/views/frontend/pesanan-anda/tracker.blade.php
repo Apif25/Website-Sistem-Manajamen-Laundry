@@ -22,7 +22,7 @@
             ];
             
             $activeStepIndex = 0;
-            $isCancelled = $pemesanan->status_pemesanan === 'dibatalkan';
+            $isCancelled = $pemesanan->status_pemesanan === 'Dibatalkan';
             $isProcessed = $pemesanan->pesanan !== null;
             
             if ($isProcessed && $pemesanan->pesanan->proses) {
@@ -34,7 +34,6 @@
             }
         @endphp
 
-        <!-- LAUNDRY PROGRESS TIMELINE -->
         <div class="detail-container">
             <h3 class="detail-section-title">
                 <img src="{{ asset('img/icon/Purchase Order.png') }}" alt="Status" style="width: 20px; height: 20px;">
@@ -50,15 +49,18 @@
                     @foreach($steps as $index => $step)
                         @php
                             $class = '';
-                            if ($index < $activeStepIndex || ($pemesanan->status_pemesanan === 'selesai' && $step === 'Selesai')) {
+                            $isMainOrderSelesai = $pemesanan->status_pemesanan === 'Selesai';
+
+                            // Cek jika langkah ini sudah terlewati atau orderan utama sudah berstatus Selesai
+                            if ($index < $activeStepIndex || ($isMainOrderSelesai && $step === 'Selesai')) {
                                 $class = 'completed';
-                            } elseif ($index === $activeStepIndex) {
+                            } elseif ($index === $activeStepIndex && !$isMainOrderSelesai) {
                                 $class = 'active';
                             }
                         @endphp
                         <div class="tracker-step-item {{ $class }}">
                             <div class="step-node">
-                                @if($index < $activeStepIndex || ($pemesanan->status_pemesanan === 'selesai' && $step === 'Selesai'))
+                                @if($index < $activeStepIndex || ($isMainOrderSelesai && $step === 'Selesai'))
                                     ✓
                                 @else
                                     {{ $index + 1 }}
@@ -71,10 +73,8 @@
             @endif
         </div>
 
-        <!-- GRID DETAIL DATA -->
         <div class="detail-card-grid">
             
-            <!-- DETAIL PEMESANAN -->
             <div class="profile-card">
                 <h3 class="card-title">Informasi Pemesanan</h3>
                 <div class="info-list">
@@ -109,7 +109,6 @@
                 </div>
             </div>
 
-            <!-- DETAIL ALAMAT -->
             <div class="profile-card">
                 <h3 class="card-title">Alamat Penjemputan / Pengiriman</h3>
                 <div class="info-list">
@@ -146,7 +145,6 @@
 
         </div>
 
-        <!-- DETAIL KILOGRAM & PEMBAYARAN (JIKA SUDAH DIPROSES) -->
         @if($isProcessed)
             <div class="detail-container" style="margin-top: 30px;">
                 <h3 class="detail-section-title">
@@ -184,7 +182,7 @@
                             <div class="info-item" style="border-bottom: none;">
                                 <span class="info-label">Tanggal Pembayaran:</span>
                                 <span class="info-value">
-                                    {{ $pemesanan->pesanan->pembayaran->tanggal_pembayaran->translatedFormat('d F Y H:i') }} WIB
+                                    {{ \Carbon\Carbon::parse($pemesanan->pesanan->pembayaran->tanggal_pembayaran)->translatedFormat('d F Y H:i') }} WIB
                                 </span>
                             </div>
                         @endif
@@ -193,7 +191,6 @@
             </div>
         @endif
 
-        <!-- FOOTER HALAMAN -->
         <div style="margin-top: 30px; text-align: left;">
             <a href="{{ route('pelanggan.pesanan_anda') }}" wire:navigate class="btn-back-tracker">
                 ← Kembali ke Pesanan Anda

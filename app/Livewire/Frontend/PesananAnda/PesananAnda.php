@@ -13,7 +13,7 @@ use Livewire\Attributes\Title;
 class PesananAnda extends Component
 {
     // Properti untuk menyimpan status tab yang aktif
-    public $statusAktif = 'diproses';
+    public $statusAktif = 'Diproses';
 
     /**
      * Fungsi untuk mengubah status tab saat tombol diklik
@@ -21,7 +21,7 @@ class PesananAnda extends Component
     public function switchTab($status)
     {
         // Validasi status untuk keamanan
-        if (in_array($status, ['diproses', 'selesai', 'dibatalkan'])) {
+        if (in_array($status, ['Diproses', 'Selesai', 'Dibatalkan'])) {
             $this->statusAktif = $status;
         }
     }

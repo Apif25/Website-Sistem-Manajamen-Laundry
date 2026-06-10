@@ -22,8 +22,8 @@ return new class extends Migration
             $table->integer('jumlah_brg');
             $table->dateTime('tanggal_pemesanan');
             
-            // Kolom baru untuk status pemesanan (Otomatis bernilai 'diproses' saat order dibuat)
-            $table->enum('status_pemesanan', ['diproses', 'selesai', 'dibatalkan'])->default('diproses');
+            // Kolom baru untuk status pemesanan (Otomatis bernilai 'Diproses' saat order dibuat)
+            $table->enum('status_pemesanan', ['Diproses', 'Selesai', 'Dibatalkan'])->default('Diproses');
             
             $table->timestamps();
         });
