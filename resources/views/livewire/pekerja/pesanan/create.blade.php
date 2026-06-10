@@ -55,23 +55,23 @@
 
                 {{-- Pelanggan (auto-fill) --}}
                 <div class="col-12 col-md-6 mb-3">
-                    <label for="id_pelanggan" class="form-label">
+                    <label class="form-label">
                         Pelanggan <span class="text-danger">*</span>
                     </label>
-                    <select
-                        wire:model="id_pelanggan"
-                        id="id_pelanggan"
-                        class="form-select @error('id_pelanggan') is-invalid @enderror">
-                        <option value="">-- Pilih Pelanggan --</option>
-                        @foreach ($pelanggans as $pelanggan)
-                        <option value="{{ $pelanggan->id_pelanggan }}">
-                            {{ $pelanggan->nama_pelanggan }} ({{ $pelanggan->email }})
-                        </option>
-                        @endforeach
-                    </select>
+
+                    <div class="form-control bg-light">
+                        @if($id_pelanggan)
+                        {{ $pelanggans->firstWhere('id_pelanggan', $id_pelanggan)?->nama_pelanggan }}
+                        ({{ $pelanggans->firstWhere('id_pelanggan', $id_pelanggan)?->email }})
+                        @else
+                        Belum ada pelanggan dipilih
+                        @endif
+                    </div>
+
                     @error('id_pelanggan')
-                    <div class="invalid-feedback">{{ $message }}</div>
+                    <div class="invalid-feedback d-block">{{ $message }}</div>
                     @enderror
+
                     @if ($id_pelanggan)
                     <small class="text-success">
                         <i class="bi bi-check-circle me-1"></i>
@@ -79,40 +79,36 @@
                     </small>
                     @endif
                 </div>
-
                 {{-- Jenis Pesanan --}}
                 <div class="col-12 col-md-6 mb-3">
-                    <label for="jenis_pesanan" class="form-label">
+                    <label class="form-label">
                         Jenis Pesanan <span class="text-danger">*</span>
                     </label>
-                    <select
-                        wire:model="jenis_pesanan"
-                        id="jenis_pesanan"
-                        class="form-select @error('jenis_pesanan') is-invalid @enderror">
-                        <option value="">-- Pilih Jenis --</option>
-                        <option value="Kiloan">Kiloan</option>
-                        <option value="Satuan">Satuan</option>
-                    </select>
+
+                    <div class="form-control bg-light">
+                        {{ $jenis_pesanan ?: 'Belum dipilih' }}
+                    </div>
+
+                    <input type="hidden" wire:model="jenis_pesanan">
+
                     @error('jenis_pesanan')
-                    <div class="invalid-feedback">{{ $message }}</div>
+                    <div class="invalid-feedback d-block">{{ $message }}</div>
                     @enderror
                 </div>
-
                 {{-- Layanan Pesanan --}}
                 <div class="col-12 col-md-6 mb-3">
-                    <label for="layanan_pesanan" class="form-label">
-                        Layanan <span class="text-danger">*</span>
+                    <label class="form-label">
+                        Layanan Pesanan <span class="text-danger">*</span>
                     </label>
-                    <select
-                        wire:model="layanan_pesanan"
-                        id="layanan_pesanan"
-                        class="form-select @error('layanan_pesanan') is-invalid @enderror">
-                        <option value="">-- Pilih Layanan --</option>
-                        <option value="Cepat">Cepat</option>
-                        <option value="Biasa">Biasa</option>
-                    </select>
+
+                    <div class="form-control bg-light">
+                        {{ $layanan_pesanan ?: 'Belum dipilih' }}
+                    </div>
+
+                    <input type="hidden" wire:model="layanan_pesanan">
+
                     @error('layanan_pesanan')
-                    <div class="invalid-feedback">{{ $message }}</div>
+                    <div class="invalid-feedback d-block">{{ $message }}</div>
                     @enderror
                 </div>
 
