@@ -118,7 +118,6 @@
                             <th>Email</th>
                             <th>No Telepon</th>
                             <th>Jenis Kelamin</th>
-                            <th>Alamat</th>
                             <th width="20%" class="text-center">
                                 Aksi
                             </th>
@@ -172,10 +171,6 @@
 
                             </td>
 
-                            {{-- Alamat --}}
-                            <td>
-                                {{ Str::limit($pelanggan->alamat, 40) }}
-                            </td>
 
                             {{-- Aksi --}}
                             <td class="text-center">
