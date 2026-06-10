@@ -42,7 +42,7 @@
         @auth('pelanggan')
             <li class="nav-item nav-photo-profile dropdown-wrapper" x-data="{ open: false }" @click.away="open = false">
                 <button type="button" @click="open = !open" class="dropdown-trigger-btn">
-                    <img src="{{ auth('pelanggan')->user()->foto_profil ? asset('storage/foto-pelanggan/' . auth('pelanggan')->user()->foto_profil) : asset('img/icon/Profile.png') }}" 
+                    <img src="{{ auth('pelanggan')->user()->foto_profil ? asset('storage/pelanggan/foto-pelanggan/' . auth('pelanggan')->user()->foto_profil) : asset('img/icon/Profile.png') }}" 
                          alt="foto profil" 
                          class="photo-profile-icon" 
                          style="object-fit: cover; border-radius: 50%;">
@@ -101,7 +101,7 @@
         @auth('pelanggan')
             <div class="dropdown-wrapper" x-data="{ open: false }" @click.away="open = false">
                 <button type="button" @click="open = !open" class="dropdown-trigger-btn">
-                    <img src="{{ auth('pelanggan')->user()->foto_profil ? asset('storage/foto-pelanggan/' . auth('pelanggan')->user()->foto_profil) : asset('img/icon/Profile.png') }}" 
+                    <img src="{{ auth('pelanggan')->user()->foto_profil ? asset('storage/pelanggan/foto-pelanggan/' . auth('pelanggan')->user()->foto_profil) : asset('img/icon/Profile.png') }}" 
                          alt="foto profil" 
                          class="mobile-profile-icon" 
                          style="object-fit: cover; border-radius: 50%;">
