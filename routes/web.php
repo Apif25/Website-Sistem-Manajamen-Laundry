@@ -30,7 +30,7 @@ use App\Livewire\Frontend\PesananAnda\PesananAnda;
 
 Route::get('/', function () {
     return redirect('/pelanggan');
-}); 
+});
 
 Route::prefix('pelanggan')->name('pelanggan.')->group(function () {
 
@@ -51,6 +51,12 @@ Route::prefix('pelanggan')->name('pelanggan.')->group(function () {
 
     Route::middleware('auth.pelanggan')->group(function () {
 
+        Route::get('/setup-2fa', \App\Livewire\Frontend\Auth\Setup2FA::class)
+            ->name('setup-2fa');
+
+        Route::get('/verify-2fa', \App\Livewire\Frontend\Auth\Verify2FA::class)
+            ->name('verify-2fa');
+
         Route::get('/pesanan-anda', PesananAnda::class)
             ->name('pesanan_anda');
 
@@ -59,9 +65,7 @@ Route::prefix('pelanggan')->name('pelanggan.')->group(function () {
 
         Route::get('/profile', \App\Livewire\Frontend\Profile\Index::class)
             ->name('profile');
-
     });
-
 });
 
 Route::get('/login', Login::class)

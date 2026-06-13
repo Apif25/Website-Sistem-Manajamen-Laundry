@@ -11,7 +11,7 @@ class Pelanggan extends Authenticatable
     use HasFactory, Notifiable;
 
     protected $table = 'Pelanggan';
-    
+
     // Menentukan primary key custom karena bukan 'id'
     protected $primaryKey = 'id_pelanggan';
 
@@ -22,6 +22,8 @@ class Pelanggan extends Authenticatable
         'no_telepon',
         'jenis_kelamin',
         'foto_profil',
+        'google2fa_secret',
+        'google2fa_enabled',
     ];
 
     protected $hidden = [

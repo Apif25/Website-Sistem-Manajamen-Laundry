@@ -2,7 +2,7 @@
     <link rel="stylesheet" href="{{ asset('templates/frontend/assets/compiled/css/profile.css') }}">
 
     <div class="top-container">
-        <img src="{{ asset('img/pesanan/section1.png') }}" alt="Profil" class="bg-hero-image">
+        <img src="{{ asset('img/profile/profile.jpg') }}" alt="Profil" class="bg-hero-image">
         <div class="top-container-text">
             <h1>Profil Anda</h1>
         </div>

@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\SendOtpMail;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Validation\Rules\Password;
 
 #[Layout('frontend.layouts.auth')]
 #[Title('Halaman Pendaftaran Pelanggan')]
@@ -85,7 +86,14 @@ class Register extends Component
         return [
             'username' => 'required|min:3|unique:' . Pelanggan::class . ',nama_pelanggan',
             'email' => 'required|email|unique:' . Pelanggan::class . ',email',
-            'password' => 'required|min:8|confirmed',
+            'password' => [
+                'required',
+                'confirmed',
+                Password::min(8)
+                    ->mixedCase() // huruf besar & kecil
+                    ->numbers()   // angka
+                    ->symbols(),  // karakter khusus
+            ],
             'otp' => 'required|digits:6',
             'terms' => 'accepted',
         ];

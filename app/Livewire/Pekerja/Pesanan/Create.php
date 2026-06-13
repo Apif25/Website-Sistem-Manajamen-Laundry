@@ -4,44 +4,78 @@ namespace App\Livewire\Pekerja\Pesanan;
 
 use App\Models\Pemesanan;
 use App\Models\Pelanggan;
+use App\Models\Pesanan;
 use App\Services\PesananService;
 use Livewire\Component;
 use Livewire\Attributes\Layout;
-use Livewire\Attributes\Rule;
 
 #[Layout('backend.layouts.app')]
 class Create extends Component
 {
-    #[Rule('required|exists:Pemesanan,id_pemesanan')]
     public string $id_pemesanan = '';
 
-    #[Rule('required|exists:Pelanggan,id_pelanggan')]
     public string $id_pelanggan = '';
 
-    #[Rule('required|in:Kiloan,Satuan')]
     public string $jenis_pesanan = '';
 
-    #[Rule('required|in:Cepat,Biasa')]
     public string $layanan_pesanan = '';
 
-    #[Rule('required|numeric|min:0.1')]
     public string $berat = '';
 
-    #[Rule('required|numeric|min:0')]
     public string $harga = '';
 
-    #[Rule('required|date')]
     public string $tanggal_pesanan = '';
 
-    // Auto-fill id_pelanggan saat pemesanan dipilih
+    public function rules(): array
+    {
+        return [
+            'id_pemesanan' => [
+                'required',
+                'exists:Pemesanan,id_pemesanan',
+                'unique:Pesanan,id_pemesanan',
+            ],
+
+            'id_pelanggan' => [
+                'required',
+                'exists:Pelanggan,id_pelanggan',
+            ],
+
+            'jenis_pesanan' => [
+                'required',
+                'in:Kiloan,Satuan',
+            ],
+
+            'layanan_pesanan' => [
+                'required',
+                'in:Cepat,Biasa',
+            ],
+
+            'berat' => [
+                'required',
+                'numeric',
+                'min:0.1',
+            ],
+
+            'harga' => [
+                'required',
+                'numeric',
+                'min:0',
+            ],
+
+            'tanggal_pesanan' => [
+                'required',
+                'date',
+            ],
+        ];
+    }
+
+    // Auto-fill data saat pemesanan dipilih
     public function updatedIdPemesanan($value): void
     {
         $pemesanan = Pemesanan::with('pelanggan')->find($value);
 
         if ($pemesanan) {
             $this->id_pelanggan = $pemesanan->id_pelanggan;
-
-            // Ambil dari tabel Pemesanan
             $this->jenis_pesanan = $pemesanan->jenis_pemesanan;
             $this->layanan_pesanan = $pemesanan->layanan_pemesanan;
         } else {
@@ -72,9 +106,19 @@ class Create extends Component
 
     public function render()
     {
-        $pemesanans = Pemesanan::with('pelanggan')->latest()->get();
+        $pemesanans = Pemesanan::with('pelanggan')
+            ->whereNotIn('id_pemesanan', function ($query) {
+                $query->select('id_pemesanan')
+                    ->from('Pesanan');
+            })
+            ->latest()
+            ->get();
+
         $pelanggans = Pelanggan::orderBy('nama_pelanggan')->get();
 
-        return view('livewire.pekerja.pesanan.create', compact('pemesanans', 'pelanggans'));
+        return view(
+            'livewire.pekerja.pesanan.create',
+            compact('pemesanans', 'pelanggans')
+        );
     }
 }

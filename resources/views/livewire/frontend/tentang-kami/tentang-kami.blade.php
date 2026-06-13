@@ -1,5 +1,5 @@
 <div class="about-page">
-    <img src="{{ asset('img/tentang-kami/Tentang-Kami.jpg') }}" alt="Tentang Kami" class="background-img">
+    <img src="{{ asset('img/tentang-kami/tentang-kami.jpg') }}" alt="Tentang Kami" class="background-img">
 
     <div class="about-content">
         <span class="about-label">TENTANG KAMI</span>

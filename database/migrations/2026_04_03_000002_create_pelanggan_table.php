@@ -19,6 +19,9 @@ return new class extends Migration
             $table->text('no_telepon');
             $table->enum('jenis_kelamin', ['Pria', 'Wanita']);
             $table->string('foto_profil')->nullable(); // <-- Kolom baru untuk foto profil
+            $table->string('google2fa_secret')->nullable();
+            $table->boolean('google2fa_enabled')->default(false);
+            $table->timestamp('google2fa_confirmed_at')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
             $table->timestamps();

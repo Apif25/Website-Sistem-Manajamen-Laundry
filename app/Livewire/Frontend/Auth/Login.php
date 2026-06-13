@@ -6,10 +6,11 @@ use Livewire\Component;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
 use Illuminate\Support\Facades\Http;
-use App\Services\PelangganAuthService; 
+use App\Services\PelangganAuthService;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\Auth;
 
-#[Layout('frontend.layouts.auth')] 
+#[Layout('frontend.layouts.auth')]
 #[Title('Halaman Masuk Pelanggan')]
 class Login extends Component
 {
@@ -33,14 +34,12 @@ class Login extends Component
 
     public function loginPelanggan(PelangganAuthService $authService)
     {
-        // 1. Validasi Input Form termasuk Captcha
         $this->validate([
             'email'    => 'required|email',
             'password' => 'required',
             'captcha'  => 'required',
         ]);
 
-        // 2. Verifikasi token ke API Google
         if (!$this->verifyCaptcha()) {
             $this->resetCaptcha();
             $this->dispatch('reset-recaptcha');
@@ -49,26 +48,31 @@ class Login extends Component
         }
 
         try {
-            // 3. Eksekusi Login via Service
+
             $authService->login([
                 'email'    => $this->email,
                 'password' => $this->password,
             ], $this->remember);
 
-            // Jika sukses, arahkan ke halaman dashboard pelanggan
-            return redirect()->route('pelanggan.beranda');
+            $pelanggan = Auth::guard('pelanggan')->user();
 
+            if ($pelanggan->google2fa_enabled) {
+
+                session()->forget('pelanggan_2fa_verified');
+
+                return redirect()->route('pelanggan.verify-2fa');
+            }
+
+            return redirect()->route('pelanggan.setup-2fa');
         } catch (ValidationException $e) {
-            // Jika login gagal, reset token captcha agar user mencentang ulang
+
             $this->resetCaptcha();
             $this->dispatch('reset-recaptcha');
 
-            // Ambil pesan error email dari Service untuk ditampilkan di session flash atau properti error
             if (isset($e->errors()['email'])) {
                 $this->addError('email', $e->errors()['email'][0]);
                 session()->flash('error', $e->errors()['email'][0]);
             } else {
-                // Melempar kembali error validasi bawaan (seperti email required / password required) ke view
                 throw $e;
             }
         }
