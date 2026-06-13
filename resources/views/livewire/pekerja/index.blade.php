@@ -106,12 +106,11 @@
                             <td>
                                 @if ($pekerja->foto)
 
-                                <img src="{{ Storage::url($pekerja->foto) }}"
+                                <img src="{{ asset('storage/' . $pekerja->foto) }}"
                                     class="rounded-circle"
                                     width="40"
                                     height="40"
                                     style="object-fit: cover;">
-
                                 @else
 
                                 <div class="bg-primary rounded-circle d-flex align-items-center justify-content-center"

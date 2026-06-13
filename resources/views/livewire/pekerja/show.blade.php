@@ -53,7 +53,7 @@
 
                 <div class="text-center mb-4">
                     @if ($pekerja->foto)
-                    <img src="{{ Storage::url($pekerja->foto) }}"
+                    <img src="{{ asset('storage/' . $pekerja->foto) }}"
                         alt="Foto {{ $pekerja->nama_pekerja }}"
                         class="rounded-circle shadow"
                         width="120"
