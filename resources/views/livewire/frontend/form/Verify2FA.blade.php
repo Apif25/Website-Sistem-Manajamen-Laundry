@@ -1,12 +1,12 @@
 <div class="login-page-container">
     <div class="login-card">
 
-        <!-- KIRI : FORM VERIFIKASI -->
+        <!-- KIRI -->
         <div class="login-left">
 
             <h2>VERIFIKASI 2FA</h2>
 
-            <p class="mb-4 text-muted">
+            <p class="text-muted verification-text">
                 Masukkan kode 6 digit dari aplikasi
                 <strong>Google Authenticator</strong>
                 untuk melanjutkan login.
@@ -19,7 +19,8 @@
                         type="text"
                         maxlength="6"
                         inputmode="numeric"
-                        placeholder="Masukkan Kode OTP"
+                        autocomplete="one-time-code"
+                        placeholder="Masukkan kode OTP"
                         wire:model.live="otp_code">
 
                     @error('otp_code')
@@ -32,23 +33,30 @@
                 <button
                     type="submit"
                     class="btn-submit">
-                    VERIFIKASI
-                </button>
 
-                <div class="login-footer mt-3">
-                    Bukan akun Anda?
-                    <a
-                        href="#"
-                        wire:click.prevent="logout">
-                        Keluar
-                    </a>
-                </div>
+                    <span wire:loading.remove wire:target="verify">
+                        VERIFIKASI
+                    </span>
+
+                    <span wire:loading wire:target="verify">
+                        MEMVERIFIKASI...
+                    </span>
+
+                </button>
 
             </form>
 
+            <div class="login-footer">
+                <a
+                    href="#"
+                    wire:click.prevent="logout">
+                    Keluar dari akun ini
+                </a>
+            </div>
+
         </div>
 
-        <!-- KANAN : GAMBAR -->
+        <!-- KANAN -->
         <div class="login-right">
             <img
                 src="{{ asset('img/login/login frontend.jpg') }}"
@@ -57,3 +65,26 @@
 
     </div>
 </div>
+
+<style>
+    .verification-text {
+        margin-bottom: 25px;
+        line-height: 1.6;
+    }
+
+    .login-footer {
+        margin-top: 20px;
+        text-align: center;
+    }
+
+    .login-footer a {
+        color: #6c757d;
+        text-decoration: none;
+        font-size: 14px;
+        transition: .2s;
+    }
+
+    .login-footer a:hover {
+        color: #212529;
+    }
+</style>

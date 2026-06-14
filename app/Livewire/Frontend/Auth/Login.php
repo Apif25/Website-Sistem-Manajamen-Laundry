@@ -56,6 +56,7 @@ class Login extends Component
 
             $pelanggan = Auth::guard('pelanggan')->user();
 
+            // Jika 2FA sudah aktif, wajib verifikasi OTP
             if ($pelanggan->google2fa_enabled) {
 
                 session()->forget('pelanggan_2fa_verified');
@@ -63,7 +64,8 @@ class Login extends Component
                 return redirect()->route('pelanggan.verify-2fa');
             }
 
-            return redirect()->route('pelanggan.setup-2fa');
+            // Jika belum mengaktifkan 2FA, langsung masuk beranda
+            return redirect()->route('pelanggan.beranda');
         } catch (ValidationException $e) {
 
             $this->resetCaptcha();

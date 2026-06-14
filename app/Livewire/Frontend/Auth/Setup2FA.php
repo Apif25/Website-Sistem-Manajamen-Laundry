@@ -13,7 +13,7 @@ use BaconQrCode\Renderer\ImageRenderer;
 use BaconQrCode\Renderer\Image\SvgImageBackEnd;
 use BaconQrCode\Renderer\RendererStyle\RendererStyle;
 
-#[Layout('frontend.layouts.app')]
+#[Layout('frontend.layouts.auth')]
 #[Title('Setup Google Authenticator')]
 class Setup2FA extends Component
 {

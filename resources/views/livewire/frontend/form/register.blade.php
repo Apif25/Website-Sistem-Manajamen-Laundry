@@ -43,7 +43,7 @@
                         cooldown: 0, 
                         timer: null,
                         startCooldown() {
-                            this.cooldown = 60;
+                            this.cooldown = 30;
                             if(this.timer) clearInterval(this.timer);
                             this.timer = setInterval(() => {
                                 if(this.cooldown > 0) {

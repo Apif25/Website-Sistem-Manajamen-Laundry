@@ -8,7 +8,7 @@ use Livewire\Attributes\Title;
 use Illuminate\Support\Facades\Auth;
 use PragmaRX\Google2FA\Google2FA;
 
-#[Layout('frontend.layouts.app')]
+#[Layout('frontend.layouts.auth')]
 #[Title('Verifikasi 2FA')]
 class Verify2FA extends Component
 {

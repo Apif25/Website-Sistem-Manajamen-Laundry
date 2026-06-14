@@ -14,6 +14,7 @@ use App\Mail\SendOtpMail;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Validation\Rules\Password;
+use Illuminate\Support\Facades\Auth;
 
 #[Layout('frontend.layouts.auth')]
 #[Title('Halaman Pendaftaran Pelanggan')]
@@ -228,7 +229,18 @@ class Register extends Component
 
             DB::table('otps')->where('email', $this->email)->delete();
 
-            return redirect()->route('login')->with('success', 'Pendaftaran berhasil!');
+            // Login otomatis setelah register
+            Auth::guard('pelanggan')->login($pelanggan);
+
+            // Set session verifikasi 2FA kosong
+            session()->forget('pelanggan_2fa_verified');
+
+            session()->flash(
+                'success',
+                'Pendaftaran berhasil. Silakan aktifkan Google Authenticator.'
+            );
+
+            return redirect()->route('pelanggan.setup-2fa');
         }
     }
 

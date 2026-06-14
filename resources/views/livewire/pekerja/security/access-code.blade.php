@@ -54,7 +54,7 @@
                     {{-- INFO BOX --}}
                     <div class="alert alert-warning small">
                         <i class="bi bi-info-circle me-1"></i>
-                        Kode ini akan digunakan setiap kali mengakses Data Pekerja & Pelanggan.
+                        Kode ini akan digunakan setiap kali mengakses Data Sensitif.
                     </div>
 
                     {{-- BUTTON --}}

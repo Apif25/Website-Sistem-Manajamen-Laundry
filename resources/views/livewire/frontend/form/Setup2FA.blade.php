@@ -1,63 +1,98 @@
-<div class="login-page-container">
-    <div class="login-card">
+<div class="register-page-container">
+    <div class="register-card">
 
-        <!-- KIRI : SETUP 2FA -->
-        <div class="login-left">
+        <h2>AKTIFKAN VERIFIKASI 2 LANGKAH</h2>
 
-            <h2>AKTIFKAN VERIFIKASI DUA LANGKAH</h2>
+        <div class="alert alert-info mb-4">
+            <strong>Pendaftaran hampir selesai!</strong><br>
+            Scan QR Code di bawah menggunakan aplikasi
+            Google Authenticator, lalu masukkan kode OTP yang muncul.
+        </div>
 
-            <p class="text-muted mb-4">
-                Scan QR Code berikut menggunakan aplikasi
-                <strong>Google Authenticator</strong>,
-                lalu masukkan kode OTP yang muncul.
-            </p>
-
-            @if ($qrCodeSvg)
-            <div class="text-center mb-4">
+        @if ($qrCodeSvg)
+        <div class="qr-container">
+            <div class="qr-wrapper">
                 {!! $qrCodeSvg !!}
             </div>
-            @endif
+        </div>
+        @endif
 
-            <div class="input-group mb-3">
+        <form wire:submit.prevent="enable">
+
+            <div class="input-group">
+                <label>Secret Key :</label>
                 <input
                     type="text"
                     readonly
-                    value="{{ $secret }}"
-                    class="form-control">
+                    value="{{ $secret }}">
             </div>
 
-            <form wire:submit.prevent="enable">
+            <div class="input-group">
+                <label>Kode OTP Google Authenticator :</label>
+                <input
+                    type="text"
+                    maxlength="6"
+                    wire:model="otp_code"
+                    placeholder="Masukkan 6 digit kode">
 
-                <div class="input-group">
-                    <input
-                        type="text"
-                        maxlength="6"
-                        placeholder="Masukkan Kode OTP"
-                        wire:model.live="otp_code">
+                @error('otp_code')
+                <span class="text-danger">
+                    {{ $message }}
+                </span>
+                @enderror
+            </div>
 
-                    @error('otp_code')
-                    <small class="text-danger">
-                        {{ $message }}
-                    </small>
-                    @enderror
-                </div>
-
+            <div class="form-actions-group">
                 <button
                     type="submit"
-                    class="btn-submit">
-                    AKTIFKAN 2FA
+                    class="btn-next btn-submit-registration">
+
+                    <span wire:loading.remove wire:target="enable">
+                        SELESAIKAN PENDAFTARAN
+                    </span>
+
+                    <span wire:loading wire:target="enable">
+                        MEMVERIFIKASI...
+                    </span>
+
                 </button>
+            </div>
 
-            </form>
-
-        </div>
-
-        <!-- KANAN : GAMBAR -->
-        <div class="login-right">
-            <img
-                src="{{ asset('img/login/login frontend.jpg') }}"
-                alt="Google Authenticator">
-        </div>
+        </form>
 
     </div>
 </div>
+
+<style>
+    .qr-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 25px 0;
+    }
+
+    .qr-wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 15px;
+        background: #fff;
+        border: 1px solid #e5e7eb;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    }
+
+    .qr-wrapper svg {
+        display: block;
+        margin: 0 auto;
+    }
+
+    .alert-info {
+        padding: 12px 15px;
+        border-radius: 10px;
+        background: #eef6ff;
+        border: 1px solid #cfe2ff;
+        color: #084298;
+        line-height: 1.6;
+    }
+</style>
