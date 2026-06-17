@@ -14,7 +14,7 @@
                         wire:model.live="email">
 
                     @error('email')
-                        <small class="text-danger">{{ $message }}</small>
+                    <small class="text-danger">{{ $message }}</small>
                     @enderror
                 </div>
 
@@ -25,7 +25,7 @@
                         wire:model.live="password">
 
                     @error('password')
-                        <small class="text-danger">{{ $message }}</small>
+                    <small class="text-danger">{{ $message }}</small>
                     @enderror
                 </div>
 
@@ -35,8 +35,9 @@
                         <span>Ingat saya</span>
                     </label>
 
-                    <a href="#" class="forgot-password">
-                        Lupa Password
+                    <a href="{{ route('forgot-password') }}"
+                        class="text-decoration-none">
+                        Lupa Password?
                     </a>
                 </div>
 
@@ -60,7 +61,7 @@
         <!-- KANAN : GAMBAR -->
         <div class="login-right">
             <img src="{{ asset('img/login/login frontend.jpg') }}"
-                 alt="Login Illustration">
+                alt="Login Illustration">
         </div>
 
     </div>

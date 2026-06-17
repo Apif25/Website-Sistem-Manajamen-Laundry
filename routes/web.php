@@ -23,6 +23,7 @@ use App\Livewire\Frontend\ProdukLayanan\Index as ProdukLayananIndex;
 use App\Livewire\Frontend\ProdukLayanan\Produk;
 use App\Livewire\Frontend\ProdukLayanan\Layanan;
 use App\Livewire\Frontend\PesananAnda\PesananAnda;
+use App\Livewire\Frontend\Auth\ForgotPassword;
 
 // ============================================================================
 // WELCOME
@@ -75,6 +76,10 @@ Route::get('/login', Login::class)
 Route::get('/register', Register::class)
     ->middleware('guest:pelanggan')
     ->name('register');
+
+Route::get('/forgot-password', ForgotPassword::class)
+    ->middleware('guest:pelanggan')
+    ->name('forgot-password');
 
 // ============================================================================
 // PEKERJA ROUTES
