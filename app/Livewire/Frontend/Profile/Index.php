@@ -18,12 +18,12 @@ class Index extends Component
 {
     use WithFileUploads;
 
-    public string $nama_pelanggan = '';
-    public string $email = '';
-    public string $no_telepon = '';
-    public string $jenis_kelamin = '';
-    public string $password = '';
-    public string $password_confirmation = '';
+    public ?string $nama_pelanggan = '';
+    public ?string $email = '';
+    public ?string $password = null;
+    public ?string $password_confirmation = null;
+    public ?string $no_telepon = '';
+    public ?string $jenis_kelamin = '';
 
     public $foto_profil = null;
     public ?string $foto_profil_existing = null;
@@ -48,10 +48,10 @@ class Index extends Component
             abort(403, 'Akses tidak sah.');
         }
 
-        $this->nama_pelanggan  = $pelanggan->nama_pelanggan;
-        $this->email           = $pelanggan->email;
-        $this->no_telepon      = $pelanggan->no_telepon;
-        $this->jenis_kelamin   = $pelanggan->jenis_kelamin;
+        $this->nama_pelanggan  = $pelanggan->nama_pelanggan ?? '';
+        $this->email           = $pelanggan->email ?? '';
+        $this->no_telepon      = $pelanggan->no_telepon ?? '';
+        $this->jenis_kelamin   = $pelanggan->jenis_kelamin ?? '';
         $this->foto_profil_existing = $pelanggan->foto_profil;
 
         // Ambil alamat utama/pertama
@@ -151,11 +151,11 @@ class Index extends Component
         $namaFoto = $pelanggan->foto_profil;
         if ($this->foto_profil) {
 
-        if (
-            $pelanggan->foto_profil && Storage::disk('public')->exists('pelanggan/foto-pelanggan/' . $pelanggan->foto_profil)
-        ) {
-            Storage::disk('public')->delete('pelanggan/foto-pelanggan/' . $pelanggan->foto_profil);
-        }
+            if (
+                $pelanggan->foto_profil && Storage::disk('public')->exists('pelanggan/foto-pelanggan/' . $pelanggan->foto_profil)
+            ) {
+                Storage::disk('public')->delete('pelanggan/foto-pelanggan/' . $pelanggan->foto_profil);
+            }
 
             $namaFoto = $this->foto_profil->hashName();
 

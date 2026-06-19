@@ -19,11 +19,11 @@ class Index extends Component
     public string $no_telepon = '';
     public string $alamat = '';
     public string $jenis_kelamin = '';
-    public string $password = '';
-    public string $password_confirmation = '';
+
+    public ?string $password = null;
+    public ?string $password_confirmation = null;
 
     public $foto = null;
-
     public ?string $foto_existing = null;
 
     public function mount(): void
@@ -42,35 +42,35 @@ class Index extends Component
     {
         $id = Auth::guard('pekerja')->id();
 
-        return [
+        $rules = [
             'nama_pekerja'  => 'required|string|max:255',
-
             'email' => 'required|email|max:255|unique:pekerja,email,' . $id . ',id_pekerja',
-
             'no_telepon'    => 'nullable|string|max:20',
             'alamat'        => 'nullable|string|max:500',
-
             'jenis_kelamin' => 'required|in:Pria,Wanita',
-
-            'password' => [
-                'nullable',
-                'confirmed',
-                Password::min(8)
-                    ->letters()      // harus ada huruf
-                    ->mixedCase()    // huruf besar & kecil
-                    ->numbers()      // harus ada angka
-                    ->symbols(),     // harus ada simbol
-            ],
-
             'foto'          => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ];
+
+        // ✅ password hanya divalidasi kalau diisi
+        if (!empty($this->password)) {
+            $rules['password'] = [
+                'required',
+                'confirmed',
+                Password::min(8)
+                    ->letters()
+                    ->mixedCase()
+                    ->numbers()
+                    ->symbols(),
+            ];
+        }
+
+        return $rules;
     }
 
     protected function messages(): array
     {
         return [
             'nama_pekerja.required'  => 'Nama wajib diisi.',
-
             'email.required'         => 'Email wajib diisi.',
             'email.email'            => 'Format email tidak valid.',
             'email.unique'           => 'Email sudah digunakan.',
@@ -78,12 +78,12 @@ class Index extends Component
             'jenis_kelamin.required' => 'Jenis kelamin wajib dipilih.',
             'jenis_kelamin.in'       => 'Jenis kelamin tidak valid.',
 
-            'password.min'           => 'Password minimal 8 karakter.',
             'password.confirmed'     => 'Konfirmasi password tidak cocok.',
-            'password.letters'       => 'Password harus mengandung setidaknya satu huruf.',
-            'password.mixedCase'     => 'Password harus mengandung huruf besar dan kecil.',
-            'password.numbers'       => 'Password harus mengandung setidaknya satu angka.',
-            'password.symbols'       => 'Password harus mengandung setidaknya satu simbol.',
+            'password.min'           => 'Password minimal 8 karakter.',
+            'password.letters'       => 'Password harus mengandung huruf.',
+            'password.mixedCase'     => 'Harus ada huruf besar dan kecil.',
+            'password.numbers'       => 'Harus ada angka.',
+            'password.symbols'       => 'Harus ada simbol.',
 
             'foto.image'             => 'File harus berupa gambar.',
             'foto.mimes'             => 'Format foto harus jpg, jpeg, atau png.',
@@ -105,20 +105,15 @@ class Index extends Component
             'jenis_kelamin' => $this->jenis_kelamin,
         ];
 
-        // Update password hanya jika diisi
         if (!empty($this->password)) {
             $data['password'] = $this->password;
         }
 
-        // Update profile
         $service->update($id, $data, $this->foto);
 
-        // Ambil ulang data terbaru
         $pekerja = \App\Models\Pekerja::find($id);
-
         $this->foto_existing = $pekerja?->foto;
 
-        // Reset field sensitif
         $this->reset([
             'foto',
             'password',

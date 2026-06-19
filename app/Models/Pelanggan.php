@@ -22,8 +22,10 @@ class Pelanggan extends Authenticatable
         'no_telepon',
         'jenis_kelamin',
         'foto_profil',
+        'google_id',
         'google2fa_secret',
         'google2fa_enabled',
+        'email_verified_at',
     ];
 
     protected $hidden = [
@@ -33,7 +35,8 @@ class Pelanggan extends Authenticatable
 
     protected $casts = [
         'password' => 'hashed',
-        'no_telepon' => 'encrypted', // FIX: Diubah dari 'no_telp' menjadi 'no_telepon' agar sinkron dengan $fillable
+        'no_telepon' => 'encrypted',
+        'google2fa_enabled' => 'boolean',
     ];
 
     public function alamat()

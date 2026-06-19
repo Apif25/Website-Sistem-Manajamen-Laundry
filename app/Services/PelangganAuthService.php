@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Repositories\PelangganRepository;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 
@@ -48,10 +49,21 @@ class PelangganAuthService
      */
     public function logout(): void
     {
+        $user = Auth::guard('pelanggan')->user();
+
+        // Revoke Google token jika ada
+        if ($user && $user->google_token) {
+            Http::asForm()->post('https://oauth2.googleapis.com/revoke', [
+                'token' => $user->google_token,
+            ]);
+        }
+
         Auth::guard('pelanggan')->logout();
 
         request()->session()->invalidate();
         request()->session()->regenerateToken();
+
+        redirect()->route('login');
     }
 
     public function updateProfile(int $id, array $data): bool

@@ -16,19 +16,13 @@ class Verify2FA extends Component
 
     public function mount()
     {
-        $pelanggan = Auth::guard('pelanggan')->user();
+        $user = Auth::guard('pelanggan')->user();
 
-        if (!$pelanggan) {
+        if (!$user) {
             return redirect()->route('login');
         }
 
-        // Jika belum mengaktifkan 2FA
-        if (!$pelanggan->google2fa_enabled) {
-            return redirect()->route('pelanggan.setup-2fa');
-        }
-
-        // Sudah verifikasi sesi ini
-        if (session()->has('pelanggan_2fa_verified')) {
+        if ($user->google2fa_enabled && session('pelanggan_2fa_verified')) {
             return redirect()->route('pelanggan.beranda');
         }
     }

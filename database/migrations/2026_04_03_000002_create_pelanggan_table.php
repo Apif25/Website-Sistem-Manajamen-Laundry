@@ -13,16 +13,26 @@ return new class extends Migration
     {
         Schema::create('Pelanggan', function (Blueprint $table) {
             $table->bigIncrements('id_pelanggan');
+
             $table->string('email')->unique();
             $table->string('password');
+
+            $table->string('google_id')->nullable()->unique();
+
             $table->string('nama_pelanggan', 50);
-            $table->text('no_telepon');
-            $table->enum('jenis_kelamin', ['Pria', 'Wanita']);
-            $table->string('foto_profil')->nullable(); // <-- Kolom baru untuk foto profil
+
+            // Nullable karena Google tidak mengirim data ini
+            $table->text('no_telepon')->nullable();
+            $table->enum('jenis_kelamin', ['Pria', 'Wanita'])->nullable();
+
+            $table->string('foto_profil')->nullable();
+
             $table->string('google2fa_secret')->nullable();
             $table->boolean('google2fa_enabled')->default(false);
             $table->timestamp('google2fa_confirmed_at')->nullable();
+
             $table->timestamp('email_verified_at')->nullable();
+
             $table->rememberToken();
             $table->timestamps();
         });
