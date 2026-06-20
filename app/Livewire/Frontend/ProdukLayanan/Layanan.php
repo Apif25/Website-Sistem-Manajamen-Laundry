@@ -10,6 +10,13 @@ use Livewire\Attributes\Title;
 #[Title('Layanan Kami')]
 class Layanan extends Component
 {
+    public $activeTab = 'kiloan'; // Default tab yang terbuka
+
+    public function setTab($tabName)
+    {
+        $this->activeTab = $tabName;
+    }
+
     public function render()
     {
         return view('frontend.produk-layanan.layanan');

@@ -204,7 +204,11 @@ class Register extends Component
                 // Menyimpan file ke folder 'storage/app/public/foto-pelanggan'
                 // hashName() digunakan agar nama file unik secara otomatis
                 $namaFoto = $this->foto_profil->hashName();
-                $this->foto_profil->storeAs('foto-pelanggan', $namaFoto, 'public');
+                $this->foto_profil->storeAs(
+                    'pelanggan/foto-pelanggan',
+                    $namaFoto,
+                    'public'
+                );
             }
 
             // Logika simpan ke database
