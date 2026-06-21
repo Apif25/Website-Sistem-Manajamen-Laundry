@@ -35,7 +35,7 @@
                                         <label for="layanan_pemesanan">Layanan Pemesanan</label>
                                         <select id="layanan_pemesanan" wire:model="layanan_pemesanan">
                                             <option value="" hidden>Pilih Layanan Pemesanan</option>
-                                            <option value="Cepat">Cepat</option>
+                                            <option value="Kilat">Kilat</option>
                                             <option value="Biasa">Biasa</option>
                                         </select>
                                         @error('layanan_pemesanan') <span style="color: red; font-size: 12px;">{{ $message }}</span> @enderror

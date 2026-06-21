@@ -62,7 +62,7 @@ class CreatePemesananModal extends Component
     {
         $this->validate([
             'jenis_pemesanan' => 'required|in:Satuan,Kiloan',
-            'layanan_pemesanan' => 'required|in:Cepat,Biasa',
+            'layanan_pemesanan' => 'required|in:Kilat,Biasa',
             'jumlah_brg' => 'required|numeric|min:1',
             'tanggal_pemesanan' => 'required|date',
             'selectedAlamatId' => 'required|exists:AlamatPelanggan,id_alamat',

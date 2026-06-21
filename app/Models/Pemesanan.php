@@ -3,13 +3,21 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\HasUniqueCodeAndUuid;
 
 class Pemesanan extends Model
 {
+    use HasUniqueCodeAndUuid;
+
+    protected bool $usesUuid = false;
+    protected string $codeFieldName = 'kode_pemesanan';
+    protected string $codePrefix = 'PMS';
+
     protected $table = 'pemesanan';
     protected $primaryKey = 'id_pemesanan';
     
     protected $fillable = [
+        'kode_pemesanan',
         'id_pelanggan',
         'id_alamat',
         'jenis_pemesanan',

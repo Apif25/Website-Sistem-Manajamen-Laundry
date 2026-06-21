@@ -3,13 +3,21 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\HasUniqueCodeAndUuid;
 
 class Pembayaran extends Model
 {
+    use HasUniqueCodeAndUuid;
+
+    protected bool $usesUuid = false;
+    protected string $codeFieldName = 'kode_pembayaran';
+    protected string $codePrefix = 'PMB';
+
     protected $table = 'Pembayaran';
     protected $primaryKey = 'id_pembayaran';
 
     protected $fillable = [
+        'kode_pembayaran',
         'id_pesanan',
         'harga_pembayaran',
         'tanggal_pembayaran',

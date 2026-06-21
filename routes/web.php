@@ -24,6 +24,7 @@ use App\Livewire\Frontend\ProdukLayanan\Produk;
 use App\Livewire\Frontend\ProdukLayanan\Layanan;
 use App\Livewire\Frontend\PesananAnda\PesananAnda;
 use App\Livewire\Frontend\Auth\ForgotPassword;
+use App\Http\Controllers\Auth\GoogleController;
 
 // ============================================================================
 // WELCOME
@@ -69,6 +70,11 @@ Route::prefix('pelanggan')->name('pelanggan.')->group(function () {
     });
 });
 
+Route::get('/auth/google', [GoogleController::class, 'redirect'])
+    ->name('google.login');
+
+Route::get('/auth/google/callback', [GoogleController::class, 'callback'])
+    ->name('google.callback');
 Route::get('/login', Login::class)
     ->middleware('guest:pelanggan')
     ->name('login');

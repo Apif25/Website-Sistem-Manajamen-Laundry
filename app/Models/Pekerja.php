@@ -7,16 +7,23 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
 use App\Traits\LogsActivity;
+use App\Traits\HasUniqueCodeAndUuid;
 
 class Pekerja extends Authenticatable
 {
-    use HasFactory, Notifiable, HasRoles, LogsActivity;
+    use HasFactory, Notifiable, HasRoles, LogsActivity, HasUniqueCodeAndUuid;
+
+    protected bool $usesUuid = true;
+    protected string $codeFieldName = 'kode_pekerja';
+    protected string $codePrefix = 'PEK';
 
     protected $table = 'Pekerja';
     protected $primaryKey = 'id_pekerja';
     protected $guard_name = 'pekerja';
 
     protected $fillable = [
+        'uuid',
+        'kode_pekerja',
         'email',
         'password',
         'must_change_password',

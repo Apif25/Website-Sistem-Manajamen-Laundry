@@ -145,7 +145,7 @@
     cursor: pointer;
     letter-spacing: 1px;
     transition: opacity 0.2s;
-    margin-bottom: 35px; 
+    margin-bottom: 5px; 
 }
 
 .btn-submit:hover {
@@ -176,6 +176,47 @@
     object-fit: cover; 
     object-position: center; 
     display: block;
+}
+
+.divider {
+    display: flex;
+    align-items: center;
+    margin: 10px 0; /* Diperkecil dari 18px */
+}
+
+.divider::before,
+.divider::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: #ddd;
+}
+
+.divider span {
+    margin: 0 8px; /* Diperkecil dari 12px */
+    color: #777;
+    font-size: 13px; /* Menambahkan ukuran font yang lebih kecil */
+}
+
+.btn-google {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px; /* Diperkecil dari 10px */
+    padding: 8px 12px; /* Diperkecil dari 12px (atas-bawah kini lebih tipis) */
+    border: 1px solid #ddd;
+    border-radius: 6px; /* Diperkecil dari 10px agar tikungan sudut lebih tegas */
+    background: #fff;
+    color: #333;
+    text-decoration: none;
+    font-weight: 500; /* Diperkecil dari 600 agar teks tidak terlalu tebal */
+    font-size: 14px; /* Menentukan ukuran font standar yang lebih proporsional */
+}
+
+.btn-google:hover {
+    background: #f8f9fa;
+    color: #333;
 }
 
 /* ==========================================

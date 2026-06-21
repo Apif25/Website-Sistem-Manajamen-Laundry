@@ -5,10 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use App\Traits\HasUniqueCodeAndUuid;
 
 class Pelanggan extends Authenticatable
 {
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, HasUniqueCodeAndUuid;
+
+    protected bool $usesUuid = true;
+    protected string $codeFieldName = 'kode_pelanggan';
+    protected ?string $codePrefix = null; // YYMM0000 format
 
     protected $table = 'Pelanggan';
 
@@ -16,14 +21,18 @@ class Pelanggan extends Authenticatable
     protected $primaryKey = 'id_pelanggan';
 
     protected $fillable = [
+        'uuid',
+        'kode_pelanggan',
         'nama_pelanggan', // Ini bisa bertindak sebagai username/nama
         'email',
         'password',
         'no_telepon',
         'jenis_kelamin',
         'foto_profil',
+        'google_id',
         'google2fa_secret',
         'google2fa_enabled',
+        'email_verified_at',
     ];
 
     protected $hidden = [
@@ -33,7 +42,8 @@ class Pelanggan extends Authenticatable
 
     protected $casts = [
         'password' => 'hashed',
-        'no_telepon' => 'encrypted', // FIX: Diubah dari 'no_telp' menjadi 'no_telepon' agar sinkron dengan $fillable
+        'no_telepon' => 'encrypted',
+        'google2fa_enabled' => 'boolean',
     ];
 
     public function alamat()

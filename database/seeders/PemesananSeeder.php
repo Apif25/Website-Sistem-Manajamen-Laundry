@@ -23,7 +23,7 @@ class PemesananSeeder extends Seeder
         Pemesanan::create([
             'id_pelanggan'       => 2,
             'jenis_pemesanan'    => 'Kiloan',
-            'layanan_pemesanan'  => 'Cepat',
+            'layanan_pemesanan'  => 'Kilat',
             'Jumlah_brg'      => 8,
             'tanggal_pemesanan'  => now(),
         ]);
@@ -31,7 +31,7 @@ class PemesananSeeder extends Seeder
         Pemesanan::create([
             'id_pelanggan'       => 3,
             'jenis_pemesanan'    => 'Kiloan',
-            'layanan_pemesanan'  => 'Cepat',
+            'layanan_pemesanan'  => 'Kilat',
             'Jumlah_brg'      => 3,
             'tanggal_pemesanan'  => now(),
         ]);
@@ -47,7 +47,7 @@ class PemesananSeeder extends Seeder
         Pemesanan::create([
             'id_pelanggan'       => 2,
             'jenis_pemesanan'    => 'Kiloan',
-            'layanan_pemesanan'  => 'Cepat',
+            'layanan_pemesanan'  => 'Kilat',
             'Jumlah_brg'      => 4,
             'tanggal_pemesanan'  => now(),
         ]);
