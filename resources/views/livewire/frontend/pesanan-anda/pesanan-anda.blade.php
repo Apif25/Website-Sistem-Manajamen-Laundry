@@ -30,7 +30,7 @@
                 <table class="order-table">
                     <thead>
                         <tr>
-                            <th>ID Pesanan</th>
+                            <th>Kode Pesanan</th>
                             <th>Tanggal</th>
                             <th>Jenis & Layanan</th>
                             <th>Jumlah Barang</th>
@@ -40,7 +40,7 @@
                     <tbody>
                         @forelse($pesanan as $item)
                             <tr class="order-row" onclick="Livewire.navigate('{{ route('pelanggan.pesanan_anda.detail', $item->id_pemesanan) }}')" style="cursor: pointer;">
-                                <td class="order-id">#ORD-{{ $item->id_pemesanan }}</td>
+                                <td class="order-id">{{ $item->kode_pemesanan }}</td>
                                 <td>{{ \Carbon\Carbon::parse($item->tanggal_pemesanan)->translatedFormat('d M Y') }}</td>
                                 <td>
                                     <strong>{{ $item->jenis_pemesanan }}</strong><br>

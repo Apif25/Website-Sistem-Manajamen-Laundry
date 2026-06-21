@@ -27,6 +27,15 @@ class Pemesanan extends Model
         'status_pemesanan',
     ];
 
+    public function getCodePrefix(): ?string
+    {
+        if (strtolower($this->layanan_pemesanan) === 'kilat') {
+            return 'KLT';
+        }
+
+        return 'REG';
+    }
+
     public function pelanggan()
     {
         return $this->belongsTo(Pelanggan::class, 'id_pelanggan', 'id_pelanggan');

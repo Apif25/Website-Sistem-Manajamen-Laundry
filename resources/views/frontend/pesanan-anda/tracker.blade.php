@@ -4,7 +4,7 @@
     <div class="top-container">
         <img src="{{ asset('img/pesanan/section1.png') }}" alt="Detail Pesanan" class="bg-hero-image">
         <div class="top-container-text">
-            <h1>Detail Pesanan #ORD-{{ $pemesanan->id_pemesanan }}</h1>
+            <h1>Detail Pesanan</h1>
         </div>
     </div>
 
@@ -79,8 +79,8 @@
                 <h3 class="card-title">Informasi Pemesanan</h3>
                 <div class="info-list">
                     <div class="info-item">
-                        <span class="info-label">ID Pemesanan:</span>
-                        <span class="info-value">#ORD-{{ $pemesanan->id_pemesanan }}</span>
+                        <span class="info-label">Kode Pemesanan:</span>
+                        <span class="info-value">{{ $pemesanan->kode_pemesanan }}</span>
                     </div>
                     <div class="info-item">
                         <span class="info-label">Tanggal Booking:</span>
