@@ -24,7 +24,7 @@
                                     
                                     <div class="order-input-group">
                                         <label for="jenis_pemesanan">Jenis Pemesanan</label>
-                                        <select id="jenis_pemesanan" wire:model="jenis_pemesanan">
+                                        <select id="jenis_pemesanan" wire:model.live="jenis_pemesanan">
                                             <option value="" hidden>Pilih Jenis Pemesanan</option>
                                             <option value="Satuan">Satuan</option>
                                             <option value="Kiloan">Kiloan</option>
@@ -42,19 +42,21 @@
                                     </div>
 
                                     <div class="order-input-grid">
-                                        <div class="order-input-group">
+                                        <div class="order-input-group" style="{{ $jenis_pemesanan !== 'Satuan' ? 'opacity: 0.5; pointer-events: none;' : '' }}">
                                             <label for="jumlah_barang">Jumlah Barang</label>
-                                            <input type="number" id="jumlah_barang" wire:model="jumlah_brg" placeholder="Jumlah Barang">
+                                            <input type="number" id="jumlah_barang" wire:model="jumlah_brg" 
+                                                placeholder="{{ $jenis_pemesanan !== 'Satuan' ? 'Hanya untuk pemesanan Satuan' : 'Jumlah Barang' }}" 
+                                                {{ $jenis_pemesanan !== 'Satuan' ? 'disabled' : '' }}>
                                             @error('jumlah_brg') <span style="color: red; font-size: 12px;">{{ $message }}</span> @enderror
                                         </div>
+
                                         <div class="order-input-group">
                                             <label for="tanggal_pemesanan">Tanggal Pemesanan</label>
-                                            <input type="date" id="tanggal_pemesanan" wire:model="tanggal_pemesanan">
+                                            <input type="date" id="tanggal_pemesanan" wire:model="tanggal_pemesanan" min="{{ date('Y-m-d') }}">
                                             @error('tanggal_pemesanan') <span style="color: red; font-size: 12px;">{{ $message }}</span> @enderror
                                         </div>
                                     </div>
 
-                                    <!-- Pemilihan Alamat -->
                                     <div class="order-input-group">
                                         <label for="selectedAlamatId">Alamat Penjemputan / Pengiriman</label>
                                         @if(count($alamatList) > 0)

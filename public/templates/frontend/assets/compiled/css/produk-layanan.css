@@ -183,7 +183,7 @@
 /* produk */
 /* 1. Pengaturan Grid / Pembungkus List Produk */
 .prd-grid {
-    margin: 100px 60px;
+    margin: 40px 60px;
     display: grid;
     /* Membuat kolom otomatis pas dengan layar, minimal lebar kartu 180px */
     grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));

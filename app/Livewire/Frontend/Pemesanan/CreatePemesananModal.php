@@ -4,7 +4,7 @@ namespace App\Livewire\Frontend\Pemesanan;
 
 use Livewire\Component;
 use App\Models\Pemesanan;
-use Illuminate\Support\Facades\Auth; // Jika butuh ID pelanggan dari user login
+use Illuminate\Support\Facades\Auth;
 
 class CreatePemesananModal extends Component
 {
@@ -20,16 +20,27 @@ class CreatePemesananModal extends Component
     public $alamatList = [];
     public $selectedAlamatId = '';
 
-    // Variabel tab aktif (opsional jika ingin mempertahankan fitur tab)
+    // Variabel tab aktif
     public $activeTab = 'website';
 
     protected $listeners = ['openOrderModal' => 'open'];
+
+    /**
+     * Hook yang otomatis berjalan setiap kali $jenis_pemesanan berubah di frontend
+     */
+    public function updatedJenisPemesanan($value)
+    {
+        if ($value !== 'Satuan') {
+            $this->jumlah_brg = null; 
+            $this->resetErrorBag('jumlah_brg'); 
+        }
+    }
 
     public function open()
     {
         $this->resetValidation();
         $this->reset(['jenis_pemesanan', 'layanan_pemesanan', 'jumlah_brg', 'tanggal_pemesanan', 'selectedAlamatId']);
-        // Isi otomatis tanggal hari ini jika diinginkan
+        
         $this->tanggal_pemesanan = date('Y-m-d'); 
         
         $idPelanggan = auth()->guard('pelanggan')->id();
@@ -60,32 +71,35 @@ class CreatePemesananModal extends Component
 
     public function store()
     {
-        $this->validate([
-            'jenis_pemesanan' => 'required|in:Satuan,Kiloan',
+        // Membuat aturan validasi dinamis berdasarkan JENIS PEMESANAN
+        $rules = [
+            'jenis_pemesanan'   => 'required|in:Satuan,Kiloan',
             'layanan_pemesanan' => 'required|in:Kilat,Biasa',
-            'jumlah_brg' => 'required|numeric|min:1',
-            'tanggal_pemesanan' => 'required|date',
-            'selectedAlamatId' => 'required|exists:AlamatPelanggan,id_alamat',
-        ], [
-            'selectedAlamatId.required' => 'Alamat penjemputan / pengiriman wajib dipilih.',
-            'selectedAlamatId.exists' => 'Alamat yang dipilih tidak valid.',
+            'jumlah_brg'        => $this->jenis_pemesanan === 'Satuan' ? 'required|numeric|min:1' : 'nullable|numeric',
+            'tanggal_pemesanan' => 'required|date|after_or_equal:today', // Validasi agar tidak boleh backdate/lewat hari
+            'selectedAlamatId'  => 'required|exists:AlamatPelanggan,id_alamat',
+        ];
+
+        $this->validate($rules, [
+            'selectedAlamatId.required'  => 'Alamat penjemputan / pengiriman wajib dipilih.',
+            'selectedAlamatId.exists'    => 'Alamat yang dipilih tidak valid.',
+            'jumlah_brg.required'        => 'Jumlah barang wajib diisi jika memesan layanan Satuan.',
+            'tanggal_pemesanan.after_or_equal' => 'Tanggal pemesanan tidak boleh hari yang sudah lewat.',
         ]);
 
-        // Perubahan di sini: Mengambil ID Pelanggan dari guard 'pelanggan' yang aktif
         $idPelanggan = auth()->guard('pelanggan')->id();
 
-        // Proteksi: Jika belum login, jangan izinkan membuat pesanan
         if (!$idPelanggan) {
             $this->addError('jenis_pemesanan', 'Anda harus login terlebih dahulu.');
             return;
         }
 
         Pemesanan::create([
-            'id_pelanggan'      => $idPelanggan, // Menggunakan ID asli hasil login
+            'id_pelanggan'      => $idPelanggan,
             'id_alamat'         => $this->selectedAlamatId,
             'jenis_pemesanan'   => $this->jenis_pemesanan,
             'layanan_pemesanan' => $this->layanan_pemesanan,
-            'jumlah_brg'        => $this->jumlah_brg,
+            'jumlah_brg'        => $this->jenis_pemesanan === 'Satuan' ? $this->jumlah_brg : null,
             'tanggal_pemesanan' => $this->tanggal_pemesanan,
         ]);
 

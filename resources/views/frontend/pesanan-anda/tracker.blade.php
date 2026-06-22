@@ -96,7 +96,14 @@
                     </div>
                     <div class="info-item">
                         <span class="info-label">Estimasi Barang:</span>
-                        <span class="info-value">{{ $pemesanan->jumlah_brg }} Pcs</span>
+                        <span class="info-value">
+                            @if ($pemesanan -> jumlah_brg == 0)
+                                Belum Di Tentukan
+                            @else
+                                {{ $pemesanan -> jumlah_brg }}
+                                {{ $pemesanan -> jenis_pemesanan === 'Satuan' ? 'Pcs' : 'Kg' }}
+                            @endif
+                        </span>
                     </div>
                     <div class="info-item" style="border-bottom: none;">
                         <span class="info-label">Status Booking:</span>

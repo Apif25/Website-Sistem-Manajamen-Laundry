@@ -46,7 +46,14 @@
                                     <strong>{{ $item->jenis_pemesanan }}</strong><br>
                                     <span style="font-size: 12px; color: #6c757d;">{{ $item->layanan_pemesanan }}</span>
                                 </td>
-                                <td>{{ $item->jumlah_brg }} Pcs</td>
+                                <td>
+                                    @if ($item->jumlah_brg == 0)
+                                        Belum Di Tentukan
+                                    @else
+                                        {{ $item->jumlah_brg }}
+                                        {{ $item->jenis_pemesanan === 'Satuan' ? 'Pcs' : 'Kg' }}
+                                    @endif
+                                </td>
                                 <td>
                                     <span class="badge-status {{ strtolower($item->status_pemesanan) }}">
                                         {{ $item->status_pemesanan }}
