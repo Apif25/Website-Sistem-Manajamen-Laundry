@@ -29,12 +29,12 @@ class PembayaranProcess extends Component
         $this->pembayaranService = $pembayaranService;
     }
 
-    public function mount(int $idPesanan): void
+    public function mount(Pesanan $pesanan): void
     {
-        $this->idPesanan = $idPesanan;
+        $this->idPesanan = $pesanan->id_pesanan;
 
         // Lanjutkan jika ada pembayaran pending yang belum expired
-        $existing = Pembayaran::where('id_pesanan', $idPesanan)
+        $existing = Pembayaran::where('id_pesanan', $this->idPesanan)
             ->where('status_pembayaran', 'pending')
             ->whereNotNull('midtrans_order_id')
             ->latest()

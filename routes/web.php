@@ -62,7 +62,7 @@ Route::prefix('pelanggan')->name('pelanggan.')->group(function () {
         Route::get('/pesanan-anda', PesananAnda::class)
             ->name('pesanan_anda');
 
-        Route::get('/pesanan-anda/{id}', \App\Livewire\Frontend\PesananAnda\Tracker::class)
+        Route::get('/pesanan-anda/{pemesanan}', \App\Livewire\Frontend\PesananAnda\Tracker::class)
             ->name('pesanan_anda.detail');
 
         Route::get('/profile', \App\Livewire\Frontend\Profile\Index::class)
@@ -180,17 +180,17 @@ Route::prefix('pekerja')->name('pekerja.')->group(function () {
             Route::prefix('pemesanan')->name('pemesanan.')->group(function () {
                 Route::get('/index', \App\Livewire\Pekerja\Pemesanan\Index::class)->name('index');
                 Route::get('/create', PemesananCreate::class)->name('create');
-                Route::get('/{id}/edit', PemesananEdit::class)->name('edit');
-                Route::get('/{id}', PemesananShow::class)->name('show');
-                Route::delete('/{id}', [PemesananController::class, 'destroy'])->name('destroy');
+                Route::get('/{pemesanan}/edit', PemesananEdit::class)->name('edit');
+                Route::get('/{pemesanan}', PemesananShow::class)->name('show');
+                Route::delete('/{pemesanan}', [PemesananController::class, 'destroy'])->name('destroy');
             });
 
             // Pesanan
             Route::prefix('pesanan')->name('pesanan.')->group(function () {
                 Route::get('/index', \App\Livewire\Pekerja\Pesanan\Index::class)->name('index');
                 Route::get('/create', PesananCreate::class)->name('create');
-                Route::get('/{id}', \App\Livewire\Pekerja\Pesanan\Show::class)->name('show');
-                Route::get('/{id}/edit', PesananEdit::class)->name('edit');
+                Route::get('/{pesanan}', \App\Livewire\Pekerja\Pesanan\Show::class)->name('show');
+                Route::get('/{pesanan}/edit', PesananEdit::class)->name('edit');
             });
 
             // Proses
@@ -201,7 +201,7 @@ Route::prefix('pekerja')->name('pekerja.')->group(function () {
             // Pembayaran
             Route::prefix('pembayaran')->name('pembayaran.')->group(function () {
                 Route::get('/index', \App\Livewire\Pekerja\Pembayaran\Index::class)->name('index');
-                Route::get('/proses/{idPesanan}', \App\Livewire\Pekerja\Pembayaran\PembayaranProcess::class)->name('proses');
+                Route::get('/proses/{pesanan}', \App\Livewire\Pekerja\Pembayaran\PembayaranProcess::class)->name('proses');
                 Route::get('/finish', \App\Livewire\Pekerja\Pembayaran\PembayaranProcess::class)->name('finish');
             });
 

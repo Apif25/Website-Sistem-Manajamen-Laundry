@@ -15,17 +15,18 @@ class Tracker extends Component
     public $pemesananId;
     public $pemesanan;
 
-    public function mount($id)
+    public function mount(Pemesanan $pemesanan)
     {
         $idPelanggan = Auth::guard('pelanggan')->id() ?? Auth::id();
 
-        // Fetch booking record and ensure it belongs to the logged-in customer
-        $this->pemesanan = Pemesanan::with(['alamat', 'pesanan.proses', 'pesanan.pembayaran'])
-            ->where('id_pemesanan', $id)
-            ->where('id_pelanggan', $idPelanggan)
-            ->firstOrFail();
+        // Ensure it belongs to the logged-in customer
+        if ($pemesanan->id_pelanggan !== $idPelanggan) {
+            abort(404);
+        }
 
-        $this->pemesananId = $id;
+        $this->pemesanan = $pemesanan->load(['alamat', 'pesanan.proses', 'pesanan.pembayaran']);
+
+        $this->pemesananId = $pemesanan->id_pemesanan;
     }
 
     public function render()

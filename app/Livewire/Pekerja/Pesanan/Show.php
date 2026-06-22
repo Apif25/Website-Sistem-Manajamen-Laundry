@@ -11,10 +11,9 @@ class Show extends Component
 {
     public Pesanan $pesanan;
 
-    public function mount(int $id): void
+    public function mount(Pesanan $pesanan): void
     {
-        $this->pesanan = Pesanan::with(['pemesanan', 'pelanggan'])
-            ->findOrFail($id);
+        $this->pesanan = $pesanan->load(['pemesanan', 'pelanggan']);
     }
 
     public function render()

@@ -125,14 +125,14 @@
                             <td class="text-center">
                                 <div class="d-flex justify-content-center gap-1">
 
-                                    <a href="{{ route('pekerja.pesanan.show', $pesanan->id_pesanan) }}"
+                                    <a href="{{ route('pekerja.pesanan.show', $pesanan) }}"
                                         wire:navigate
                                         class="btn btn-sm btn-info">
                                         <i class="bi bi-eye"></i>
                                     </a>
 
                                     @role('petugas')
-                                    <a href="{{ route('pekerja.pesanan.edit', $pesanan->id_pesanan) }}"
+                                    <a href="{{ route('pekerja.pesanan.edit', $pesanan) }}"
                                         wire:navigate
                                         class="btn btn-sm btn-warning">
                                         <i class="bi bi-pencil-square"></i>

@@ -9,7 +9,7 @@ class Pembayaran extends Model
 {
     use HasUniqueCodeAndUuid;
 
-    protected bool $usesUuid = false;
+    protected bool $usesUuid = true;
     protected string $codeFieldName = 'kode_pembayaran';
     protected string $codePrefix = 'PMB';
 
@@ -17,6 +17,7 @@ class Pembayaran extends Model
     protected $primaryKey = 'id_pembayaran';
 
     protected $fillable = [
+        'uuid',
         'kode_pembayaran',
         'id_pesanan',
         'harga_pembayaran',
@@ -31,6 +32,11 @@ class Pembayaran extends Model
         'status_pembayaran',
         'expired_at',
     ];
+
+    public function getRouteKeyName(): string
+    {
+        return 'uuid';
+    }
 
     protected $casts = [
         'tanggal_pembayaran' => 'datetime',

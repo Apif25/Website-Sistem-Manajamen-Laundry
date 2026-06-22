@@ -36,9 +36,9 @@ class Edit extends Component
     #[Rule('required|date')]
     public string $tanggal_pesanan = '';
 
-    public function mount(int $id): void
+    public function mount(Pesanan $pesanan): void
     {
-        $this->pesanan = Pesanan::with(['pemesanan', 'pelanggan'])->findOrFail($id);
+        $this->pesanan = $pesanan->load(['pemesanan', 'pelanggan']);
 
         // Isi form dengan data existing
         $this->id_pemesanan    = (string) $this->pesanan->id_pemesanan;

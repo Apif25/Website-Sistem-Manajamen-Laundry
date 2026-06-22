@@ -9,13 +9,14 @@ class Pesanan extends Model
 {
     use HasUniqueCodeAndUuid;
 
-    protected bool $usesUuid = false;
+    protected bool $usesUuid = true;
     protected string $codeFieldName = 'kode_pesanan';
     protected string $codePrefix = 'PES';
 
     protected $table = 'pesanan';
     protected $primaryKey = 'id_pesanan';
     protected $fillable = [
+        'uuid',
         'kode_pesanan',
         'id_pemesanan',
         'id_pelanggan',
@@ -26,6 +27,11 @@ class Pesanan extends Model
         'harga',
         'tanggal_pesanan',
     ];
+
+    public function getRouteKeyName(): string
+    {
+        return 'uuid';
+    }
 
     public function pemesanan()
     {

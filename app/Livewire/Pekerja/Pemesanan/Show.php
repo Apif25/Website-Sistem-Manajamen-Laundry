@@ -13,9 +13,9 @@ class Show extends Component
 {
     public $pemesanan;
 
-    public function mount($id)
+    public function mount(Pemesanan $pemesanan)
     {
-        $this->pemesanan = Pemesanan::findOrFail($id);
+        $this->pemesanan = $pemesanan;
     }
 
     public function render()

@@ -39,7 +39,7 @@
                     </thead>
                     <tbody>
                         @forelse($pesanan as $item)
-                            <tr class="order-row" onclick="Livewire.navigate('{{ route('pelanggan.pesanan_anda.detail', $item->id_pemesanan) }}')" style="cursor: pointer;">
+                            <tr class="order-row" onclick="Livewire.navigate('{{ route('pelanggan.pesanan_anda.detail', $item) }}')" style="cursor: pointer;">
                                 <td class="order-id">{{ $item->kode_pemesanan }}</td>
                                 <td>{{ \Carbon\Carbon::parse($item->tanggal_pemesanan)->translatedFormat('d M Y') }}</td>
                                 <td>

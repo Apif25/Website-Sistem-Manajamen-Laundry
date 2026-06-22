@@ -9,7 +9,7 @@ class Pemesanan extends Model
 {
     use HasUniqueCodeAndUuid;
 
-    protected bool $usesUuid = false;
+    protected bool $usesUuid = true;
     protected string $codeFieldName = 'kode_pemesanan';
     protected string $codePrefix = 'PMS';
 
@@ -17,6 +17,7 @@ class Pemesanan extends Model
     protected $primaryKey = 'id_pemesanan';
     
     protected $fillable = [
+        'uuid',
         'kode_pemesanan',
         'id_pelanggan',
         'id_alamat',
@@ -26,6 +27,11 @@ class Pemesanan extends Model
         'tanggal_pemesanan',
         'status_pemesanan',
     ];
+
+    public function getRouteKeyName(): string
+    {
+        return 'uuid';
+    }
 
     public function getCodePrefix(): ?string
     {

@@ -182,7 +182,7 @@
                                     @if($pembayaran->status_pembayaran !== 'settlement')
 
                                     <a
-                                        href="{{ route('pekerja.pembayaran.proses', $pembayaran->id_pesanan) }}"
+                                        href="{{ route('pekerja.pembayaran.proses', $pembayaran->pesanan) }}"
                                         class="btn btn-sm btn-success"
                                         title="Bayar Online">
 
@@ -346,7 +346,7 @@
                             <th>Pembayaran</th>
                             <td>
                                 <a
-                                    href="{{ route('pekerja.pembayaran.proses', $detail->id_pesanan) }}"
+                                    href="{{ route('pekerja.pembayaran.proses', $detail->pesanan) }}"
                                     class="btn btn-success btn-sm">
 
                                     <i class="bi bi-credit-card me-1"></i>

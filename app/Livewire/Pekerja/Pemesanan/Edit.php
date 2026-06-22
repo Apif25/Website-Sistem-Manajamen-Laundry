@@ -4,6 +4,7 @@ namespace App\Livewire\Pekerja\Pemesanan;
 
 use Livewire\Component;
 use App\Models\Pelanggan;
+use App\Models\Pemesanan;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
 use App\Services\PemesananService;
@@ -29,17 +30,12 @@ class Edit extends Component
         $this->pemesananService = $pemesananService;
     }
 
-    public function mount(int $id): void
+    public function mount(Pemesanan $pemesanan): void
     {
-        $this->id = $id;
-
-        $pemesanan = $this->pemesananService->findById($id);
-
-        abort_if(!$pemesanan, 404);
+        $this->id = $pemesanan->id_pemesanan;
 
         $this->pelanggan = Pelanggan::all();
 
-        
         $this->id_pelanggan      = $pemesanan->id_pelanggan;
         $this->jenis_pemesanan   = $pemesanan->jenis_pemesanan;
         $this->layanan_pemesanan = $pemesanan->layanan_pemesanan;
